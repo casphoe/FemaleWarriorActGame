@@ -1,0 +1,362 @@
+{
+  "Start": {
+    "ENG": "Start",
+    "KOR": "시작"
+  },
+  "Continue": {
+    "ENG": "Continue",
+    "KOR": "계속하기"
+  },
+  "Option": {
+    "ENG": "Option",
+    "KOR": "옵션"
+  },
+  "Exit": {
+    "ENG": "Exit",
+    "KOR": "종료"
+  },
+  "Cancel": {
+    "ENG": "Cancel",
+    "KOR": "취소"
+  },
+  "Slot 1": {
+    "ENG": "Slot 1",
+    "KOR": "슬롯 1"
+  },
+  "Slot 2": {
+    "ENG": "Slot 2",
+    "KOR": "슬롯 2"
+  },
+  "Slot 3": {
+    "ENG": "Slot 3",
+    "KOR": "슬롯 3"
+  },
+  "Name :": {
+    "ENG": "Name :",
+    "KOR": "이름 :"
+  },
+  "Level :": {
+    "ENG": "Level :",
+    "KOR": "레벨 :"
+  },
+  "Hp :": {
+    "ENG": "Hp :",
+    "KOR": "체력 :"
+  },
+  "Attack :": {
+    "ENG": "Attack :",
+    "KOR": "공격력 :"
+  },
+  "Defense :": {
+    "ENG": "Defense :",
+    "KOR": "방어력 :"
+  },
+  "Stamina :": {
+    "ENG": "Stamina :",
+    "KOR": "스태미나 :"
+  },
+  "Luk :": {
+    "ENG": "Luk :",
+    "KOR": "운 :"
+  },
+  "critcleRate :": {
+    "ENG": "critcleRate :",
+    "KOR": "크리티컬배율 :"
+  },
+  "Money :": {
+    "ENG": "Money :",
+    "KOR": "돈 :"
+  },
+  "skillCount :": {
+    "ENG": "skillCount :",
+    "KOR": "스킬개수 :"
+  },
+  "게임설정": {
+    "ENG": "GameSetting",
+    "KOR": "게임설정"
+  },
+  "소리설정": {
+    "ENG": "SoundSetting",
+    "KOR": "소리설정"
+  },
+  "키설정": {
+    "ENG": "KeySetting",
+    "KOR": "키설정"
+  },
+  "쉬움": {
+    "ENG": "Easy",
+    "KOR": "쉬움"
+  },
+  "보통": {
+    "ENG": "Normal",
+    "KOR": "보통"
+  },
+  "어려움": {
+    "ENG": "Hard",
+    "KOR": "어려움"
+  },
+  "한국어": {
+    "ENG": "KOR",
+    "KOR": "한국어"
+  },
+  "영어": {
+    "ENG": "ENG",
+    "KOR": "영어"
+  },
+  "난이도:": {
+    "ENG": "Difficulty:",
+    "KOR": "난이도:"
+  },
+  "언어:": {
+    "ENG": "Language:",
+    "KOR": "언어:"
+  },
+  "BGM": {
+    "ENG": "BGM",
+    "KOR": "배경음"
+  },
+  "EFFECT": {
+    "ENG": "EFFECT",
+    "KOR": "환경음"
+  },
+  "왼쪽 키 : ": {
+    "ENG": "Left key : ",
+    "KOR": "왼쪽 키 : "
+  },
+  "오른쪽 키 : ": {
+    "ENG": "Right key : ",
+    "KOR": "오른쪽 키 : "
+  },
+  "점프 키 : ": {
+    "ENG": "Jump key : ",
+    "KOR": "점프 키 : "
+  },
+  "공격 키 : ": {
+    "ENG": "Attack key : ",
+    "KOR": "공격 키 : "
+  },
+  "회피 키 : ": {
+    "ENG": "Evasion key : ",
+    "KOR": "회피 키 : "
+  },
+  "플레이어 정보 키 : ": {
+    "ENG": "Player Info key : ",
+    "KOR": "플레이어 정보 키 : "
+  },
+  "장비창 키 : ": {
+    "ENG": "Equipment key : ",
+    "KOR": "장비창 키 : "
+  },
+  "스킬창 키 : ": {
+    "ENG": "Skill key : ",
+    "KOR": "스킬창 키 : "
+  },
+  "인벤토리창 키 : ": {
+    "ENG": "Inventory key : ",
+    "KOR": "인벤토리창 키 : "
+  },
+  "단축키 1 : ": {
+    "ENG": "Shortcut key 1 : ",
+    "KOR": "단축키 1 : "
+  },
+  "단축키 2 : ": {
+    "ENG": "Shortcut key 2 : ",
+    "KOR": "단축키 2 : "
+  },
+  "단축키 3 : ": {
+    "ENG": "Shortcut key 3 : ",
+    "KOR": "단축키 3 : "
+  },
+  "단축키 4 : ": {
+    "ENG": "Shortcut key 4 : ",
+    "KOR": "단축키 4 : "
+  },
+  "단축키 5 : ": {
+    "ENG": "Shortcut key 5 : ",
+    "KOR": "단축키 5 : "
+  },
+  "단축키 6 : ": {
+    "ENG": "Shortcut key 6 : ",
+    "KOR": "단축키 6 : "
+  },
+  "단축키 7 : ": {
+    "ENG": "Shortcut key 7 : ",
+    "KOR": "단축키 7 : "
+  },
+  "currentExp :": {
+    "ENG": "currentExp :",
+    "KOR": "현재 경험치 :"
+  },
+  "행동 키 :": {
+    "ENG": "ActionKey :",
+    "KOR": "행동 키 :"
+  },
+  "일시정지 키 :": {
+    "ENG": "PauseKey :",
+    "KOR": "일시정지 키 :"
+  },
+  "일시정지": {
+    "ENG": "Pause",
+    "KOR": "일시정지"
+  },
+  "저장": {
+    "ENG": "Save",
+    "KOR": "저장"
+  },
+  "불러오기": {
+    "ENG": "Load",
+    "KOR": "불러오기"
+  },
+  "타이틀화면": {
+    "ENG": "TittleScene",
+    "KOR": "타이틀화면"
+  },
+  "HpPotionCount :": {
+    "ENG": "HpPotionCount :",
+    "KOR": "체력포션개수 :"
+  },
+  "StaminaPotionCount :": {
+    "ENG": "StaminaPotionCount :",
+    "KOR": "스태미나포션개수 :"
+  },
+  "Buy": {
+    "ENG": "Buy",
+    "KOR": "구매"
+  },
+  "Sell": {
+    "ENG": "Sell",
+    "KOR": "판매"
+  },
+  "Bless": {
+    "ENG": "Bless",
+    "KOR": "축복"
+  },
+  "TelePort": {
+    "ENG": "TelePort",
+    "KOR": "텔레포트"
+  },
+  "구매완료": {
+    "ENG": "PurchaseFinish",
+    "KOR": "구매완료"
+  },
+  "Enforce": {
+    "ENG": "Enforce",
+    "KOR": "강화"
+  },
+  "Weapon": {
+    "ENG": "Weapon",
+    "KOR": "무기"
+  },
+  "Armor": {
+    "ENG": "Armor",
+    "KOR": "갑옷"
+  },
+  "Accessories": {
+    "ENG": "Accessories",
+    "KOR": "액세서리"
+  },
+  "플레이어정보": {
+    "ENG": "PlayerInfo",
+    "KOR": "플레이어정보"
+  },
+  "CrictleDmgUp :": {
+    "ENG": "CrictleDmgUp :",
+    "KOR": "크리티컬데미지업 :"
+  },
+  "Luck :": {
+    "ENG": "Luck :",
+    "KOR": "운 :"
+  },
+  "itemWeight :": {
+    "ENG": "itemWeight :",
+    "KOR": "아이템무게 :"
+  },
+  "ExpUp :": {
+    "ENG": "ExpUp :",
+    "KOR": "경험치증가 :"
+  },
+  "MoneyUp :": {
+    "ENG": "MoneyUp :",
+    "KOR": "골드량증가 :"
+  },
+  "Defence :": {
+    "ENG": "Defence :",
+    "KOR": "방어력 :"
+  },
+  "CrictleRateUp :": {
+    "ENG": "CrictleRateUp :",
+    "KOR": "크리티컬확률 :"
+  },
+  "Enforce Ratio :": {
+    "ENG": "Enforce Ratio :",
+    "KOR": "강화 확률 :"
+  },
+  "Current Enforce :": {
+    "ENG": "Current Enforce :",
+    "KOR": "현재 강화 단계 :"
+  },
+  "Max Enforce :": {
+    "ENG": "Max Enforce :",
+    "KOR": "최대 강화 단계 :"
+  },
+  "강화 아이템 정보": {
+    "ENG": "Enhance Item Info",
+    "KOR": "강화 아이템 정보"
+  },
+  "인벤토리": {
+    "ENG": "Inventory",
+    "KOR": "인벤토리"
+  },
+  "아이템": {
+    "ENG": "Item",
+    "KOR": "아이템"
+  },
+  "무기": {
+    "ENG": "Weapon",
+    "KOR": "무기"
+  },
+  "방어구": {
+    "ENG": "Armor",
+    "KOR": "방어구"
+  },
+  "악세서리": {
+    "ENG": "Accely",
+    "KOR": "악세서리"
+  },
+  "오름차순": {
+    "ENG": "Ascending",
+    "KOR": "오름차순"
+  },
+  "내림차순": {
+    "ENG": "Descending",
+    "KOR": "내림차순"
+  },
+  "장비": {
+    "ENG": "Equipment",
+    "KOR": "장비"
+  },
+  "캐릭터 스텟": {
+    "ENG": "Charcter Stat",
+    "KOR": "캐릭터 스텟"
+  },
+  "장착": {
+    "ENG": "Equip",
+    "KOR": "장착"
+  },
+  "모두제외": {
+    "ENG": "Exclude all",
+    "KOR": "모두제외"
+  },
+  "스킬창": {
+    "ENG": "SkillPage",
+    "KOR": "스킬창"
+  },
+  "액티브 스킬": {
+    "ENG": "Active Skill",
+    "KOR": "액티브 스킬"
+  },
+  "패시브 스킬": {
+    "ENG": "Passive Skill",
+    "KOR": "패시브 스킬"
+  }
+}

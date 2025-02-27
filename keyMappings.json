@@ -1,0 +1,72 @@
+{
+    "keyMappings": [
+        {
+            "customKeyCode": 0,
+            "keyCode": 276
+        },
+        {
+            "customKeyCode": 1,
+            "keyCode": 275
+        },
+        {
+            "customKeyCode": 2,
+            "keyCode": 32
+        },
+        {
+            "customKeyCode": 3,
+            "keyCode": 122
+        },
+        {
+            "customKeyCode": 4,
+            "keyCode": 306
+        },
+        {
+            "customKeyCode": 5,
+            "keyCode": 101
+        },
+        {
+            "customKeyCode": 6,
+            "keyCode": 107
+        },
+        {
+            "customKeyCode": 7,
+            "keyCode": 105
+        },
+        {
+            "customKeyCode": 8,
+            "keyCode": 49
+        },
+        {
+            "customKeyCode": 9,
+            "keyCode": 50
+        },
+        {
+            "customKeyCode": 10,
+            "keyCode": 51
+        },
+        {
+            "customKeyCode": 11,
+            "keyCode": 52
+        },
+        {
+            "customKeyCode": 12,
+            "keyCode": 53
+        },
+        {
+            "customKeyCode": 13,
+            "keyCode": 54
+        },
+        {
+            "customKeyCode": 14,
+            "keyCode": 55
+        },
+        {
+            "customKeyCode": 15,
+            "keyCode": 273
+        },
+        {
+            "customKeyCode": 16,
+            "keyCode": 27
+        }
+    ]
+}
