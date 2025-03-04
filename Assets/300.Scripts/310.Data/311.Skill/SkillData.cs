@@ -138,8 +138,8 @@ public class SkillData
     {
         switch (stat)
         {
-            case "coolTime": skill.coolTime -= value; break;
-            case "buffTime": skill.buffTime += value; break;
+            case "coolTime": skill.coolTime = value; break;
+            case "buffTime": skill.buffTime = value; break;
             case "attackUp": skill.attackUp += value; break;
             case "defenceUp": skill.defenceUp += value; break;
             case "crictleRateUp": skill.crictleRateUp += value; break;
@@ -162,8 +162,8 @@ public class SkillData
     {
         switch (stat)
         {
-            case "coolTime": skill.coolTime += value; break;
-            case "buffTime": skill.buffTime -= value; break;
+            case "coolTime": skill.coolTime = value; break;
+            case "buffTime": skill.buffTime = value; break;
             case "attackUp": skill.attackUp -= value; break;
             case "defenceUp": skill.defenceUp -= value; break;
             case "crictleRateUp": skill.crictleRateUp -= value; break;

@@ -72,14 +72,14 @@ public class Skill
             return 0; // 미습득 상태
         }
 
-        //선행 스킬 체크
-        if(skill.requiredSkill != null)
+        // 선행 스킬 체크
+        if (skill.requiredSkill != null)
         {
             SkillData prerequisiteSkillDB = accquisitionSkillDataList.Find(s => s == skill.requiredSkill);
-            // 선행 스킬을 갖고 있지 않으면 레벨 다운 불가
-            if (prerequisiteSkillDB != null && prerequisiteSkillDB.level > SkillLevel.zero)
+            // 선행 스킬이 존재하고, 습득된 상태라면 레벨 1 이하로 내릴 수 없음
+            if (prerequisiteSkillDB != null && prerequisiteSkillDB.level >= SkillLevel.one && skill.level == SkillLevel.one)
             {
-                return 1;
+                return 1; // 레벨 다운 불가
             }
         }
 
