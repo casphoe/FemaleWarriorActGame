@@ -197,10 +197,17 @@ public class SkillPrefab : MonoBehaviour
                 //레벨 다운
                 levelDownIndex = PlayerManager.instance.player.skill.levelDownSkill(SkillSetting.instance.skillPanelList[childIndex]);
                 switch(levelDownIndex)
-                {
-                    case 0: //미습득 상태
-                        break;
+                {                 
                     case 1: //선행 스킬 존재
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                SkillPanel.instance.SkillRequireTextSetting(true, SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameKor + "선행 스킬이 습득 되어 있습니다", SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameKor + "스킬 레벨을 0으로 만든 후 " + SkillSetting.instance.skillPanelList[childIndex].nameKor + " 의 스킬 레벨 다운 시켜주세요");
+                                break;
+                            case LANGUAGE.ENG:
+                                SkillPanel.instance.SkillRequireTextSetting(true, SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameEng + "Prerequisite skills have been acquired", SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameEng + "After setting the skill level to 0 " + SkillSetting.instance.skillPanelList[childIndex].nameEng + " Please lower the skill level of");
+                                break;
+                        }
                         break;
                     case 2: //레벨 다운
                         SkillSetting.instance.skillPanelList[childIndex].level = PlayerManager.instance.player.skill.GetSkillLevelByName(SkillSetting.instance.skillPanelList[childIndex].nameKor);
@@ -220,10 +227,37 @@ public class SkillPrefab : MonoBehaviour
                 switch(levelUpIndex)
                 {
                     case 0: //체대레벨
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                SkillPanel.instance.SkillRequireTextSetting(true, "스킬 레벨이 최대치 입니다.", SkillSetting.instance.skillPanelList[childIndex].nameKor + " 스킬 레벨을 더 이상 상승시키지 못합니다.");
+                                break;
+                            case LANGUAGE.ENG:
+                                SkillPanel.instance.SkillRequireTextSetting(true, "The skill level is at maximum.", SkillSetting.instance.skillPanelList[childIndex].nameEng + " The skill level can no longer be increased.");
+                                break;
+                        }
                         break;
                     case 1: //선행 스킬 습득 못함
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                SkillPanel.instance.SkillRequireTextSetting(true, SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameKor + "선행 스킬이 습득이 안되어있습니다.", SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameKor + "스킬을 습득 한 후 " + SkillSetting.instance.skillPanelList[childIndex].nameKor + " 의 스킬 습득을 진행해주세요");
+                                break;
+                            case LANGUAGE.ENG:
+                                SkillPanel.instance.SkillRequireTextSetting(true, SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameEng + "Prerequisite skills have not been acquired.", SkillSetting.instance.skillPanelList[childIndex].requiredSkill.nameEng + "After acquiring the skill " + SkillSetting.instance.skillPanelList[childIndex].nameEng + " Please proceed with acquiring the skills.");
+                                break;
+                        }
                         break;
                     case 2: //스킬 포인트 부족
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                SkillPanel.instance.SkillRequireTextSetting(true, "스킬 포인트 부족", SkillSetting.instance.skillPanelList[childIndex].nameKor + " 스킬을 습득 하는 데 " + (SkillSetting.instance.skillPanelList[childIndex].acquisitionPoints - PlayerManager.instance.player.skillCount).ToString() + " 포인트가 부족 합니다.");
+                                break;
+                            case LANGUAGE.ENG:
+                                SkillPanel.instance.SkillRequireTextSetting(true, "lack of skill points", SkillSetting.instance.skillPanelList[childIndex].nameEng + " To acquire skills " + (SkillSetting.instance.skillPanelList[childIndex].acquisitionPoints - PlayerManager.instance.player.skillCount).ToString() + " Not enough points.");
+                                break;
+                        }
                         break;
                     case 3: //스킬 레벨업
                         btnLevel[0].interactable = true;

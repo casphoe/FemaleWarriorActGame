@@ -8,6 +8,8 @@ public class SkillPanel : MonoBehaviour
 {
     [SerializeField] GameObject skillPage;
 
+    [SerializeField] GameObject skillRequirePanel;
+
     [SerializeField] Button[] btnSkill;
 
     [SerializeField] GameObject[] skillPageSetting;
@@ -17,6 +19,8 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] Button btnCanel;
 
     [SerializeField] Text[] txtSkillCount;
+
+    [SerializeField] Text[] txtSkillRequre;
 
     int skillSelectNum = 0;
     int skillPageSelect = 0;
@@ -60,6 +64,7 @@ public class SkillPanel : MonoBehaviour
                 if(PlayerManager.instance.isSkillPage == true)
                 {
                     Utils.OnOff(skillPage, true);
+                    SkillRequireTextSetting(false, "", "");
                 }
                 else
                 {
@@ -240,5 +245,19 @@ public class SkillPanel : MonoBehaviour
         Image buttonImage = button.GetComponent<Image>();
         Color originalColor = buttonImage.color;
         buttonImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1);
+    }
+
+    public void SkillRequireTextSetting(bool isOn,string title, string desc)
+    {
+        Utils.OnOff(skillRequirePanel, isOn);
+        txtSkillRequre[0].text = title;
+        txtSkillRequre[1].text = desc;
+        StartCoroutine(RequireOff(2));
+    }
+
+    IEnumerator RequireOff(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Utils.OnOff(skillRequirePanel, false);
     }
 }
