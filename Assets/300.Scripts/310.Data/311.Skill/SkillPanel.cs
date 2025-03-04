@@ -72,67 +72,70 @@ public class SkillPanel : MonoBehaviour
                 }
             }
 
-            if (isSkillPageSelect[0] == false && isSkillPageSelect[1] == false)
+            if(PlayerManager.instance.isSkillPage == true)
             {
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                if (isSkillPageSelect[0] == false && isSkillPageSelect[1] == false)
                 {
-                    if (skillPageSelect > 0)
+                    if (Input.GetKeyDown(KeyCode.LeftArrow))
                     {
-                        skillPageSelect -= 1;
-                        OnSkillPageImageClickEvent(skillPageSelect);
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    if (skillPageSelect < btnSkill.Length - 1)
-                    {
-                        skillPageSelect += 1;
-                        OnSkillPageImageClickEvent(skillPageSelect);
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    StopAllBinking(btnSkill, 0);
-                    isSkillPageSelect[skillPageSelect] = true;
-                    for(int i = 0; i < skillPageSetting.Length; i++)
-                    {
-                        Utils.OnOff(skillPageSetting[i], false);
-                    }
-                    Utils.OnOff(skillPageSetting[skillPageSelect], true);
-                    if (isSkillPageSelect[0] == true) //액티브
-                    {
-                        skillSetting._skillDataSetting(0);
-                    }
-                    else if (isSkillPageSelect[1] == true) //패시브
-                    {
-                        skillSetting._skillDataSetting(1);
-                        isSkillSelect = new bool[skillSetting.skillPanelList.Count];
-                    }
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                if (isSkillSelect.All(value => !value)) // 모든 값이 false인지 확인
-                {
-                    if (isSkillPageSelect[0] == true || isSkillPageSelect[1] == true)
-                    {
-                        OnSkillPageImageClickEvent(skillPageSelect);
-                        for(int i = 0; i < isSkillPageSelect.Length; i++)
+                        if (skillPageSelect > 0)
                         {
-                            isSkillPageSelect[i] = false;
+                            skillPageSelect -= 1;
+                            OnSkillPageImageClickEvent(skillPageSelect);
                         }
+                    }
 
+                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        if (skillPageSelect < btnSkill.Length - 1)
+                        {
+                            skillPageSelect += 1;
+                            OnSkillPageImageClickEvent(skillPageSelect);
+                        }
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Z))
+                    {
+                        StopAllBinking(btnSkill, 0);
+                        isSkillPageSelect[skillPageSelect] = true;
                         for (int i = 0; i < skillPageSetting.Length; i++)
                         {
                             Utils.OnOff(skillPageSetting[i], false);
                         }
+                        Utils.OnOff(skillPageSetting[skillPageSelect], true);
+                        if (isSkillPageSelect[0] == true) //액티브
+                        {
+                            skillSetting._skillDataSetting(0);
+                        }
+                        else if (isSkillPageSelect[1] == true) //패시브
+                        {
+                            skillSetting._skillDataSetting(1);
+                            isSkillSelect = new bool[skillSetting.skillPanelList.Count];
+                        }
                     }
                 }
-                else
+                if (Input.GetKeyDown(KeyCode.X))
                 {
+                    if (isSkillSelect.All(value => !value)) // 모든 값이 false인지 확인
+                    {
+                        if (isSkillPageSelect[0] == true || isSkillPageSelect[1] == true)
+                        {
+                            OnSkillPageImageClickEvent(skillPageSelect);
+                            for (int i = 0; i < isSkillPageSelect.Length; i++)
+                            {
+                                isSkillPageSelect[i] = false;
+                            }
 
+                            for (int i = 0; i < skillPageSetting.Length; i++)
+                            {
+                                Utils.OnOff(skillPageSetting[i], false);
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
         }

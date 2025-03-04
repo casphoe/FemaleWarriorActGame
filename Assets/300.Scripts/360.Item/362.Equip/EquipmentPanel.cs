@@ -80,14 +80,18 @@ public class EquipmentPanel : MonoBehaviour
                 PlayerManager.instance.isEquipment = !PlayerManager.instance.isEquipment;
                 if(PlayerManager.instance.isEquipment == true)
                 {
-                    Utils.OnOff(panel, true);
-                    EquipPanelSetting();
+                    Utils.OnOff(panel, true);                
                 }
                 else
                 {
                     Utils.OnOff(panel, false);
                 }
-            }              
+            }
+
+            if (PlayerManager.instance.isEquipment == true)
+            {
+                EquipPanelSetting();
+            }
         }
     }
 
