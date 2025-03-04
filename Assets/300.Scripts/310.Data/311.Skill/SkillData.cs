@@ -57,6 +57,10 @@ public class SkillData
 
     public float damage; //몬스터에서 들어가는 데미지
 
+    public float attackRange; //다운어택에서 사용되는 떨어졌을 때 충돌 범위
+
+    public float attackMovePoint; //다운어택 이동 범위
+
     public float StaminaConsumption; //스킬 사용시 들어가는 스태미나 량
 
     public SkillData requiredSkill; // 🔥 필수 선행 스킬 (없으면 null)
@@ -69,7 +73,7 @@ public class SkillData
 
 
     public void SkillSetting(string _eng, string _kor, SkillLevel _level, SkillPoistion _position, SkillEquipPosition _equip, int _points, float _cool, float _current, float _buff,
-        float _attackUp, float _defenceUp, float _crictleRateUp, float _crictleDmgUp, float _hpUp, float _staminaUp,float _hpRestoration, float _staminaRestoration, float _damage, float _staminaConsumption, Dictionary<SkillLevel, Dictionary<string, float>> _levelUpBonuses, SkillData _requiredSkill = null)
+        float _attackUp, float _defenceUp, float _crictleRateUp, float _crictleDmgUp, float _hpUp, float _staminaUp,float _hpRestoration, float _staminaRestoration, float _damage, float _attackRange, float _attackMovePoint, float _staminaConsumption, Dictionary<SkillLevel, Dictionary<string, float>> _levelUpBonuses, SkillData _requiredSkill = null)
     {
         nameEng = _eng;
         nameKor = _kor;
@@ -89,6 +93,8 @@ public class SkillData
         HpRestoration = _hpRestoration;
         StaminaRestoration = _staminaRestoration;
         damage = _damage;
+        attackRange = _attackRange;
+        attackMovePoint = _attackMovePoint;
         StaminaConsumption = _staminaConsumption;
         levelUpBonuses = _levelUpBonuses;
 
@@ -138,6 +144,8 @@ public class SkillData
             case "HpUp": skill.HpUp += value; break;
             case "StaminaUp": skill.StaminaUp += value; break;
             case "damage": skill.damage += value; break;
+            case "attackRange": skill.attackRange += value; break;
+            case "attackMovePoint": skill.attackMovePoint += value; break;
             case "StaminaConsumption": skill.StaminaConsumption += value; break;
             case "HpRestoration": skill.HpRestoration += value; break;
             case "StaminaRestoration": skill.StaminaRestoration += value; break;
@@ -159,6 +167,8 @@ public class SkillData
             case "HpUp": skill.HpUp -= value; break;
             case "StaminaUp": skill.StaminaUp -= value; break;
             case "damage": skill.damage -= value; break;
+            case "attackRange": skill.attackRange -= value; break;
+            case "attackMovePoint": skill.attackMovePoint -= value; break;
             case "HpRestoration": skill.HpRestoration -= value; break;
             case "StaminaRestoration": skill.StaminaRestoration -= value; break;
             case "StaminaConsumption": skill.StaminaConsumption -= value; break;

@@ -96,7 +96,37 @@ public class Skill
             foreach (var bonus in skill.levelUpBonuses[(SkillLevel)currentLevel])
             {
                 skill.RevertBonus(skill, bonus.Key, bonus.Value);
+                switch(bonus.Key)
+                {
+                    case "HpUp":
+                        PlayerManager.instance.player.hp -= bonus.Value;
+                        Player.instance.currentHp -= bonus.Value;
+                        break;
+                    case "StaminaUp":
+                        PlayerManager.instance.player.stamina -= bonus.Value;
+                        Player.instance.currentStamina -= bonus.Value;
+                        break;
+                    case "attackUp":
+                        PlayerManager.instance.player.attack -= bonus.Value;
+                        break;
+                    case "defenceUp":
+                        PlayerManager.instance.player.defense -= bonus.Value;
+                        break;
+                    case "crictleRateUp":
+                        PlayerManager.instance.player.critcleRate -= bonus.Value;
+                        break;
+                    case "crictleDmgUp":
+                        PlayerManager.instance.player.critcleDmg -= bonus.Value;
+                        break;
+                    case "HpRestoration":
+                        PlayerManager.instance.player.hpAutoRestoration -= bonus.Value;
+                        break;
+                    case "StaminaRestoration":
+                        PlayerManager.instance.player.staminaAutoRestoration -= bonus.Value;
+                        break;
+                }
             }
+            GameCanvas.instance.SliderEquipChange();
         }
 
         // 이전 보너스 정보 갱신 (있다면)

@@ -268,6 +268,13 @@ public class SkillPrefab : MonoBehaviour
                         {
                             btnLevel[1].interactable = false;
                         }
+                        switch(poistion)
+                        {
+                            case SkillPoistion.Passive:
+                                PlayerManager.instance.PassivePlayerStatSkillSetting(0, SkillSetting.instance.skillPanelList[childIndex].HpUp, SkillSetting.instance.skillPanelList[childIndex].StaminaUp,
+                                    SkillSetting.instance.skillPanelList[childIndex].attackUp, SkillSetting.instance.skillPanelList[childIndex].defenceUp, SkillSetting.instance.skillPanelList[childIndex].crictleRateUp, SkillSetting.instance.skillPanelList[childIndex].crictleDmgUp, SkillSetting.instance.skillPanelList[childIndex].HpRestoration, SkillSetting.instance.skillPanelList[childIndex].StaminaRestoration);
+                                break;
+                        }
                         break;
                 }
                 break;

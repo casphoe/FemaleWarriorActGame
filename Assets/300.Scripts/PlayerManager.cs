@@ -56,15 +56,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void PlayerStatSkillSetting(int num, float hp, float stamina, float attackUp, float defenceUp, float crictleRateUp, float crictleDmgUp,
+    public void PassivePlayerStatSkillSetting(int num, float hp, float stamina, float attackUp, float defenceUp, float crictleRateUp, float crictleDmgUp,
        float hpRestoration, float StaminaRestoration)
     {
         switch (num)
         {
             case 0: //증가
-                break;
-            case 1: //감소
-                break;
+                player.hp += hp;
+                player.stamina += stamina;
+                Player.instance.currentHp += hp;
+                Player.instance.currentStamina += stamina;
+                player.attack += attackUp;
+                player.defense += defenceUp;
+                player.critcleRate += crictleRateUp;
+                player.critcleDmg += crictleDmgUp;
+                player.hpAutoRestoration = hpRestoration;
+                player.staminaAutoRestoration += StaminaRestoration;
+                break;        
         }
+        GameCanvas.instance.SliderEquipChange();
     }
 }

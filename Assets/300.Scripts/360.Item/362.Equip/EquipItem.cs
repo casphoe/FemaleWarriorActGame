@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gpm.Ui;
@@ -30,14 +30,14 @@ public class EquipItem : InfiniteScrollItem
 
         listIndex = itemData.index;
 
-        if (EquipmentPanel.instance.equipItemList[listIndex].nameKor == "ÀåÂøÇØÁ¦")
+        if (EquipmentPanel.instance.equipItemList[listIndex].nameKor == "ì¥ì°©í•´ì œ")
         {
             Utils.OnOff(img.gameObject, false);
 
             switch(GameManager.data.lanauge)
             {
                 case LANGUAGE.KOR:
-                    txt[0].text = "ÀåÂøÇØÁ¦";
+                    txt[0].text = "ì¥ì°©í•´ì œ";
                     break;
                 case LANGUAGE.ENG:
                     txt[0].text = "Unequipped";
@@ -75,133 +75,133 @@ public class EquipItem : InfiniteScrollItem
     {
         switch (nameStr)
         {
-            case "Ã¼·ÂÆ÷¼Ç":
+            case "ì²´ë ¥í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[0];
                 break;
-            case "Áß°£Ã¼·ÂÆ÷¼Ç":
+            case "ì¤‘ê°„ì²´ë ¥í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[1];
                 break;
-            case "»ó±ŞÃ¼·ÂÆ÷¼Ç":
+            case "ìƒê¸‰ì²´ë ¥í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[2];
                 break;
-            case "½ºÅÂ¹Ì³ªÆ÷¼Ç":
+            case "ìŠ¤íƒœë¯¸ë‚˜í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[3];
                 break;
-            case "Áß°£½ºÅÂ¹Ì³ªÆ÷¼Ç":
+            case "ì¤‘ê°„ìŠ¤íƒœë¯¸ë‚˜í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[4];
                 break;
-            case "»ó±Ş½ºÅÂ¹Ì³ªÆ÷¼Ç":
+            case "ìƒê¸‰ìŠ¤íƒœë¯¸ë‚˜í¬ì…˜":
                 itemSpr = InventoryPanel.instance.PotionSpriteList[5];
                 break;
-            case "ºÎ·ÁÁø°Ë":
+            case "ë¶€ë ¤ì§„ê²€":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[0];
                 break;
-            case "³ì½¼´ë°Å":
+            case "ë…¹ìŠ¨ëŒ€ê±°":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[1];
                 break;
-            case "´ë°Å":
+            case "ëŒ€ê±°":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[2];
                 break;
-            case "Ã¶´ë°Å":
+            case "ì² ëŒ€ê±°":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[3];
                 break;
-            case "½Ã¹ÌÅÍ":
+            case "ì‹œë¯¸í„°":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[4];
                 break;
-            case "Ã¶°Ë":
+            case "ì² ê²€":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[5];
                 break;
-            case "°­Ã¶°Ë":
+            case "ê°•ì² ê²€":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[6];
                 break;
-            case "±â»ç°Ë":
+            case "ê¸°ì‚¬ê²€":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[7];
                 break;
-            case "ÇÃ¶ûº£¸£ÁÖ":
+            case "í”Œë‘ë² ë¥´ì£¼":
                 itemSpr = InventoryPanel.instance.weaponSpirteList[8];
                 break;
-            case "Ãµ¿Ê":
+            case "ì²œì˜·":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[0];
                 break;
-            case "Ãµ¸ÁÅä":
+            case "ì²œë§í† ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[1];
                 break;
-            case "ÃµÇï¸ä":
+            case "ì²œí—¬ë©§":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[2];
                 break;
-            case "ÃµÀå°©":
+            case "ì²œì¥ê°‘":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[3];
                 break;
-            case "Ãµ½Å¹ß":
+            case "ì²œì‹ ë°œ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[4];
                 break;
-            case "Ãµ¹ÙÁö":
+            case "ì²œë°”ì§€":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[5];
                 break;
-            case "°¡Á×¿Ê":
+            case "ê°€ì£½ì˜·":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[6];
                 break;
-            case "°¡Á×¸ÁÅä":
+            case "ê°€ì£½ë§í† ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[7];
                 break;
-            case "°¡Á×Çï¸ä":
+            case "ê°€ì£½í—¬ë©§":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[8];
                 break;
-            case "°¡Á×Àå°©":
+            case "ê°€ì£½ì¥ê°‘":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[9];
                 break;
-            case "°¡Á×½Å¹ß":
+            case "ê°€ì£½ì‹ ë°œ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[10];
                 break;
-            case "°¡Á×¹ÙÁö":
+            case "ê°€ì£½ë°”ì§€":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[11];
                 break;
-            case "Ã¶°©¿Ê":
+            case "ì² ê°‘ì˜·":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[12];
                 break;
-            case "Ã¶¸ÁÅä":
+            case "ì² ë§í† ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[13];
                 break;
-            case "Ã¶Çï¸ä":
+            case "ì² í—¬ë©§":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[14];
                 break;
-            case "Ã¶Àå°©":
+            case "ì² ì¥ê°‘":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[15];
                 break;
-            case "Ã¶ºÎÃ÷":
+            case "ì² ë¶€ì¸ ":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[16];
                 break;
-            case "Ã¶¹ÙÁö":
+            case "ì² ë°”ì§€":
                 itemSpr = InventoryPanel.instance.aromrSpriteList[17];
                 break;
-            case "Ã¼·ÂÁõ°¡¹İÁö":
+            case "ì²´ë ¥ì¦ê°€ë°˜ì§€":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[0].itemSpr;
                 break;
-            case "½ºÅÂ¹Ì³ªÁõ°¡¹İÁö":
+            case "ìŠ¤íƒœë¯¸ë‚˜ì¦ê°€ë°˜ì§€":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[1].itemSpr;
                 break;
-            case "°ø°İ·ÂÁõ°¡¹İÁö":
+            case "ê³µê²©ë ¥ì¦ê°€ë°˜ì§€":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[2].itemSpr;
                 break;
-            case "Å©¸®Æ¼ÄÃÁõ°¡¹İÁö":
+            case "í¬ë¦¬í‹°ì»¬ì¦ê°€ë°˜ì§€":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[3].itemSpr;
                 break;
-            case "°æÇèÄ¡Áõ°¡¹İÁö":
+            case "ê²½í—˜ì¹˜ì¦ê°€ë°˜ì§€":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[4].itemSpr;
                 break;
-            case "¹æ¾î·ÂÁõ°¡¸ñ°ÉÀÌ":
+            case "ë°©ì–´ë ¥ì¦ê°€ëª©ê±¸ì´":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[5].itemSpr;
                 break;
-            case "°ø¹æÁõ°¡¸ñ°ÉÀÌ":
+            case "ê³µë°©ì¦ê°€ëª©ê±¸ì´":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[6].itemSpr;
                 break;
-            case "°ñµå·®Áõ°¡¸ñ°ÉÀÌ":
+            case "ê³¨ë“œëŸ‰ì¦ê°€ëª©ê±¸ì´":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[7].itemSpr;
                 break;
-            case "¿îÁõ°¡¸ñ°ÉÀÌ":
+            case "ìš´ì¦ê°€ëª©ê±¸ì´":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[8].itemSpr;
                 break;
-            case "°æÇèÄ¡°ñµå·®Áõ°¡¸ñ°ÉÀÌ":
+            case "ê²½í—˜ì¹˜ê³¨ë“œëŸ‰ì¦ê°€ëª©ê±¸ì´":
                 itemSpr = EquipmentList.instance.equipmentAccessoriesPurchaseList[9].itemSpr;
                 break;
         }

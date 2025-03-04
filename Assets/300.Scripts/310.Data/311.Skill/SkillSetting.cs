@@ -78,7 +78,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveHpUpSkill = new SkillData();
 
         passiveHpUpSkill.SkillSetting("HpUp", "생명력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-           HpLevlSkillUpBonuses, null);
+           0,0,HpLevlSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveHpUpSkill);
 
@@ -135,7 +135,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveStaminaUpSkill = new SkillData();
 
         passiveStaminaUpSkill.SkillSetting("StaminaUp", "스태미나 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            StminaSkillUpBonuses, null);
+            0,0,StminaSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveStaminaUpSkill);
         #endregion
@@ -191,7 +191,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveAttackUpSkill = new SkillData();
 
         passiveAttackUpSkill.SkillSetting("AttackUp", "공격력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, AttackSkillUpBonuses, null);
+            ,0, 0, 0, 0, 0, 0, 0,0, AttackSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAttackUpSkill);
 
@@ -248,7 +248,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveDefenceUpSkill = new SkillData();
 
         passiveDefenceUpSkill.SkillSetting("DefenceUp", "방어력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, 0, DefenceSkillUpBonuses, null);
+            , 0, 0, 0, 0, 0, 0, 0,0,0, DefenceSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveDefenceUpSkill);
 
@@ -311,7 +311,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveAutoHpSkillUp = new SkillData();
         //체력증가를 찍어야지 체력 자동 회복증가를 찍을 수 있음
         passiveAutoHpSkillUp.SkillSetting("AutoHpRestUp", "자동체력회복증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 1, 60, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, HpAutoRestorationSkillUpBonuses, passiveHpUpSkill);
+            0, 0, 0, 0, 0, 0, 0,0,0, HpAutoRestorationSkillUpBonuses, passiveHpUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAutoHpSkillUp);
 
@@ -375,7 +375,7 @@ public class SkillSetting : MonoBehaviour
 
         //스태미나 증가를 찍어야지 스태미나 자동회복 스킬 스킬을 습득 가능
         passiveAutoStaminaSkillUp.SkillSetting("AutoStaminaRestUp", "자동스태미나회복증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 1, 40, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, 0, StaminaAutoRestorationSkillUpBonuses, passiveStaminaUpSkill);
+            , 0, 0, 0, 0, 0, 0, 0,0,0, StaminaAutoRestorationSkillUpBonuses, passiveStaminaUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAutoStaminaSkillUp);
 
@@ -432,7 +432,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveCrictleDamgeSkillUp = new SkillData();
 
         passiveCrictleDamgeSkillUp.SkillSetting("CrictleDamgeUp", "크리티컬데미지업", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 3, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, CrictleDamgeUpSkillUpBonuses, passiveAttackUpSkill);
+            0, 0, 0, 0, 0, 0, 0, 0,0,0, CrictleDamgeUpSkillUpBonuses, passiveAttackUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveCrictleDamgeSkillUp);
 
@@ -494,7 +494,7 @@ public class SkillSetting : MonoBehaviour
 
         SkillData passiveAttackDefenceSkillUp = new SkillData();
         passiveAttackDefenceSkillUp.SkillSetting("AttackDefenceUp", "공방증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 4, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, AttackDefenceUpSkillUoBonuses, passiveDefenceUpSkill);
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0, AttackDefenceUpSkillUoBonuses, passiveDefenceUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAttackDefenceSkillUp);
 
@@ -557,7 +557,7 @@ public class SkillSetting : MonoBehaviour
         //패시브 자동회복 스킬이 1이상 습득 해야지 지금 스킬을 습득 할 수 있음
         SkillData passiveHpStaminaSkillUp = new SkillData();
         passiveHpStaminaSkillUp.SkillSetting("HpStaminaUp", "체력스태미나증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, HpStaminaUpSkillUpBonuses, passiveAutoHpSkillUp);
+            0, 0, 0, 0, 0, 0,0,0, HpStaminaUpSkillUpBonuses, passiveAutoHpSkillUp);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveHpStaminaSkillUp);
 
@@ -613,7 +613,7 @@ public class SkillSetting : MonoBehaviour
 
         SkillData passiveCrictleRateSkillUp = new SkillData();
         passiveCrictleRateSkillUp.SkillSetting("CrictleRateUp", "크리티컬확률업", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 6, 0, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, CrictleRateSkillUpBonuses, passiveCrictleDamgeSkillUp);
+            , 0, 0, 0, 0, 0, 0,0,0, CrictleRateSkillUpBonuses, passiveCrictleDamgeSkillUp);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveCrictleRateSkillUp);
 
@@ -622,6 +622,52 @@ public class SkillSetting : MonoBehaviour
 
     void _ActiveSkillSetting()
     {
+        #region 다운 어택
 
+        #endregion
+
+        #region 화염 속성 등록
+
+        #endregion
+
+        #region 버서커 공격력, 공격속도가 올라가는 대신 방어력 감소
+
+        #endregion
+
+        #region 실드
+
+        #endregion
+
+        #region 다운 어택 이동 범위 증가
+
+        #endregion
+
+        #region 다운 어택 공격 범위 증가
+
+        #endregion
+
+        #region 검기 슬래시
+
+        #endregion
+
+        #region 화상 데미지 증가
+
+        #endregion
+
+        #region 버서커 지속 시간 증가
+
+        #endregion
+
+        #region 실드 지속 시간 증가
+
+        #endregion
+
+        #region 검기 두번 나가는 확률 증가
+
+        #endregion
+
+        #region 화상 지속시간 증가
+
+        #endregion
     }
 }
