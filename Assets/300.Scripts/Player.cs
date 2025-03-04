@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isState = false;
         HpOrStaminaCoolTime(0);
         HpOrStaminaCoolTime(1);
+        staminaCost[0] = 5;
+        staminaCost[1] = 10;
         originalColliderOffset = boxCollider.offset;
     }
 
@@ -190,8 +192,7 @@ public class Player : MonoBehaviour
     void Attack()
     {
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
-        {
-            staminaCost[0] = 2.5f;
+        {         
             if(Time.time >= lastAttackTime + CoolTime[4] && currentStamina >= staminaCost[0])
             {
                 currentStamina -= staminaCost[0];
@@ -210,7 +211,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Evasion]))
         {
-            staminaCost[1] = 5;
             if (Time.time >= lastDashTime + CoolTime[0] && currentStamina >= staminaCost[1])
             {
                 PlayerManager.instance.isInvisble = true;

@@ -623,14 +623,229 @@ public class SkillSetting : MonoBehaviour
     void _ActiveSkillSetting()
     {
         #region 다운 어택
+        var DownAttackSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"damage", 0 },
+                    {"attackRange", 0 },
+                    {"attackMovePoint", 0},
+                    {"acquisitionPoints",0 },
+                    {"coolTime",0 },
+                    {"StaminaConsumption",0 }
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"damage", 1.5f },
+                    {"attackRange", 3 },
+                    {"attackMovePoint", 10},
+                    {"acquisitionPoints",4 },
+                    {"coolTime", 30 },
+                    {"StaminaConsumption", 5 }
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"damage", 3 },
+                    {"attackRange", 5 },
+                    {"attackMovePoint", 15},
+                    {"acquisitionPoints",8 },
+                    {"coolTime", 25 },
+                    {"StaminaConsumption", 7 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"damage", 4.5f },
+                    {"attackRange", 7 },
+                    {"attackMovePoint", 20},
+                    {"acquisitionPoints",12 },
+                    {"coolTime", 20 },
+                    {"StaminaConsumption",9 }
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"damage", 6 },
+                    {"attackRange", 9 },
+                    {"attackMovePoint", 25},
+                    {"acquisitionPoints",16 },
+                    {"coolTime", 15 },
+                    {"StaminaConsumption",11 }
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"damage", 7.5f },
+                    {"attackRange", 11 },
+                    {"attackMovePoint", 30},
+                    {"acquisitionPoints",20 },
+                    {"coolTime", 10 },
+                    {"StaminaConsumption",13 }
+                }
+            }
+        };
 
+        SkillData downAttackSkillUp = new SkillData();
+        downAttackSkillUp.SkillSetting("DownAttack", "다운어택", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            , 0, 0, 0, 0, 0, 0, DownAttackSkillBonuses, null);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(downAttackSkillUp);
         #endregion
 
         #region 화염 속성 등록
 
+        var fireWeaponSetSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",0 },
+                     {"coolTime", 0 },
+                     {"buffTime",0 },
+                     {"StaminaConsumption", 0 }
+                }
+            },
+            {
+                SkillLevel.one,new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",3 },
+                     {"coolTime", 45 },
+                     {"buffTime",9 },
+                     {"StaminaConsumption", 3 }
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",6 },
+                     {"coolTime", 41 },
+                     {"buffTime",12 },
+                     {"StaminaConsumption", 5 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",9 },
+                     {"coolTime", 37},
+                     {"buffTime",15 },
+                     {"StaminaConsumption", 7 }
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",12 },
+                    {"coolTime", 33},
+                    {"buffTime",18 },
+                    {"StaminaConsumption", 9 }
+                }
+            },
+            {
+                SkillLevel.five ,new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",15 },
+                    {"coolTime",  29},
+                    {"buffTime", 21 },
+                    {"StaminaConsumption", 12 }
+                }
+            }
+        };
+
+        SkillData FireWeaponSkillUp = new SkillData();
+
+        FireWeaponSkillUp.SkillSetting("Flame enchantment", "화염인챈트", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 3, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, fireWeaponSetSkillBonuses, null);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(FireWeaponSkillUp);
+
         #endregion
 
-        #region 버서커 공격력, 공격속도가 올라가는 대신 방어력 감소
+        #region 버서커 공격력 증가, 스태미나 소모 감소, 방어력 감소
+
+        var BerserkserSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",0 },
+                     {"coolTime", 0 },
+                     {"buffTime",0 },
+                     {"StaminaConsumption", 0 },
+                     {"attackUp",0 },
+                     {"defenceUp",0 }
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",4 },
+                     {"coolTime", 60 },
+                     {"buffTime", 10 },
+                     {"StaminaConsumption", 0.5f },
+                     {"attackUp", 3 },
+                     {"defenceUp",-2 }
+                }
+            },
+            {
+                SkillLevel.two , new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",8 },
+                     {"coolTime", 55 },
+                     {"buffTime", 12 },
+                     {"StaminaConsumption", 0.7f },
+                     {"attackUp", 6 },
+                     {"defenceUp",-5 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",12 },
+                    {"coolTime", 50 },
+                    {"buffTime", 15 },
+                    {"StaminaConsumption", 1 },
+                    {"attackUp", 9 },
+                    {"defenceUp",-8 }
+                }
+            },
+            {
+                SkillLevel.four ,new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",16 },
+                    {"coolTime", 45 },
+                    {"buffTime", 19 },
+                    {"StaminaConsumption", 1.4f },
+                    {"attackUp", 12 },
+                    {"defenceUp",-11 }
+                }
+            },
+            {
+                SkillLevel.five ,new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20 },
+                    {"coolTime", 40 },
+                    {"buffTime", 25 },
+                    {"StaminaConsumption", 1.9f },
+                    {"attackUp", 16 },
+                    {"defenceUp",-15 }
+                }
+            }
+        };
+
+        SkillData BerserkserSkill = new SkillData();
+        BerserkserSkill.SkillSetting("Berserker", "버서커", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, BerserkserSkillBonuses, null);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(BerserkserSkill);
 
         #endregion
 
@@ -650,7 +865,7 @@ public class SkillSetting : MonoBehaviour
 
         #endregion
 
-        #region 화상 데미지 증가
+        #region 화상 지속시간 증가
 
         #endregion
 
@@ -663,10 +878,6 @@ public class SkillSetting : MonoBehaviour
         #endregion
 
         #region 검기 두번 나가는 확률 증가
-
-        #endregion
-
-        #region 화상 지속시간 증가
 
         #endregion
     }
