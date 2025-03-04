@@ -81,227 +81,230 @@ public class EquipmentPanel : MonoBehaviour
                 if(PlayerManager.instance.isEquipment == true)
                 {
                     Utils.OnOff(panel, true);
-                    
+                    EquipPanelSetting();
                 }
                 else
                 {
                     Utils.OnOff(panel, false);
                 }
+            }              
+        }
+    }
+
+    void EquipPanelSetting()
+    {
+        if (isSelectOne[0] == false && isSelectOne[1] == false)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (selectIndex > 0)
+                {
+                    selectIndex -= 1;
+                    OnImageEquipBtnClickEvent(selectIndex);
+                }
             }
 
-            if (isSelectOne[0] == false && isSelectOne[1] == false)
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                if (selectIndex < btnEquip.Length - 1)
+                {
+                    selectIndex += 1;
+                    OnImageEquipBtnClickEvent(selectIndex);
+                }
+            }
+
+            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            {
+                StopAllBinking(btnEquip, 0);
+                isSelectOne[selectIndex] = true;
+                if (isSelectOne[0] == true)
+                {
+                    OnImageEquipSelectBtnClickEvent(selectEquipIndex);
+                }
+                else if (isSelectOne[1] == true)
+                {
+                    //전부 장착된거 제거 해야함
+                    for (int i = 0; i < btnSelectPanel.Length; i++)
+                    {
+                        Utils.OnOff(btnSelectPanel[i].transform.GetChild(0).gameObject, false);
+                        btnSelectPanel[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (selectTwoIndex[0] == 0 && selectTwoIndex[1] == 0 && selectTwoIndex[2] == 0 && selectTwoIndex[3] == 0 && selectTwoIndex[4] == 0 && selectTwoIndex[5] == 0 && selectTwoIndex[6] == 0 && selectTwoIndex[7] == 0 && selectTwoIndex[8] == 0)
+            {
+                if (isSelectOne[0] == true)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        if (selectEquipIndex > 0)
+                        {
+                            selectEquipIndex -= 1;
+                            OnImageEquipSelectBtnClickEvent(selectEquipIndex);
+                        }
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        if (selectEquipIndex < btnSelectPanel.Length - 1)
+                        {
+                            selectEquipIndex += 1;
+                            OnImageEquipSelectBtnClickEvent(selectEquipIndex);
+                        }
+                    }
+                }
+            }
+
+            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            {
+                StopAllBinking(btnSelectPanel, 1);
+                isSelectTwo[selectEquipIndex] = true;
+                if (isSelectTwo[0] == true && selectTwoIndex[0] == 0) //머리에 맞는 아이템을 가지고 와야함 리스트에
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 0);
+                    selectTwoIndex[0] = 1;
+                }
+                else if (isSelectTwo[1] == true && selectTwoIndex[1] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 1);
+                    selectTwoIndex[1] = 1;
+                }
+                else if (isSelectTwo[2] == true && selectTwoIndex[2] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 2);
+                    selectTwoIndex[2] = 1;
+                }
+                else if (isSelectTwo[3] == true && selectTwoIndex[3] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 3);
+                    selectTwoIndex[3] = 1;
+                }
+                else if (isSelectTwo[4] == true && selectTwoIndex[4] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 4);
+                    selectTwoIndex[4] = 1;
+                }
+                else if (isSelectTwo[5] == true && selectTwoIndex[5] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 5);
+                    selectTwoIndex[5] = 1;
+                }
+                else if (isSelectTwo[6] == true && selectTwoIndex[6] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 6);
+                    selectTwoIndex[6] = 1;
+                }
+                else if (isSelectTwo[7] == true && selectTwoIndex[7] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 7);
+                    selectTwoIndex[7] = 1;
+                }
+                else if (isSelectTwo[8] == true && selectTwoIndex[8] == 0)
+                {
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 8);
+                    selectTwoIndex[8] = 1;
+                }
+                Equipment.instance.OnEquipData();
+            }
+
+            if (selectTwoIndex[0] == 1 || selectTwoIndex[1] == 1 || selectTwoIndex[2] == 1 || selectTwoIndex[3] == 1 || selectTwoIndex[4] == 1 || selectTwoIndex[5] == 1 || selectTwoIndex[6] == 1 || selectTwoIndex[7] == 1 || selectTwoIndex[8] == 1)
+            {
+                btnEquipSelect = new Button[equipItemList.Count];
+                for (int i = 0; i < btnEquipSelect.Length; i++)
+                {
+                    btnEquipSelect[i] = equipContent.transform.GetChild(i).GetComponent<Button>();
+                }
+
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    if(selectIndex > 0)
+                    if (selectEquip > 0)
                     {
-                        selectIndex -= 1;
-                        OnImageEquipBtnClickEvent(selectIndex);
+                        selectEquip -= 1;
+                        OnImageEquipButtonClickEvent(selectEquip);
                     }
+                    EquipCharcterStatTextSetting(selectEquip, equipItemList[selectEquip].HpUp, equipItemList[selectEquip].StaminaUp, equipItemList[selectEquip].attackUp, equipItemList[selectEquip].defenceUp, equipItemList[selectEquip].crictleRateUp, equipItemList[selectEquip].crictleDmgUp
+                    , equipItemList[selectEquip].lukUp, equipItemList[selectEquip].expUp, equipItemList[selectEquip].moneyUp);
                 }
 
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    if (selectIndex < btnEquip.Length - 1)
+                    if (selectEquip < btnEquipSelect.Length - 1)
                     {
-                        selectIndex += 1;
-                        OnImageEquipBtnClickEvent(selectIndex);
+                        selectEquip += 1;
+                        OnImageEquipButtonClickEvent(selectEquip);
                     }
+                    EquipCharcterStatTextSetting(selectEquip, equipItemList[selectEquip].HpUp, equipItemList[selectEquip].StaminaUp, equipItemList[selectEquip].attackUp, equipItemList[selectEquip].defenceUp, equipItemList[selectEquip].crictleRateUp, equipItemList[selectEquip].crictleDmgUp
+                    , equipItemList[selectEquip].lukUp, equipItemList[selectEquip].expUp, equipItemList[selectEquip].moneyUp);
                 }
+
 
                 if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
                 {
-                    StopAllBinking(btnEquip, 0);
-                    isSelectOne[selectIndex] = true;
-                    if (isSelectOne[0] == true)
+                    if (imgEquip[selectEquipIndex].sprite == null) //미장착 상태
                     {
-                        OnImageEquipSelectBtnClickEvent(selectEquipIndex);
-                    }
-                    else if (isSelectOne[1] == true)
-                    {
-                        //전부 장착된거 제거 해야함
-                        for (int i = 0; i < btnSelectPanel.Length; i++)
+                        if (equipItemList[selectEquip].nameKor == "장착해제")
                         {
-                            Utils.OnOff(btnSelectPanel[i].transform.GetChild(0).gameObject, false);
-                            btnSelectPanel[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                            return;
+                        }
+                        if (equipItemList[selectEquip].nameKor != "장착해제") //아이템 장착
+                        {
+                            AddEquip();
+                            PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
+                            Equipment.instance.OnEquipData();
+                            SelectEquipUiChange(0);
                         }
                     }
-                }
-            }
-            else
-            {
-                if (selectTwoIndex[0] == 0 && selectTwoIndex[1] == 0 && selectTwoIndex[2] == 0 && selectTwoIndex[3] == 0 && selectTwoIndex[4] == 0 && selectTwoIndex[5] == 0 && selectTwoIndex[6] == 0 && selectTwoIndex[7] == 0 && selectTwoIndex[8] == 0)
-                {
-                    if (isSelectOne[0] == true)
+                    else
                     {
-                        if (Input.GetKeyDown(KeyCode.UpArrow))
+                        if (equipItemList[selectEquip].nameKor == "장착해제")
                         {
-                            if (selectEquipIndex > 0)
-                            {
-                                selectEquipIndex -= 1;
-                                OnImageEquipSelectBtnClickEvent(selectEquipIndex);
-                            }
-                        }
-
-                        if (Input.GetKeyDown(KeyCode.DownArrow))
-                        {
-                            if (selectEquipIndex < btnSelectPanel.Length - 1)
-                            {
-                                selectEquipIndex += 1;
-                                OnImageEquipSelectBtnClickEvent(selectEquipIndex);
-                            }
-                        }
-                    }
-                }
-
-                if(Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
-                {
-                    StopAllBinking(btnSelectPanel, 1);
-                    isSelectTwo[selectEquipIndex] = true;
-                    if (isSelectTwo[0] == true && selectTwoIndex[0] == 0) //머리에 맞는 아이템을 가지고 와야함 리스트에
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 0);
-                        selectTwoIndex[0] = 1;
-                    }
-                    else if (isSelectTwo[1] == true && selectTwoIndex[1] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 1);
-                        selectTwoIndex[1] = 1;
-                    }
-                    else if (isSelectTwo[2] == true && selectTwoIndex[2] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 2);
-                        selectTwoIndex[2] = 1;
-                    }
-                    else if (isSelectTwo[3] == true && selectTwoIndex[3] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 3);
-                        selectTwoIndex[3] = 1;
-                    }
-                    else if (isSelectTwo[4] == true && selectTwoIndex[4] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 4);
-                        selectTwoIndex[4] = 1;
-                    }
-                    else if (isSelectTwo[5] == true && selectTwoIndex[5] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 5);
-                        selectTwoIndex[5] = 1;
-                    }
-                    else if (isSelectTwo[6] == true && selectTwoIndex[6] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 6);
-                        selectTwoIndex[6] = 1;
-                    }
-                    else if (isSelectTwo[7] == true && selectTwoIndex[7] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 7);
-                        selectTwoIndex[7] = 1;
-                    }
-                    else if (isSelectTwo[8] == true && selectTwoIndex[8] == 0)
-                    {
-                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 8);
-                        selectTwoIndex[8] = 1;
-                    }
-                    Equipment.instance.OnEquipData();               
-                }
-
-                if (selectTwoIndex[0] == 1 || selectTwoIndex[1] == 1 || selectTwoIndex[2] == 1 || selectTwoIndex[3] == 1 || selectTwoIndex[4] == 1 || selectTwoIndex[5] == 1 || selectTwoIndex[6] == 1 || selectTwoIndex[7] == 1 || selectTwoIndex[8] == 1)
-                {
-                    btnEquipSelect = new Button[equipItemList.Count];
-                    for (int i = 0; i < btnEquipSelect.Length; i++)
-                    {
-                        btnEquipSelect[i] = equipContent.transform.GetChild(i).GetComponent<Button>();
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        if(selectEquip > 0)
-                        {
-                            selectEquip -= 1;
-                            OnImageEquipButtonClickEvent(selectEquip);                          
-                        }
-                        EquipCharcterStatTextSetting(selectEquip, equipItemList[selectEquip].HpUp, equipItemList[selectEquip].StaminaUp, equipItemList[selectEquip].attackUp, equipItemList[selectEquip].defenceUp, equipItemList[selectEquip].crictleRateUp, equipItemList[selectEquip].crictleDmgUp
-                        , equipItemList[selectEquip].lukUp, equipItemList[selectEquip].expUp, equipItemList[selectEquip].moneyUp);
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
-                    {
-                        if(selectEquip < btnEquipSelect.Length - 1)
-                        {
-                            selectEquip += 1;
-                            OnImageEquipButtonClickEvent(selectEquip);
-                        }
-                        EquipCharcterStatTextSetting(selectEquip, equipItemList[selectEquip].HpUp, equipItemList[selectEquip].StaminaUp, equipItemList[selectEquip].attackUp, equipItemList[selectEquip].defenceUp, equipItemList[selectEquip].crictleRateUp, equipItemList[selectEquip].crictleDmgUp
-                        , equipItemList[selectEquip].lukUp, equipItemList[selectEquip].expUp, equipItemList[selectEquip].moneyUp);
-                    }
-
-
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
-                    {
-                        if (imgEquip[selectEquipIndex].sprite == null) //미장착 상태
-                        {
-                            if (equipItemList[selectEquip].nameKor == "장착해제")
-                            {
-                                return;               
-                            }
-                            if(equipItemList[selectEquip].nameKor != "장착해제") //아이템 장착
-                            {
-                                AddEquip();
-                                PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
-                                Equipment.instance.OnEquipData();
-                                SelectEquipUiChange(0);
-                            }
+                            //해당 아이템 장착 해제
+                            RemoveEquip();
+                            PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
+                            Equipment.instance.OnEquipData();
+                            SelectEquipUiChange(0);
                         }
                         else
                         {
-                            if (equipItemList[selectEquip].nameKor == "장착해제")
-                            {
-                                //해당 아이템 장착 해제
-                                RemoveEquip();
-                                PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
-                                Equipment.instance.OnEquipData();
-                                SelectEquipUiChange(0);
-                            }
-                            else
-                            {
-                                //선택된 아이템으로 장착되고 장착되고 있는 아이템은 장착 해제로 나옴 (기존에 있던 아이템 장착 해제 하고 선택된 아이템으로 장착)
-                                RemoveEquip();
-                                AddEquip();
-                                PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
-                                Equipment.instance.OnEquipData();
-                                SelectEquipUiChange(0);
-                            }
+                            //선택된 아이템으로 장착되고 장착되고 있는 아이템은 장착 해제로 나옴 (기존에 있던 아이템 장착 해제 하고 선택된 아이템으로 장착)
+                            RemoveEquip();
+                            AddEquip();
+                            PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
+                            Equipment.instance.OnEquipData();
+                            SelectEquipUiChange(0);
                         }
                     }
                 }
             }
+        }
 
-            if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (isSelectTwo[0] == false && isSelectTwo[1] == false && isSelectTwo[2] == false && isSelectTwo[3] == false && isSelectTwo[4] == false && isSelectTwo[5] == false && isSelectTwo[6] == false && isSelectTwo[7] == false && isSelectTwo[8] == false)
             {
-                if (isSelectTwo[0] == false && isSelectTwo[1] == false && isSelectTwo[2] == false && isSelectTwo[3] == false && isSelectTwo[4] == false && isSelectTwo[5] == false && isSelectTwo[6] == false && isSelectTwo[7] == false && isSelectTwo[8] == false)
+                if (isSelectOne[0] == true || isSelectOne[1] == true)
                 {
-                    if (isSelectOne[0] == true || isSelectOne[1] == true)
+                    StopAllBinking(btnSelectPanel, 1);
+                    OnImageEquipBtnClickEvent(selectIndex);
+                    for (int i = 0; i < isSelectOne.Length; i++)
                     {
-                        StopAllBinking(btnSelectPanel, 1);
-                        OnImageEquipBtnClickEvent(selectIndex);
-                        for (int i = 0; i < isSelectOne.Length; i++)
-                        {
-                            isSelectOne[i] = false;
-                        }
+                        isSelectOne[i] = false;
                     }
                 }
+            }
 
-                if (isSelectTwo[0] == true || isSelectTwo[1] == true || isSelectTwo[2] == true || isSelectTwo[3] == true || isSelectTwo[4] == true || isSelectTwo[5] == true || isSelectTwo[6] == true || isSelectTwo[7] == true || isSelectTwo[8] == true)
+            if (isSelectTwo[0] == true || isSelectTwo[1] == true || isSelectTwo[2] == true || isSelectTwo[3] == true || isSelectTwo[4] == true || isSelectTwo[5] == true || isSelectTwo[6] == true || isSelectTwo[7] == true || isSelectTwo[8] == true)
+            {
+                OnImageEquipSelectBtnClickEvent(selectEquipIndex);
+                Equipment.instance.OnEquipDataClear();
+                equipItemList.Clear();
+                for (int i = 0; i < isSelectTwo.Length; i++)
                 {
-                    OnImageEquipSelectBtnClickEvent(selectEquipIndex);
-                    Equipment.instance.OnEquipDataClear();
-                    equipItemList.Clear();
-                    for (int i = 0; i < isSelectTwo.Length; i++)
-                    {
-                        isSelectTwo[i] = false;
-                        selectTwoIndex[i] = 0;
-                    }
+                    isSelectTwo[i] = false;
+                    selectTwoIndex[i] = 0;
                 }
             }
         }
