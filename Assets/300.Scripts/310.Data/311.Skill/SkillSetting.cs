@@ -78,7 +78,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveHpUpSkill = new SkillData();
 
         passiveHpUpSkill.SkillSetting("HpUp", "생명력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-           0,0,0,HpLevlSkillUpBonuses, null);
+           0,0,0,0,HpLevlSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveHpUpSkill);
 
@@ -135,7 +135,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveStaminaUpSkill = new SkillData();
 
         passiveStaminaUpSkill.SkillSetting("StaminaUp", "스태미나 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0,0,0,StminaSkillUpBonuses, null);
+            0,0,0,0,StminaSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveStaminaUpSkill);
         #endregion
@@ -191,7 +191,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveAttackUpSkill = new SkillData();
 
         passiveAttackUpSkill.SkillSetting("AttackUp", "공격력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0, 0
-            ,0, 0, 0, 0, 0, 0, 0, 0,0, AttackSkillUpBonuses, null);
+            ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, AttackSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAttackUpSkill);
 
@@ -248,7 +248,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveDefenceUpSkill = new SkillData();
 
         passiveDefenceUpSkill.SkillSetting("DefenceUp", "방어력 증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 2, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, 0,0,0,0, DefenceSkillUpBonuses, null);
+            , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, DefenceSkillUpBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveDefenceUpSkill);
 
@@ -311,7 +311,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveAutoHpSkillUp = new SkillData();
         //체력증가를 찍어야지 체력 자동 회복증가를 찍을 수 있음
         passiveAutoHpSkillUp.SkillSetting("AutoHpRestUp", "자동체력회복증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 1, 60, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0,0,0,0, HpAutoRestorationSkillUpBonuses, passiveHpUpSkill);
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, HpAutoRestorationSkillUpBonuses, passiveHpUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAutoHpSkillUp);
 
@@ -375,7 +375,7 @@ public class SkillSetting : MonoBehaviour
 
         //스태미나 증가를 찍어야지 스태미나 자동회복 스킬 스킬을 습득 가능
         passiveAutoStaminaSkillUp.SkillSetting("AutoStaminaRestUp", "자동스태미나회복증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 1, 40, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, 0,0,0,0, StaminaAutoRestorationSkillUpBonuses, passiveStaminaUpSkill);
+            , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, StaminaAutoRestorationSkillUpBonuses, passiveStaminaUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAutoStaminaSkillUp);
 
@@ -432,7 +432,7 @@ public class SkillSetting : MonoBehaviour
         SkillData passiveCrictleDamgeSkillUp = new SkillData();
 
         passiveCrictleDamgeSkillUp.SkillSetting("CrictleDamgeUp", "크리티컬데미지업", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 3, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,0,0,0, CrictleDamgeUpSkillUpBonuses, passiveAttackUpSkill);
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, CrictleDamgeUpSkillUpBonuses, passiveAttackUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveCrictleDamgeSkillUp);
 
@@ -494,7 +494,7 @@ public class SkillSetting : MonoBehaviour
 
         SkillData passiveAttackDefenceSkillUp = new SkillData();
         passiveAttackDefenceSkillUp.SkillSetting("AttackDefenceUp", "공방증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 4, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0, AttackDefenceUpSkillUoBonuses, passiveDefenceUpSkill);
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, AttackDefenceUpSkillUoBonuses, passiveDefenceUpSkill);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveAttackDefenceSkillUp);
 
@@ -557,7 +557,7 @@ public class SkillSetting : MonoBehaviour
         //패시브 자동회복 스킬이 1이상 습득 해야지 지금 스킬을 습득 할 수 있음
         SkillData passiveHpStaminaSkillUp = new SkillData();
         passiveHpStaminaSkillUp.SkillSetting("HpStaminaUp", "체력스태미나증가", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,0,0,0, HpStaminaUpSkillUpBonuses, passiveAutoHpSkillUp);
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, HpStaminaUpSkillUpBonuses, passiveAutoHpSkillUp);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveHpStaminaSkillUp);
 
@@ -613,7 +613,7 @@ public class SkillSetting : MonoBehaviour
 
         SkillData passiveCrictleRateSkillUp = new SkillData();
         passiveCrictleRateSkillUp.SkillSetting("CrictleRateUp", "크리티컬확률업", SkillLevel.zero, SkillPoistion.Passive, SkillEquipPosition.None, 6, 0, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0,0,0,0, CrictleRateSkillUpBonuses, passiveCrictleDamgeSkillUp);
+            , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, CrictleRateSkillUpBonuses, passiveCrictleDamgeSkillUp);
 
         PlayerManager.instance.player.skill.skillDataList.Add(passiveCrictleRateSkillUp);
 
@@ -641,10 +641,10 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 1.5f },
                     {"attackRange", 3 },
-                    {"attackMovePoint", 10},
+                    {"attackMovePoint", 5},
                     {"acquisitionPoints",4 },
                     {"coolTime", 30 },
-                    {"StaminaConsumption", 5 }
+                    {"StaminaConsumption", 20 }
                 }
             },
             {
@@ -652,10 +652,10 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 3 },
                     {"attackRange", 5 },
-                    {"attackMovePoint", 15},
+                    {"attackMovePoint", 10},
                     {"acquisitionPoints",8 },
                     {"coolTime", 25 },
-                    {"StaminaConsumption", 7 }
+                    {"StaminaConsumption", 25 }
                 }
             },
             {
@@ -663,10 +663,10 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 4.5f },
                     {"attackRange", 7 },
-                    {"attackMovePoint", 20},
+                    {"attackMovePoint", 15},
                     {"acquisitionPoints",12 },
                     {"coolTime", 20 },
-                    {"StaminaConsumption",9 }
+                    {"StaminaConsumption",30 }
                 }
             },
             {
@@ -674,10 +674,10 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 6 },
                     {"attackRange", 9 },
-                    {"attackMovePoint", 25},
+                    {"attackMovePoint", 20},
                     {"acquisitionPoints",16 },
                     {"coolTime", 15 },
-                    {"StaminaConsumption",11 }
+                    {"StaminaConsumption",35 }
                 }
             },
             {
@@ -685,22 +685,22 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 7.5f },
                     {"attackRange", 11 },
-                    {"attackMovePoint", 30},
+                    {"attackMovePoint", 25},
                     {"acquisitionPoints",20 },
                     {"coolTime", 10 },
-                    {"StaminaConsumption",13 }
+                    {"StaminaConsumption",40 }
                 }
             }
         };
 
         SkillData downAttackSkillUp = new SkillData();
-        downAttackSkillUp.SkillSetting("DownAttack", "다운어택", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            , 0, 0, 0, 0, 0, 0, 0, DownAttackSkillBonuses, null);
+        downAttackSkillUp.SkillSetting("DownAttack", "다운어택", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 30, 0, 0, 0, 0, 0, 0, 0, 0
+            , 0, 0, 1.5f, 3, 5, 20, 0, 0, DownAttackSkillBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(downAttackSkillUp);
         #endregion
 
-        #region 화염 속성 등록
+        #region 화염 인챈트 
 
         var fireWeaponSetSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
         {
@@ -718,7 +718,7 @@ public class SkillSetting : MonoBehaviour
                 {
                      {"acquisitionPoints",3 },
                      {"coolTime", 45 },
-                     {"buffTime",9 },
+                     {"buffTime",5 },
                      {"StaminaConsumption", 3 }
                 }
             },
@@ -727,7 +727,7 @@ public class SkillSetting : MonoBehaviour
                 {
                      {"acquisitionPoints",6 },
                      {"coolTime", 41 },
-                     {"buffTime",12 },
+                     {"buffTime",8 },
                      {"StaminaConsumption", 5 }
                 }
             },
@@ -736,8 +736,8 @@ public class SkillSetting : MonoBehaviour
                 {
                      {"acquisitionPoints",9 },
                      {"coolTime", 37},
-                     {"buffTime",15 },
-                     {"StaminaConsumption", 7 }
+                     {"buffTime",11 },
+                     {"StaminaConsumption", 8 }
                 }
             },
             {
@@ -745,8 +745,8 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"acquisitionPoints",12 },
                     {"coolTime", 33},
-                    {"buffTime",18 },
-                    {"StaminaConsumption", 9 }
+                    {"buffTime",14 },
+                    {"StaminaConsumption", 12 }
                 }
             },
             {
@@ -754,16 +754,16 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"acquisitionPoints",15 },
                     {"coolTime",  29},
-                    {"buffTime", 21 },
-                    {"StaminaConsumption", 12 }
+                    {"buffTime", 17 },
+                    {"StaminaConsumption", 18 }
                 }
             }
         };
 
         SkillData FireWeaponSkillUp = new SkillData();
 
-        FireWeaponSkillUp.SkillSetting("Flame enchantment", "화염인챈트", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 3, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, fireWeaponSetSkillBonuses, null);
+        FireWeaponSkillUp.SkillSetting("Flame enchantment", "화염인챈트", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 3, 45, 0, 5, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 3, 0, 0, fireWeaponSetSkillBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(FireWeaponSkillUp);
 
@@ -842,8 +842,8 @@ public class SkillSetting : MonoBehaviour
         };
 
         SkillData BerserkserSkill = new SkillData();
-        BerserkserSkill.SkillSetting("Berserker", "버서커", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, BerserkserSkillBonuses, null);
+        BerserkserSkill.SkillSetting("Berserker", "버서커", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 60, 0, 10, 3, -2, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BerserkserSkillBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(BerserkserSkill);
 
@@ -851,33 +851,469 @@ public class SkillSetting : MonoBehaviour
 
         #region 실드 (데미지 흡수)
 
+        var absoulteDamgeSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",0 },
+                    {"coolTime", 0 },
+                    {"buffTime",0 },
+                    {"DamageAbsorption", 0 }
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",5 },
+                    {"coolTime", 60 },
+                    {"buffTime",10 },
+                    {"DamageAbsorption", 5 }
+                }
+            },
+            {
+                SkillLevel.two ,new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",5 },
+                    {"coolTime", 60 },
+                    {"buffTime",12 },
+                    {"DamageAbsorption", 5 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",10 },
+                    {"coolTime", 55 },
+                    {"buffTime",14 },
+                    {"DamageAbsorption", 10 }
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",15 },
+                    {"coolTime", 50 },
+                    {"buffTime",16 },
+                    {"DamageAbsorption", 15 }
+                }
+            },
+            {
+                SkillLevel.five , new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20 },
+                    {"coolTime", 45 },
+                    {"buffTime",18 },
+                    {"DamageAbsorption", 20 }
+                }
+            }
+        };
+
+        SkillData AbsoulteDamgeSkill = new SkillData();
+
+        AbsoulteDamgeSkill.SkillSetting("AbsoulteDamage", "데미지흡수", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 5, 60, 0, 10, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 5, 0, absoulteDamgeSkillBonuses, null);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(AbsoulteDamgeSkill);
+
         #endregion
 
         #region 다운 어택 이동 범위 증가
+
+        var DownAttackMoveSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",0 },
+                     {"attackMovePoint", 0},
+                }
+            },
+            {
+                SkillLevel.one , new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",5 },
+                    {"attackMovePoint", 5},
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",10 },
+                    {"attackMovePoint", 10},
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",15 },
+                    {"attackMovePoint", 15},
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20},
+                    {"attackMovePoint", 20},
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20},
+                    {"attackMovePoint", 20},
+                }
+            }         
+        };
+
+        SkillData DownAttackMoveSkill = new SkillData();
+        DownAttackMoveSkill.SkillSetting("DownAttackMoveUp", "다운어택이동거리증가", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 5, 0, 0, 0, DownAttackMoveSkillBonuses, downAttackSkillUp);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(DownAttackMoveSkill);
 
         #endregion
 
         #region 다운 어택 공격 범위 증가
 
+        var DownAttackRangeSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",0 },
+                    {"attackRange", 0 },
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",5 },
+                    {"attackRange", 3 },
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",10 },
+                    {"attackRange", 6 },
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",15 },
+                    {"attackRange", 9 },
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20 },
+                    {"attackRange", 12 },
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                     {"acquisitionPoints",25 },
+                    {"attackRange", 15 },
+                }
+            }
+        };
+
+        SkillData DownAttackRangeSkill = new SkillData();
+        DownAttackRangeSkill.SkillSetting("DownAttackRanageUp", "다운어택공격범위증가", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 5, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, DownAttackRangeSkillBonuses, DownAttackMoveSkill);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(DownAttackRangeSkill);
+
         #endregion
 
         #region 검기 슬래시
 
+        var AttackSlashSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"damage", 0 },
+                    {"acquisitionPoints",0 },
+                    {"coolTime", 0 }
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"damage", 6 },
+                    {"acquisitionPoints", 8 },
+                    {"coolTime", 60 }
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"damage", 12 },
+                    {"acquisitionPoints", 16 },
+                    {"coolTime", 55 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"damage", 18 },
+                    {"acquisitionPoints", 24 },
+                    {"coolTime", 50 }
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"damage", 24 },
+                    {"acquisitionPoints", 32 },
+                    {"coolTime", 45 }
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"damage", 32 },
+                    {"acquisitionPoints", 40 },
+                    {"coolTime", 40 }
+                }
+            }
+        };
+
+        SkillData AttackSlashSkill = new SkillData();
+        AttackSlashSkill.SkillSetting("SwordSlash", "검기슬래시", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 8, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            6, 0, 0, 0, 0,0, AttackSlashSkillBonuses, downAttackSkillUp);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(AttackSlashSkill);
+
         #endregion
 
-        #region 화상 지속시간 증가
+        #region 화염 인챈트 지속시간 증가
+
+        var FireEnchantContinueSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                     {"buffTime",0 },
+                     {"acquisitionPoints",0 },
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                     {"buffTime",1 },
+                     {"acquisitionPoints",2 },
+                }
+            },
+            {
+                SkillLevel.two ,new Dictionary<string, float>
+                {
+                     {"buffTime",2},
+                     {"acquisitionPoints",4 },
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"buffTime", 3},
+                    {"acquisitionPoints", 6 },
+                }
+            },
+            {
+                SkillLevel.four , new Dictionary<string, float>
+                {
+                    {"buffTime", 4 },
+                    {"acquisitionPoints",8 },
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"buffTime", 5 },
+                    {"acquisitionPoints",10 },
+                }
+            }
+        };
+
+        SkillData FireEnchanteContinueSkill = new SkillData();
+        FireEnchanteContinueSkill.SkillSetting("FlameEnchantDuration", "화염인챈트지속", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, FireEnchantContinueSkillBonuses, FireWeaponSkillUp);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(FireEnchanteContinueSkill);
 
         #endregion
 
         #region 버서커 지속 시간 증가
 
+        var BeskerContinues = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero ,new Dictionary<string, float>
+                {
+                    {"buffTime", 0 },
+                    {"acquisitionPoints", 0 },
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"buffTime", 1 },
+                    {"acquisitionPoints", 2 },
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"buffTime", 2 },
+                    {"acquisitionPoints", 4 },
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"buffTime", 3 },
+                    {"acquisitionPoints", 6 },
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"buffTime", 4 },
+                    {"acquisitionPoints", 8 },
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"buffTime", 5 },
+                    {"acquisitionPoints", 10 },
+                }
+            }
+        };
+
+        SkillData BeskerContinuesSkill = new SkillData();
+        BeskerContinuesSkill.SkillSetting("BerserkerDuration", "버서커지속시간증가", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 2, 0, 0, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BeskerContinues, BerserkserSkill);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(BeskerContinuesSkill);
+
         #endregion
 
         #region 실드 지속 시간 증가
 
+        var SheildDurationSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"buffTime", 0 },
+                    {"acquisitionPoints", 0 },
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"buffTime", 1 },
+                    {"acquisitionPoints", 2 },
+                }
+            },
+            {
+                SkillLevel.two, new Dictionary<string, float>
+                {
+                    {"buffTime", 2 },
+                    {"acquisitionPoints", 4 },
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"buffTime", 3 },
+                    {"acquisitionPoints", 6 },
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"buffTime", 4 },
+                    {"acquisitionPoints", 8 },
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"buffTime", 5 },
+                    {"acquisitionPoints", 10 },
+                }
+            }
+        };
+
+        SkillData SheildDurationSkill = new SkillData();
+
+        SheildDurationSkill.SkillSetting("ShieldDuration", "실드지속시간증가", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 2, 0, 0, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SheildDurationSkillBonuses, AbsoulteDamgeSkill);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(SheildDurationSkill);
+
         #endregion
 
         #region 검기 두번 나가는 확률 증가
+
+        var TwiceShowrdSlashSkillBonuses = new Dictionary<SkillLevel, Dictionary<string, float>>()
+        {
+            {
+                SkillLevel.zero, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",0 },
+                    {"skillConditionsRate", 0 }
+                }
+            },
+            {
+                SkillLevel.one, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",5 },
+                    {"skillConditionsRate", 2 }
+                }
+            },
+            {
+                SkillLevel.two ,new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",10 },
+                    {"skillConditionsRate", 4 }
+                }
+            },
+            {
+                SkillLevel.three, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",15 },
+                    {"skillConditionsRate", 6 }
+                }
+            },
+            {
+                SkillLevel.four, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",20 },
+                    {"skillConditionsRate", 8 }
+                }
+            },
+            {
+                SkillLevel.five, new Dictionary<string, float>
+                {
+                    {"acquisitionPoints",25 },
+                    {"skillConditionsRate", 10 }
+                }
+            }
+        };
+
+        SkillData TwiceSwordSlashSkill = new SkillData();
+        TwiceSwordSlashSkill.SkillSetting("TwiceSwordSlash", "두번검기슬래시", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.NotRegistration, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 2, TwiceShowrdSlashSkillBonuses, AttackSlashSkill);
+
+        PlayerManager.instance.player.skill.skillDataList.Add(TwiceSwordSlashSkill);
 
         #endregion
     }

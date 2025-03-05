@@ -15,7 +15,7 @@ public enum SkillPoistion
 
 public enum SkillEquipPosition
 {
-    None,three,four,five,six,seven
+    None,NotRegistration,three,four,five,six,seven
 }
 
 [Serializable]
@@ -65,6 +65,8 @@ public class SkillData
 
     public float DamageAbsorption; //데미지 흡수
 
+    public int skillConditionsRate; //스킬 조건 확률
+
     public SkillData requiredSkill; // 🔥 필수 선행 스킬 (없으면 null)
 
     // 개별 능력치 증가량 (스킬마다 다르게 설정 가능)
@@ -75,7 +77,8 @@ public class SkillData
 
 
     public void SkillSetting(string _eng, string _kor, SkillLevel _level, SkillPoistion _position, SkillEquipPosition _equip, int _points, float _cool, float _current, float _buff,
-        float _attackUp, float _defenceUp, float _crictleRateUp, float _crictleDmgUp, float _hpUp, float _staminaUp,float _hpRestoration, float _staminaRestoration, float _damage, float _attackRange, float _attackMovePoint, float _staminaConsumption,float _DamageAbsorption, Dictionary<SkillLevel, Dictionary<string, float>> _levelUpBonuses, SkillData _requiredSkill = null)
+        float _attackUp, float _defenceUp, float _crictleRateUp, float _crictleDmgUp, float _hpUp, float _staminaUp,float _hpRestoration, float _staminaRestoration, float _damage, float _attackRange, float _attackMovePoint, 
+        float _staminaConsumption,float _DamageAbsorption,int _skillConditionsRate, Dictionary<SkillLevel, Dictionary<string, float>> _levelUpBonuses, SkillData _requiredSkill = null)
     {
         nameEng = _eng;
         nameKor = _kor;
@@ -99,6 +102,7 @@ public class SkillData
         attackMovePoint = _attackMovePoint;
         StaminaConsumption = _staminaConsumption;
         DamageAbsorption = _DamageAbsorption;
+        skillConditionsRate = _skillConditionsRate;
         levelUpBonuses = _levelUpBonuses;
 
         requiredSkill = _requiredSkill;
@@ -153,6 +157,7 @@ public class SkillData
             case "HpRestoration": skill.HpRestoration += value; break;
             case "StaminaRestoration": skill.StaminaRestoration += value; break;
             case "DamageAbsorption": skill.DamageAbsorption += value; break;
+            case "skillConditionsRate": skill.skillConditionsRate += (int)value; break;
             case "acquisitionPoints": skill.acquisitionPoints += (int)value; break;
         }
     }
@@ -177,6 +182,7 @@ public class SkillData
             case "StaminaRestoration": skill.StaminaRestoration -= value; break;
             case "StaminaConsumption": skill.StaminaConsumption -= value; break;
             case "DamageAbsorption": skill.DamageAbsorption -= value; break;
+            case "skillConditionsRate": skill.skillConditionsRate -= (int)value; break;
             case "acquisitionPoints": skill.acquisitionPoints -= (int)value; break;
         }
     }
