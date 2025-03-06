@@ -15,6 +15,10 @@ public class SkillPrefab : MonoBehaviour
 
     public SkillPoistion poistion;
 
+    public SkillEquipPosition equipPoistion;
+
+    Button btnSkillRegistration;
+
     int childIndex = 0;
     int levelUpIndex = 0;
     int levelDownIndex = 0;
@@ -25,6 +29,7 @@ public class SkillPrefab : MonoBehaviour
 
         btnLevel[0].onClick.AddListener(() => LevelBtnClick(0));
         btnLevel[1].onClick.AddListener(() => LevelBtnClick(1));
+        btnSkillRegistration = imgSkill.GetComponent<Button>();
     }
 
     private void Start()
@@ -40,6 +45,23 @@ public class SkillPrefab : MonoBehaviour
                 txtData[3].text = "Skill Acquisition Points :";
                 break;
         }
+
+        switch (poistion)
+        {
+            case SkillPoistion.Active:
+                equipPoistion = SkillSetting.instance.skillPanelList[childIndex].equipPostion;
+                txtData[4].fontSize = 10;
+                if (equipPoistion == SkillEquipPosition.NotRegistration)
+                {
+                    btnSkillRegistration.interactable = false;
+                }
+                else
+                {
+                    btnSkillRegistration.interactable = true;
+                }
+                break;
+        }
+
         SkillDataSetting();
         SkillSetting.instance.skillPanelList[childIndex].level = PlayerManager.instance.player.skill.GetSkillLevelByName(SkillSetting.instance.skillPanelList[childIndex].nameKor);
         txtData[1].text = SkillSetting.instance.skillPanelList[childIndex].level.ToString();
@@ -183,7 +205,141 @@ public class SkillPrefab : MonoBehaviour
                 }
                 break;
             case SkillPoistion.Active:
-                SkillPanel.instance.SkillCountTxtSetting(0, PlayerManager.instance.player.skillCount);
+                SkillPanel.instance.SkillCountTxtSetting(1, PlayerManager.instance.player.skillCount);
+                switch (childIndex)
+                {
+                    case 0:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "데미지 " + SkillSetting.instance.skillPanelList[childIndex].damage.ToString() + "\n" + "공격범위 " + SkillSetting.instance.skillPanelList[childIndex].attackRange.ToString() + "\n" + "이동거리 " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString()
+                                    + "\n" +  "쿨타임 " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "스태미나 소모 " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "damage " + SkillSetting.instance.skillPanelList[childIndex].damage.ToString() + "\n" + "attackRange " + SkillSetting.instance.skillPanelList[childIndex].attackRange.ToString() + "\n" + "attackMovePoint " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString()
+                                    + "\n" + "coolTime " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "StaminaConsumption " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "버프지속시간 " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString() + "\n"
+                                    + "\n" + "쿨타임 " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "스태미나 소모 " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "BuffTime " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString() + "\n"
+                                    + "\n" + "CoolTime " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "StaminaConsumption " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "공격력증가 " + SkillSetting.instance.skillPanelList[childIndex].attackUp.ToString() + "\n" + "방어력증가 " + SkillSetting.instance.skillPanelList[childIndex].defenceUp.ToString() + "\n" + "버프지속시간 " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString()
+                                    + "\n" + "쿨타임 " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "스태미나 소모 " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "AttackUp " + SkillSetting.instance.skillPanelList[childIndex].attackUp.ToString() + "\n" + "DefenceUp " + SkillSetting.instance.skillPanelList[childIndex].defenceUp.ToString() + "\n" + "BuffTime " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString()
+                                    + "\n" + "coolTime " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "StaminaConsumption " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "버프지속시간 " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString() + "\n" + "데미지 흡수 " + SkillSetting.instance.skillPanelList[childIndex].DamageAbsorption.ToString() + "\n"
+                                     + "쿨타임 " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "스태미나 소모 " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "BuffTime " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString() + "\n" + "DamageAbsorption " + SkillSetting.instance.skillPanelList[childIndex].DamageAbsorption.ToString() + "\n"
+                                      + "coolTime " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "StaminaConsumption " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "이동거리 : " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "attackMovePoint : " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString();
+                                break;
+                        }
+                        break;
+                    case 5:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "공격범위 : " + SkillSetting.instance.skillPanelList[childIndex].attackRange.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "attackRange : " + SkillSetting.instance.skillPanelList[childIndex].attackRange.ToString();
+                                break;
+                        }
+                        break;
+                    case 6:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "데미지 " + SkillSetting.instance.skillPanelList[childIndex].damage.ToString() + "\n" + "이동거리 " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString()
+                                    + "\n" + "쿨타임 " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "스태미나 소모 " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "damage " + SkillSetting.instance.skillPanelList[childIndex].damage.ToString() + "\n" + "attackMovePoint " + SkillSetting.instance.skillPanelList[childIndex].attackMovePoint.ToString()
+                                    + "\n" + "coolTime " + SkillSetting.instance.skillPanelList[childIndex].coolTime.ToString() + "\n" + "StaminaConsumption " + SkillSetting.instance.skillPanelList[childIndex].StaminaConsumption.ToString();
+                                break;
+                        }
+                        break;
+                    case 7:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "지속시간 : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "BuffTime : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                        }
+                        break;
+                    case 8:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "지속시간 : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "BuffTime : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                        }
+                        break;
+                    case 9:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "지속시간 : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "BuffTime : " + SkillSetting.instance.skillPanelList[childIndex].buffTime.ToString();
+                                break;
+                        }
+                        break;
+                    case 10:
+                        switch (GameManager.data.lanauge)
+                        {
+                            case LANGUAGE.KOR:
+                                txtData[4].text = "스킬조건비율 : " + SkillSetting.instance.skillPanelList[childIndex].skillConditionsRate.ToString();
+                                break;
+                            case LANGUAGE.ENG:
+                                txtData[4].text = "SkillConditionsRate : " + SkillSetting.instance.skillPanelList[childIndex].skillConditionsRate.ToString();
+                                break;
+                        }
+                        break;
+                }
                 break;
         }
     }

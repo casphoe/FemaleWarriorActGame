@@ -719,7 +719,7 @@ public class SkillSetting : MonoBehaviour
                      {"acquisitionPoints",3 },
                      {"coolTime", 45 },
                      {"buffTime",5 },
-                     {"StaminaConsumption", 3 }
+                     {"StaminaConsumption", 5 }
                 }
             },
             {
@@ -728,7 +728,7 @@ public class SkillSetting : MonoBehaviour
                      {"acquisitionPoints",6 },
                      {"coolTime", 41 },
                      {"buffTime",8 },
-                     {"StaminaConsumption", 5 }
+                     {"StaminaConsumption", 10 }
                 }
             },
             {
@@ -737,7 +737,7 @@ public class SkillSetting : MonoBehaviour
                      {"acquisitionPoints",9 },
                      {"coolTime", 37},
                      {"buffTime",11 },
-                     {"StaminaConsumption", 8 }
+                     {"StaminaConsumption", 15 }
                 }
             },
             {
@@ -746,7 +746,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",12 },
                     {"coolTime", 33},
                     {"buffTime",14 },
-                    {"StaminaConsumption", 12 }
+                    {"StaminaConsumption", 20 }
                 }
             },
             {
@@ -755,7 +755,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",15 },
                     {"coolTime",  29},
                     {"buffTime", 17 },
-                    {"StaminaConsumption", 18 }
+                    {"StaminaConsumption", 25 }
                 }
             }
         };
@@ -790,7 +790,7 @@ public class SkillSetting : MonoBehaviour
                      {"acquisitionPoints",4 },
                      {"coolTime", 60 },
                      {"buffTime", 10 },
-                     {"StaminaConsumption", 0.5f },
+                     {"StaminaConsumption", 20 },
                      {"attackUp", 3 },
                      {"defenceUp",-2 }
                 }
@@ -801,7 +801,7 @@ public class SkillSetting : MonoBehaviour
                      {"acquisitionPoints",8 },
                      {"coolTime", 55 },
                      {"buffTime", 12 },
-                     {"StaminaConsumption", 0.7f },
+                     {"StaminaConsumption", 25 },
                      {"attackUp", 6 },
                      {"defenceUp",-5 }
                 }
@@ -812,7 +812,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",12 },
                     {"coolTime", 50 },
                     {"buffTime", 15 },
-                    {"StaminaConsumption", 1 },
+                    {"StaminaConsumption", 30 },
                     {"attackUp", 9 },
                     {"defenceUp",-8 }
                 }
@@ -823,7 +823,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",16 },
                     {"coolTime", 45 },
                     {"buffTime", 19 },
-                    {"StaminaConsumption", 1.4f },
+                    {"StaminaConsumption", 35 },
                     {"attackUp", 12 },
                     {"defenceUp",-11 }
                 }
@@ -834,7 +834,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",20 },
                     {"coolTime", 40 },
                     {"buffTime", 25 },
-                    {"StaminaConsumption", 1.9f },
+                    {"StaminaConsumption", 40 },
                     {"attackUp", 16 },
                     {"defenceUp",-15 }
                 }
@@ -843,7 +843,7 @@ public class SkillSetting : MonoBehaviour
 
         SkillData BerserkserSkill = new SkillData();
         BerserkserSkill.SkillSetting("Berserker", "버서커", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 4, 60, 0, 10, 3, -2, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BerserkserSkillBonuses, null);
+            0, 0, 0, 0, 0, 0, 0, 20, 0, 0, BerserkserSkillBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(BerserkserSkill);
 
@@ -859,6 +859,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",0 },
                     {"coolTime", 0 },
                     {"buffTime",0 },
+                    {"StaminaConsumption", 0 },
                     {"DamageAbsorption", 0 }
                 }
             },
@@ -868,6 +869,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",5 },
                     {"coolTime", 60 },
                     {"buffTime",10 },
+                    {"StaminaConsumption", 10 },
                     {"DamageAbsorption", 5 }
                 }
             },
@@ -877,6 +879,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",5 },
                     {"coolTime", 60 },
                     {"buffTime",12 },
+                    {"StaminaConsumption", 15 },
                     {"DamageAbsorption", 5 }
                 }
             },
@@ -886,6 +889,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",10 },
                     {"coolTime", 55 },
                     {"buffTime",14 },
+                    {"StaminaConsumption", 20 },
                     {"DamageAbsorption", 10 }
                 }
             },
@@ -895,6 +899,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",15 },
                     {"coolTime", 50 },
                     {"buffTime",16 },
+                    {"StaminaConsumption", 25 },
                     {"DamageAbsorption", 15 }
                 }
             },
@@ -904,6 +909,7 @@ public class SkillSetting : MonoBehaviour
                     {"acquisitionPoints",20 },
                     {"coolTime", 45 },
                     {"buffTime",18 },
+                    {"StaminaConsumption", 30 },
                     {"DamageAbsorption", 20 }
                 }
             }
@@ -912,7 +918,7 @@ public class SkillSetting : MonoBehaviour
         SkillData AbsoulteDamgeSkill = new SkillData();
 
         AbsoulteDamgeSkill.SkillSetting("AbsoulteDamage", "데미지흡수", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 5, 60, 0, 10, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 5, 0, absoulteDamgeSkillBonuses, null);
+            0, 0, 0, 0, 0, 0, 0, 10, 5, 0, absoulteDamgeSkillBonuses, null);
 
         PlayerManager.instance.player.skill.skillDataList.Add(AbsoulteDamgeSkill);
 
@@ -1039,7 +1045,9 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 0 },
                     {"acquisitionPoints",0 },
-                    {"coolTime", 0 }
+                    {"coolTime", 0 },
+                    {"StaminaConsumption", 0 },
+                     {"attackMovePoint", 0},
                 }
             },
             {
@@ -1047,7 +1055,9 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 6 },
                     {"acquisitionPoints", 8 },
-                    {"coolTime", 60 }
+                    {"coolTime", 60 },
+                    {"StaminaConsumption", 30 },
+                     {"attackMovePoint", 10},
                 }
             },
             {
@@ -1055,7 +1065,9 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 12 },
                     {"acquisitionPoints", 16 },
-                    {"coolTime", 55 }
+                    {"coolTime", 55 },
+                    {"StaminaConsumption", 40 },
+                     {"attackMovePoint", 15},
                 }
             },
             {
@@ -1063,7 +1075,9 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 18 },
                     {"acquisitionPoints", 24 },
-                    {"coolTime", 50 }
+                    {"coolTime", 50 },
+                    {"StaminaConsumption", 50 },
+                     {"attackMovePoint", 20},
                 }
             },
             {
@@ -1071,7 +1085,9 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 24 },
                     {"acquisitionPoints", 32 },
-                    {"coolTime", 45 }
+                    {"coolTime", 45 },
+                    {"StaminaConsumption", 60 },
+                     {"attackMovePoint", 20},
                 }
             },
             {
@@ -1079,14 +1095,16 @@ public class SkillSetting : MonoBehaviour
                 {
                     {"damage", 32 },
                     {"acquisitionPoints", 40 },
-                    {"coolTime", 40 }
+                    {"coolTime", 40 },
+                    {"StaminaConsumption", 70 },
+                     {"attackMovePoint", 20},
                 }
             }
         };
 
         SkillData AttackSlashSkill = new SkillData();
         AttackSlashSkill.SkillSetting("SwordSlash", "검기슬래시", SkillLevel.zero, SkillPoistion.Active, SkillEquipPosition.None, 8, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            6, 0, 0, 0, 0,0, AttackSlashSkillBonuses, downAttackSkillUp);
+            6, 0, 10, 30, 0, 0, AttackSlashSkillBonuses, downAttackSkillUp);
 
         PlayerManager.instance.player.skill.skillDataList.Add(AttackSlashSkill);
 
