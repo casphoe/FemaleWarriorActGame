@@ -5719,7 +5719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &184499576
 GameObject:
@@ -6599,7 +6598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &213940141
 GameObject:
@@ -18358,7 +18356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &625588289
 GameObject:
@@ -21271,7 +21268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &720062516
 GameObject:
@@ -23948,7 +23944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &835263814
 GameObject:
@@ -34210,7 +34205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1075379018
 GameObject:
@@ -36015,7 +36009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1162105890
 GameObject:
@@ -38166,8 +38159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
-  dragSkillObject: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1219318627
 GameObject:
   m_ObjectHideFlags: 0
@@ -46413,7 +46405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1530049733
 GameObject:
@@ -48638,7 +48629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1583546136
 GameObject:
@@ -65021,7 +65011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillImage: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!224 &6708789965800189976
 RectTransform:

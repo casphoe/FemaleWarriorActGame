@@ -88,7 +88,10 @@ public class SkillPrefab : MonoBehaviour
 
     void SkillDrag()
     {
-        dragSkill.StartSkillDrag();
+        if(equipPoistion != SkillEquipPosition.NotRegistration && SkillSetting.instance.skillPanelList[childIndex].level > 0)
+        {
+            dragSkill.CreateSkillInstance();
+        }
     }
 
     void SkillDataSetting()

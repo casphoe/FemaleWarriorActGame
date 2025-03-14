@@ -3,13 +3,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //액티브 스킬 드래그 해주는 함수
-public class SkillDragHandler : MonoBehaviour, IPointerDownHandler
+public class SkillDragHandler : MonoBehaviour
 {
     GameObject skillInstance; // 생성된 스킬 아이콘 오브젝트
     RectTransform skillRectTransform;
     Canvas canvas;
 
-    [SerializeField] Image skillImage;
+    Image skillImage;
     [SerializeField] GameObject dragSkillObject;
 
     void Awake()
@@ -18,42 +18,18 @@ public class SkillDragHandler : MonoBehaviour, IPointerDownHandler
         skillImage = transform.GetChild(0).GetComponent<Image>();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        StartSkillDrag(eventData); // 마우스 클릭 위치 전달
-    }
-
-    public void StartSkillDrag(PointerEventData eventData = null)
+    public void CreateSkillInstance()
     {
         if (dragSkillObject != null)
         {
             // 새로운 오브젝트 생성
-            skillInstance = Instantiate(dragSkillObject, canvas.transform);
-            skillRectTransform = skillInstance.GetComponent<RectTransform>();
+            GameObject skillInstance = Instantiate(dragSkillObject, canvas.transform);
+            RectTransform skillRectTransform = skillInstance.GetComponent<RectTransform>();
 
-            skillInstance.transform.SetParent(canvas.transform, false);
-            if (eventData != null)
-            {
-                // 마우스 클릭한 위치를 UI 좌표로 변환 (Canvas Scaler 보정 포함)
-                Vector2 localPoint;
-                RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+            // 클릭한 버튼의 World Position을 그대로 적용
+            skillRectTransform.position = transform.position;
 
-                bool isValid = RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvasRect, eventData.position, eventData.pressEventCamera, out localPoint);
-
-                if (isValid)
-                {
-                    // UI 위치에 오브젝트 생성
-                    skillRectTransform.anchoredPosition = localPoint;
-                }
-                else
-                {
-                    Debug.LogWarning("ScreenPointToLocalPointInRectangle 변환 실패");
-                }
-
-                // UI 위치에 오브젝트 생성
-                skillRectTransform.anchoredPosition = localPoint;
-            }
+            // 클릭한 버튼의 이미지 적용 (스킬 아이콘)
             skillInstance.transform.GetChild(0).GetComponent<Image>().sprite = skillImage.sprite;
             skillInstance.transform.GetComponent<DragHander>().IsStart(true, canvas, skillRectTransform);
         }
