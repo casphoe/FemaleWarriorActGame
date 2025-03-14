@@ -5641,6 +5641,7 @@ GameObject:
   - component: {fileID: 179562907}
   - component: {fileID: 179562909}
   - component: {fileID: 179562908}
+  - component: {fileID: 179562910}
   m_Layer: 5
   m_Name: SkillPrefab (5)
   m_TagString: Untagged
@@ -5695,7 +5696,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1362632619}
   btnLevel:
   - {fileID: 1203854597}
   - {fileID: 1807919861}
@@ -5707,6 +5707,20 @@ MonoBehaviour:
   - {fileID: 965842547}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &179562910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179562906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &184499576
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,6 +6521,7 @@ GameObject:
   - component: {fileID: 213711994}
   - component: {fileID: 213711996}
   - component: {fileID: 213711995}
+  - component: {fileID: 213711997}
   m_Layer: 5
   m_Name: SkillPrefab (3)
   m_TagString: Untagged
@@ -6561,7 +6576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1255674324}
   btnLevel:
   - {fileID: 578184627}
   - {fileID: 1925786388}
@@ -6573,6 +6587,20 @@ MonoBehaviour:
   - {fileID: 1280957402}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &213711997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213711993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &213940141
 GameObject:
   m_ObjectHideFlags: 0
@@ -11595,7 +11623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 2023252110}
   btnLevel:
   - {fileID: 248099050}
   - {fileID: 1521262831}
@@ -11909,7 +11936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1361305704}
   btnLevel:
   - {fileID: 935489673}
   - {fileID: 125884234}
@@ -12828,7 +12854,7 @@ GameObject:
   - component: {fileID: 425263849}
   m_Layer: 5
   m_Name: Slot_3
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18254,6 +18280,7 @@ GameObject:
   - component: {fileID: 622582502}
   - component: {fileID: 622582504}
   - component: {fileID: 622582503}
+  - component: {fileID: 622582505}
   m_Layer: 5
   m_Name: SkillPrefab (10)
   m_TagString: Untagged
@@ -18308,7 +18335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1982484564}
   btnLevel:
   - {fileID: 937603000}
   - {fileID: 1234868346}
@@ -18320,6 +18346,20 @@ MonoBehaviour:
   - {fileID: 1126941198}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &622582505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622582501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &625588289
 GameObject:
   m_ObjectHideFlags: 0
@@ -19816,7 +19856,7 @@ GameObject:
   - component: {fileID: 673528269}
   m_Layer: 5
   m_Name: Slot_6
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21153,6 +21193,7 @@ GameObject:
   - component: {fileID: 719358558}
   - component: {fileID: 719358560}
   - component: {fileID: 719358559}
+  - component: {fileID: 719358561}
   m_Layer: 5
   m_Name: SkillPrefab (9)
   m_TagString: Untagged
@@ -21207,7 +21248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 627975364}
   btnLevel:
   - {fileID: 1913016412}
   - {fileID: 355164692}
@@ -21219,6 +21259,20 @@ MonoBehaviour:
   - {fileID: 538567517}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &719358561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719358557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &720062516
 GameObject:
   m_ObjectHideFlags: 0
@@ -21765,7 +21819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1607792038}
   btnLevel:
   - {fileID: 642711641}
   - {fileID: 720391680}
@@ -23197,7 +23250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 419868989}
   btnLevel:
   - {fileID: 1538485240}
   - {fileID: 326461118}
@@ -23818,6 +23870,7 @@ GameObject:
   - component: {fileID: 830055565}
   - component: {fileID: 830055567}
   - component: {fileID: 830055566}
+  - component: {fileID: 830055568}
   m_Layer: 5
   m_Name: SkillPrefab (2)
   m_TagString: Untagged
@@ -23872,7 +23925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 905188093}
   btnLevel:
   - {fileID: 291189641}
   - {fileID: 247030063}
@@ -23884,6 +23936,20 @@ MonoBehaviour:
   - {fileID: 2110383062}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &830055568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830055564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &835263814
 GameObject:
   m_ObjectHideFlags: 0
@@ -33070,7 +33136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 447801781}
   btnLevel:
   - {fileID: 1344476203}
   - {fileID: 416149619}
@@ -34067,6 +34132,7 @@ GameObject:
   - component: {fileID: 1073740630}
   - component: {fileID: 1073740632}
   - component: {fileID: 1073740631}
+  - component: {fileID: 1073740633}
   m_Layer: 5
   m_Name: SkillPrefab (4)
   m_TagString: Untagged
@@ -34121,7 +34187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 749050866}
   btnLevel:
   - {fileID: 1588440860}
   - {fileID: 1236291647}
@@ -34133,6 +34198,20 @@ MonoBehaviour:
   - {fileID: 1238079908}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &1073740633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073740629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1075379018
 GameObject:
   m_ObjectHideFlags: 0
@@ -35858,6 +35937,7 @@ GameObject:
   - component: {fileID: 1159738212}
   - component: {fileID: 1159738214}
   - component: {fileID: 1159738213}
+  - component: {fileID: 1159738215}
   m_Layer: 5
   m_Name: SkillPrefab (7)
   m_TagString: Untagged
@@ -35912,7 +35992,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 85370410}
   btnLevel:
   - {fileID: 1662022962}
   - {fileID: 1487244703}
@@ -35924,6 +36003,20 @@ MonoBehaviour:
   - {fileID: 1920144663}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &1159738215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159738211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1162105890
 GameObject:
   m_ObjectHideFlags: 0
@@ -36892,7 +36985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1305144247}
   btnLevel:
   - {fileID: 65094754}
   - {fileID: 318536151}
@@ -36917,7 +37009,7 @@ GameObject:
   - component: {fileID: 1172266950}
   m_Layer: 5
   m_Name: Slot_2
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37433,7 +37525,7 @@ GameObject:
   - component: {fileID: 1196919279}
   m_Layer: 5
   m_Name: Slot_5
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37996,6 +38088,7 @@ GameObject:
   - component: {fileID: 1219190729}
   - component: {fileID: 1219190731}
   - component: {fileID: 1219190730}
+  - component: {fileID: 1219190732}
   m_Layer: 5
   m_Name: SkillPrefab (1)
   m_TagString: Untagged
@@ -38050,7 +38143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1447543544}
   btnLevel:
   - {fileID: 1565383682}
   - {fileID: 704585424}
@@ -38062,6 +38154,20 @@ MonoBehaviour:
   - {fileID: 2122581374}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &1219190732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219190728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 0}
 --- !u!1 &1219318627
 GameObject:
   m_ObjectHideFlags: 0
@@ -46229,6 +46335,7 @@ GameObject:
   - component: {fileID: 1529460165}
   - component: {fileID: 1529460167}
   - component: {fileID: 1529460166}
+  - component: {fileID: 1529460168}
   m_Layer: 5
   m_Name: SkillPrefab (6)
   m_TagString: Untagged
@@ -46283,7 +46390,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1936804671}
   btnLevel:
   - {fileID: 1547912508}
   - {fileID: 798051697}
@@ -46295,6 +46401,20 @@ MonoBehaviour:
   - {fileID: 1264078489}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &1529460168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529460164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1530049733
 GameObject:
   m_ObjectHideFlags: 0
@@ -46442,12 +46562,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -48440,6 +48560,7 @@ GameObject:
   - component: {fileID: 1575397364}
   - component: {fileID: 1575397366}
   - component: {fileID: 1575397365}
+  - component: {fileID: 1575397367}
   m_Layer: 5
   m_Name: SkillPrefab (8)
   m_TagString: Untagged
@@ -48494,7 +48615,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1169946960}
   btnLevel:
   - {fileID: 743112526}
   - {fileID: 1166849891}
@@ -48506,6 +48626,20 @@ MonoBehaviour:
   - {fileID: 227996164}
   poistion: 0
   equipPoistion: 0
+--- !u!114 &1575397367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575397363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!1 &1583546136
 GameObject:
   m_ObjectHideFlags: 0
@@ -50287,7 +50421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1996166536}
   btnLevel:
   - {fileID: 1961988843}
   - {fileID: 1692076055}
@@ -54016,7 +54149,7 @@ GameObject:
   - component: {fileID: 1767800616}
   m_Layer: 5
   m_Name: Slot_4
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61623,7 +61756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 851212785}
   btnLevel:
   - {fileID: 47808462}
   - {fileID: 2111042844}
@@ -62340,7 +62472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 1804757516}
   btnLevel:
   - {fileID: 1205787949}
   - {fileID: 375199597}
@@ -63519,7 +63650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 464512939}
   btnLevel:
   - {fileID: 1828912102}
   - {fileID: 14451829}
@@ -64282,7 +64412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892837fd2da1a794097df162e8f60a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgSkill: {fileID: 978362695045509394}
   btnLevel:
   - {fileID: 8983258871162432038}
   - {fileID: 7839742993946368928}
@@ -64872,6 +65001,7 @@ GameObject:
   - component: {fileID: 3917086293833833134}
   - component: {fileID: 2581198174182861074}
   - component: {fileID: 4183566284369312548}
+  - component: {fileID: 6699680647753542413}
   m_Layer: 5
   m_Name: SkillPrefab
   m_TagString: Untagged
@@ -64879,6 +65009,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6699680647753542413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699680647753542412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillImage: {fileID: 0}
+  dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
 --- !u!224 &6708789965800189976
 RectTransform:
   m_ObjectHideFlags: 0

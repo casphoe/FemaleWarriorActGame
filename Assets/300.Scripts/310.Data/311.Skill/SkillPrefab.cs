@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SkillPrefab : MonoBehaviour
 {
-    [SerializeField] Image imgSkill;
-
     //0 : 레벨 다운, 1 : 레벨 업
     [SerializeField] Button[] btnLevel;
 
@@ -19,6 +17,8 @@ public class SkillPrefab : MonoBehaviour
 
     Button btnSkillRegistration;
 
+    SkillDragHandler dragSkill;
+
     int childIndex = 0;
     int levelUpIndex = 0;
     int levelDownIndex = 0;
@@ -26,10 +26,12 @@ public class SkillPrefab : MonoBehaviour
     private void Awake()
     {
         childIndex = transform.GetSiblingIndex();
-
+        dragSkill = GetComponent<SkillDragHandler>();
         btnLevel[0].onClick.AddListener(() => LevelBtnClick(0));
         btnLevel[1].onClick.AddListener(() => LevelBtnClick(1));
-        btnSkillRegistration = imgSkill.GetComponent<Button>();
+        btnSkillRegistration = transform.GetChild(0).GetComponent<Button>();
+
+        btnSkillRegistration.onClick.AddListener(() => SkillDrag());
     }
 
     private void Start()
@@ -82,6 +84,11 @@ public class SkillPrefab : MonoBehaviour
                 btnLevel[i].interactable = true;
             }
         }
+    }
+
+    void SkillDrag()
+    {
+        dragSkill.StartSkillDrag();
     }
 
     void SkillDataSetting()
