@@ -90,7 +90,7 @@ public class SkillPrefab : MonoBehaviour
     {
         if(equipPoistion != SkillEquipPosition.NotRegistration && SkillSetting.instance.skillPanelList[childIndex].level > 0)
         {
-            dragSkill.CreateSkillInstance();
+            dragSkill.CreateSkillInstance(childIndex);
         }
     }
 

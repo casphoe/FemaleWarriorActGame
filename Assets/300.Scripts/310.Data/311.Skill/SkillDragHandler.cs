@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //액티브 스킬 드래그 해주는 함수
@@ -11,14 +10,16 @@ public class SkillDragHandler : MonoBehaviour
 
     Image skillImage;
     [SerializeField] GameObject dragSkillObject;
+    [SerializeField] GameObject slotOption;
 
     void Awake()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         skillImage = transform.GetChild(0).GetComponent<Image>();
+        slotOption = canvas.transform.GetChild(6).gameObject;
     }
 
-    public void CreateSkillInstance()
+    public void CreateSkillInstance(int _index)
     {
         if (dragSkillObject != null)
         {
@@ -31,7 +32,7 @@ public class SkillDragHandler : MonoBehaviour
 
             // 클릭한 버튼의 이미지 적용 (스킬 아이콘)
             skillInstance.transform.GetChild(0).GetComponent<Image>().sprite = skillImage.sprite;
-            skillInstance.transform.GetComponent<DragHander>().IsStart(true, canvas, skillRectTransform);
+            skillInstance.transform.GetComponent<DragHander>().Init(canvas, skillRectTransform, SkillSetting.instance.skillPanelList[_index].nameKor, slotOption);
         }
     }
 }
