@@ -4,13 +4,13 @@ using UnityEngine.UI;
 //액티브 스킬 드래그 해주는 함수
 public class SkillDragHandler : MonoBehaviour
 {
-    GameObject skillInstance; // 생성된 스킬 아이콘 오브젝트
+    public GameObject skillInstance; // 생성된 스킬 아이콘 오브젝트
     RectTransform skillRectTransform;
     Canvas canvas;
 
     Image skillImage;
     [SerializeField] GameObject dragSkillObject;
-    [SerializeField] GameObject slotOption;
+    public GameObject slotOption;
 
     void Awake()
     {
@@ -24,7 +24,7 @@ public class SkillDragHandler : MonoBehaviour
         if (dragSkillObject != null)
         {
             // 새로운 오브젝트 생성
-            GameObject skillInstance = Instantiate(dragSkillObject, canvas.transform);
+            skillInstance = Instantiate(dragSkillObject, canvas.transform);
             RectTransform skillRectTransform = skillInstance.GetComponent<RectTransform>();
 
             // 클릭한 버튼의 World Position을 그대로 적용

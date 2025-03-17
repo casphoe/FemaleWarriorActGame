@@ -382,9 +382,22 @@ public class SkillPrefab : MonoBehaviour
                         if (SkillSetting.instance.skillPanelList[childIndex].level == SkillLevel.zero)
                         {
                             btnLevel[0].interactable = false;
+                            if(dragSkill.skillInstance != null)
+                            {
+                                Destroy(dragSkill.skillInstance.gameObject);
+                            }
+
+                           
+                            for(int i = 0; i < SkillPanel.instance.skillSlotList.Count; i++)
+                            {
+                                if (SkillPanel.instance.skillSlotList[i].skillName == SkillSetting.instance.skillPanelList[childIndex].nameKor)
+                                {
+                                    SkillPanel.instance.skillSlotList[i].SkillUIZero();
+                                }
+                            }
                         }
                         btnLevel[1].interactable = true;
-                        break;
+                        break;                 
                 }
                 break;
             case 1:

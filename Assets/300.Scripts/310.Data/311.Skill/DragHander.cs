@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     bool isDragging = false;
@@ -15,6 +16,8 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
     string setSkillName = string.Empty;
 
     public GameObject _slotOption;
+
+    SkillSlot _skillSlot;
 
     void Awake()
     {
@@ -67,8 +70,8 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 //accquisitionSkillDataList 에서 등록된 스킬 찾기
                 SkillData skillToEquip = PlayerManager.instance.player.skill.accquisitionSkillDataList.Find(skill => skill.nameKor == setSkillName);
-
-                if(skillToEquip != null)
+                _skillSlot = result.gameObject.GetComponent<SkillSlot>();
+                if (skillToEquip != null)
                 {
                     SkillEquipPosition newPosition = GetSkillEquipPosition(result.gameObject.transform.name);
 
@@ -117,6 +120,7 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
             Transform slotTransform = _slotOption.transform.GetChild(slotIndex).transform.GetChild(0);
             slotTransform.GetComponent<Image>().sprite = null;
             Utils.OnOff(slotTransform.gameObject, false);
+            _skillSlot.skillName = string.Empty;
         }
     }
 
@@ -126,6 +130,7 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
         Transform slotTransform = slot.transform.GetChild(0);
         slotTransform.gameObject.SetActive(true);
         slotTransform.GetComponent<Image>().sprite = skillSprite;
+        _skillSlot.skillName = setSkillName;
     }
 
     // SkillEquipPosition 값에 따라 해당하는 슬롯 인덱스 반환

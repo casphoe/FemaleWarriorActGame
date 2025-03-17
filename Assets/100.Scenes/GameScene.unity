@@ -5719,7 +5719,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &184499576
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,7 +6600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &213940141
 GameObject:
   m_ObjectHideFlags: 0
@@ -12850,6 +12854,7 @@ GameObject:
   - component: {fileID: 425263848}
   - component: {fileID: 425263850}
   - component: {fileID: 425263849}
+  - component: {fileID: 425263851}
   m_Layer: 5
   m_Name: Slot_3
   m_TagString: SkillSlot
@@ -12915,6 +12920,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425263847}
   m_CullTransparentMesh: 1
+--- !u!114 &425263851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425263847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95be95c27bf3142bdb143026fe53b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: 
 --- !u!1 &426189258
 GameObject:
   m_ObjectHideFlags: 0
@@ -18432,7 +18450,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &625588289
 GameObject:
   m_ObjectHideFlags: 0
@@ -19927,6 +19947,7 @@ GameObject:
   - component: {fileID: 673528268}
   - component: {fileID: 673528270}
   - component: {fileID: 673528269}
+  - component: {fileID: 673528271}
   m_Layer: 5
   m_Name: Slot_6
   m_TagString: SkillSlot
@@ -19992,6 +20013,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673528267}
   m_CullTransparentMesh: 1
+--- !u!114 &673528271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673528267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95be95c27bf3142bdb143026fe53b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: 
 --- !u!1 &673775938
 GameObject:
   m_ObjectHideFlags: 0
@@ -21345,7 +21379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &720062516
 GameObject:
   m_ObjectHideFlags: 0
@@ -24021,7 +24057,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &835263814
 GameObject:
   m_ObjectHideFlags: 0
@@ -34357,7 +34395,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &1075379018
 GameObject:
   m_ObjectHideFlags: 0
@@ -36161,7 +36201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &1162105890
 GameObject:
   m_ObjectHideFlags: 0
@@ -37152,6 +37194,7 @@ GameObject:
   - component: {fileID: 1172266949}
   - component: {fileID: 1172266951}
   - component: {fileID: 1172266950}
+  - component: {fileID: 1172266952}
   m_Layer: 5
   m_Name: Slot_2
   m_TagString: SkillSlot
@@ -37217,6 +37260,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172266948}
   m_CullTransparentMesh: 1
+--- !u!114 &1172266952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172266948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95be95c27bf3142bdb143026fe53b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: 
 --- !u!1 &1180038615
 GameObject:
   m_ObjectHideFlags: 0
@@ -37669,6 +37725,7 @@ GameObject:
   - component: {fileID: 1196919278}
   - component: {fileID: 1196919280}
   - component: {fileID: 1196919279}
+  - component: {fileID: 1196919281}
   m_Layer: 5
   m_Name: Slot_5
   m_TagString: SkillSlot
@@ -37734,6 +37791,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196919277}
   m_CullTransparentMesh: 1
+--- !u!114 &1196919281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196919277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95be95c27bf3142bdb143026fe53b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: 
 --- !u!1 &1200542751
 GameObject:
   m_ObjectHideFlags: 0
@@ -38313,7 +38383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &1219318627
 GameObject:
   m_ObjectHideFlags: 0
@@ -46709,7 +46781,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &1530049733
 GameObject:
   m_ObjectHideFlags: 0
@@ -47249,6 +47323,12 @@ MonoBehaviour:
   - {fileID: 548135361}
   - {fileID: 1525430394}
   blinkDuration: 0.5
+  skillSlotList:
+  - {fileID: 1172266952}
+  - {fileID: 425263851}
+  - {fileID: 1767800618}
+  - {fileID: 1196919281}
+  - {fileID: 673528271}
 --- !u!114 &1530510612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48933,7 +49013,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!1 &1583546136
 GameObject:
   m_ObjectHideFlags: 0
@@ -54516,6 +54598,7 @@ GameObject:
   - component: {fileID: 1767800615}
   - component: {fileID: 1767800617}
   - component: {fileID: 1767800616}
+  - component: {fileID: 1767800618}
   m_Layer: 5
   m_Name: Slot_4
   m_TagString: SkillSlot
@@ -54581,6 +54664,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767800614}
   m_CullTransparentMesh: 1
+--- !u!114 &1767800618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767800614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95be95c27bf3142bdb143026fe53b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: 
 --- !u!1 &1769933068
 GameObject:
   m_ObjectHideFlags: 0
@@ -65391,7 +65487,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1fb895a306c7469e47125f5166eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillInstance: {fileID: 0}
   dragSkillObject: {fileID: 643729359019451349, guid: 5684d62e7ed791843b1fa17d0372a08b, type: 3}
+  slotOption: {fileID: 0}
 --- !u!224 &6708789965800189976
 RectTransform:
   m_ObjectHideFlags: 0

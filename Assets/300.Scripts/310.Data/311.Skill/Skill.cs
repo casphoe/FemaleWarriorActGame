@@ -156,7 +156,7 @@ public class Skill
         if (skill.level == SkillLevel.zero)
         {
             //해당 스킬만 리스트에서 제거
-            accquisitionSkillDataList.RemoveAll(s => s == skill);
+            accquisitionSkillDataList.RemoveAll(s => s == skill);         
         }
 
         return 2;

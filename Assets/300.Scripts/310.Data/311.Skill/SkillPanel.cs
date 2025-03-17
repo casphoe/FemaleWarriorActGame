@@ -32,6 +32,8 @@ public class SkillPanel : MonoBehaviour
     bool[] isSkillPageSelect = new bool[2];
     bool[] isSkillSelect;
 
+    public List<SkillSlot> skillSlotList = new List<SkillSlot>();
+
     public static SkillPanel instance;
 
     private void Awake()
