@@ -16,7 +16,7 @@ public class SkillDragHandler : MonoBehaviour
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         skillImage = transform.GetChild(0).GetComponent<Image>();
-        slotOption = canvas.transform.GetChild(6).gameObject;
+        slotOption = canvas.transform.GetChild(5).gameObject;
     }
 
     public void CreateSkillInstance(int _index)
