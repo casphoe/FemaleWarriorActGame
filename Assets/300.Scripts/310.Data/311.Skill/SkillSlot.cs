@@ -44,38 +44,77 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
     {
         if (skillName != string.Empty)
         {
-            switch (index)
+            if(skillName == "다운어택")
             {
-                case 2:
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
-                    {
-                        Debug.Log(2);
-                    }
-                    break;
-                case 3:
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
-                    {
-                        Debug.Log(3);
-                    }
-                    break;
-                case 4:
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
-                    {
+                switch (index)
+                {
+                    case 2:
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        {
 
-                    }
-                    break;
-                case 5:
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
-                    {
+                        }
+                        break;
+                    case 3:
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        {
 
-                    }
-                    break;
-                case 6:
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
-                    {
+                        }
+                        break;
+                    case 4:
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        {
 
-                    }
-                    break;
+                        }
+                        break;
+                    case 5:
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        {
+
+                        }
+                        break;
+                    case 6:
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        {
+
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                switch (index)
+                {
+                    case 2:
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        {
+
+                        }
+                        break;
+                    case 3:
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        {
+
+                        }
+                        break;
+                    case 4:
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        {
+
+                        }
+                        break;
+                    case 5:
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        {
+
+                        }
+                        break;
+                    case 6:
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        {
+
+                        }
+                        break;
+                }
             }
         }
     }

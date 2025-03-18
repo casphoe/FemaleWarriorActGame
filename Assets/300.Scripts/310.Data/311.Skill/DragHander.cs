@@ -129,7 +129,20 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         Transform slotTransform = slot.transform.GetChild(0);
         slotTransform.gameObject.SetActive(true);
-        slotTransform.GetComponent<Image>().sprite = skillSprite;
+        Image imageComponent = slotTransform.GetComponent<Image>();
+
+        imageComponent.sprite = skillSprite;
+
+        imageComponent.type = Image.Type.Filled;
+
+        imageComponent.fillMethod = Image.FillMethod.Radial360;
+
+        imageComponent.fillOrigin = (int)Image.Origin360.Bottom; //Bottom 방향
+
+        imageComponent.fillAmount = 1.0f;
+
+        imageComponent.fillClockwise = true; //시계 방향으로 가득 채우기
+
         _skillSlot.skillName = setSkillName;
     }
 

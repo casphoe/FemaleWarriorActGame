@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     public bool isInventroy = false;
     public bool isEquipment = false;
     public bool isSkillPage = false;
+    public bool isDownAttacking = false;
 
     //0 : buy, 1 : 판매
     public int selectShop = -1;
@@ -75,5 +76,15 @@ public class PlayerManager : MonoBehaviour
                 break;        
         }
         GameCanvas.instance.SliderEquipChange();
+    }
+
+    public void StartDownAttack()
+    {
+        if(isGround == true)
+        {
+            if (!isDownAttacking)
+                isDownAttacking = true;
+
+        }
     }
 }
