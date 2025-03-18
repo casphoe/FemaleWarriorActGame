@@ -10,6 +10,9 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
     int slotIndex = 0;
 
     Image img;
+
+    public float skillCoolTime =  -Mathf.Infinity;
+
     private void Awake()
     {
         img = transform.GetChild(0).GetComponent<Image>();
@@ -46,36 +49,38 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
         {
             if(skillName == "다운어택")
             {
+                SkillData downAttack = PlayerManager.instance.player.skill.accquisitionSkillDataList.Find(skill => skill.nameKor == skillName);
+
                 switch (index)
                 {
                     case 2:
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
                         {
-
+                            DownAttackInputSetting(index, downAttack);                         
                         }
                         break;
                     case 3:
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
                         {
-
+                            DownAttackInputSetting(index, downAttack);
                         }
                         break;
                     case 4:
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
                         {
-
+                            DownAttackInputSetting(index, downAttack);
                         }
                         break;
                     case 5:
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
                         {
-
+                            DownAttackInputSetting(index, downAttack);
                         }
                         break;
                     case 6:
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
                         {
-
+                            DownAttackInputSetting(index, downAttack);
                         }
                         break;
                 }
@@ -117,6 +122,33 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                 }
             }
         }
+    }
+
+    void DownAttackInputSetting(int index, SkillData _downattack)
+    {
+        if (Player.instance.currentStamina >= _downattack.StaminaConsumption && Time.time >= skillCoolTime + _downattack.coolTime && PlayerManager.instance.isGround == true)
+        {
+            Player.instance.currentStamina -= _downattack.StaminaConsumption;
+            GameCanvas.instance.SliderChange(1, 1, _downattack.StaminaConsumption);
+            Player.instance.downAttackTrajectory.DownAttackStat(_downattack.attackMovePoint, _downattack.attackRange);
+
+            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
+            PlayerManager.instance.isDownAttacking = true;
+            Player.instance.downAttackTrajectory.StartTrajectory();
+            StartCoroutine(UpdateCooldownUI(_downattack.coolTime));
+        }
+    }
+
+    IEnumerator UpdateCooldownUI(float cooldown)
+    {
+        float elapsed = 0f; // 경과 시간
+        while (elapsed < cooldown)
+        {
+            elapsed = Time.time - skillCoolTime;
+            img.fillAmount = Mathf.Clamp01(elapsed / cooldown); // 0 → 1로 증가
+            yield return null; // 한 프레임 대기 후 다시 실행
+        }
+        img.fillAmount = 1f; // 쿨다운 종료 후 완전히 차도록 설정
     }
 
     public void SkillUIZero()

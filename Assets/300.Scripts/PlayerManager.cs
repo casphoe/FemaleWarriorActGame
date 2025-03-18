@@ -77,14 +77,4 @@ public class PlayerManager : MonoBehaviour
         }
         GameCanvas.instance.SliderEquipChange();
     }
-
-    public void StartDownAttack()
-    {
-        if(isGround == true)
-        {
-            if (!isDownAttacking)
-                isDownAttacking = true;
-
-        }
-    }
 }

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public float jumpSpeed;
     //0 : 체력 포션 쿨타임, 1 : 스태미나 포션 쿨타임
-    public float[] shortKeyCoolTime = new float[7];
+    public float[] shortKeyCoolTime = new float[2];
     //0 : 대시 쿨타임, 1 : 스태미나 회복 쿨타임, 2 : 체력 회복 쿨타임,3 : 점프 쿨타임, 4 : 공격 쿨타임, 
     public float[] CoolTime = new float[5];
 
@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
 
     public float currentStamina;
     public float currentHp;
+
+    public DownAttackTrajectory downAttackTrajectory;
     public int currentMapNum;
 
     public static Player instance;
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour
         currentStamina = PlayerManager.instance.player.stamina;
         instance = this;
         PlayerManager.instance.isGround = true;
+        downAttackTrajectory = GetComponent<DownAttackTrajectory>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
     }
 
@@ -68,7 +71,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false)
+        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
         {           
             Move();
             Dash();
