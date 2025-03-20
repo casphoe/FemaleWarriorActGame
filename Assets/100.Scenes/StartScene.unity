@@ -11493,7 +11493,8 @@ MonoBehaviour:
     critcleRate: 0
     critcleDmg: 0
     stamina: 0
-    staminaReproduction: 0
+    staminaAutoRestoration: 0
+    hpAutoRestoration: 0
     money: 0
     skillCount: 0
     slotNum: 0
@@ -11526,6 +11527,8 @@ MonoBehaviour:
   isState: 0
   isInventroy: 0
   isEquipment: 0
+  isSkillPage: 0
+  isDownAttacking: 0
   selectShop: -1
   shopNum: -1
   itemShopNum: -1

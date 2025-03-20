@@ -640,8 +640,8 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.one, new Dictionary<string, float>
                 {
                     {"damage", 1.5f },
-                    {"attackRange", 0.5f },
-                    {"attackMovePoint", 0.5f},
+                    {"attackRange", 2 },
+                    {"attackMovePoint", 3},
                     {"acquisitionPoints",4 },
                     {"coolTime", 30 },
                     {"StaminaConsumption", 20 }
@@ -651,8 +651,8 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.two, new Dictionary<string, float>
                 {
                     {"damage", 3 },
-                    {"attackRange", 1 },
-                    {"attackMovePoint", 1},
+                    {"attackRange", 2.5f },
+                    {"attackMovePoint", 3.5f},
                     {"acquisitionPoints",8 },
                     {"coolTime", 25 },
                     {"StaminaConsumption", 25 }
@@ -662,8 +662,8 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.three, new Dictionary<string, float>
                 {
                     {"damage", 4.5f },
-                    {"attackRange", 1.5f },
-                    {"attackMovePoint", 1.5f},
+                    {"attackRange", 3f },
+                    {"attackMovePoint", 4},
                     {"acquisitionPoints",12 },
                     {"coolTime", 20 },
                     {"StaminaConsumption",30 }
@@ -673,8 +673,8 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.four, new Dictionary<string, float>
                 {
                     {"damage", 6 },
-                    {"attackRange", 2 },
-                    {"attackMovePoint", 2},
+                    {"attackRange", 3.5f },
+                    {"attackMovePoint", 4.5f},
                     {"acquisitionPoints",16 },
                     {"coolTime", 15 },
                     {"StaminaConsumption",35 }
@@ -684,8 +684,8 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.five, new Dictionary<string, float>
                 {
                     {"damage", 7.5f },
-                    {"attackRange", 2.5f },
-                    {"attackMovePoint", 2.5f},
+                    {"attackRange", 4 },
+                    {"attackMovePoint", 5},
                     {"acquisitionPoints",20 },
                     {"coolTime", 10 },
                     {"StaminaConsumption",40 }
@@ -939,35 +939,35 @@ public class SkillSetting : MonoBehaviour
                 SkillLevel.one , new Dictionary<string, float>
                 {
                     {"acquisitionPoints",5 },
-                    {"attackMovePoint", 0.1f},
+                    {"attackMovePoint", 0.2f},
                 }
             },
             {
                 SkillLevel.two, new Dictionary<string, float>
                 {
                     {"acquisitionPoints",10 },
-                    {"attackMovePoint", 0.2f},
+                    {"attackMovePoint", 0.4f},
                 }
             },
             {
                 SkillLevel.three, new Dictionary<string, float>
                 {
                     {"acquisitionPoints",15 },
-                    {"attackMovePoint", 0.3f},
+                    {"attackMovePoint", 0.6f},
                 }
             },
             {
                 SkillLevel.four, new Dictionary<string, float>
                 {
                     {"acquisitionPoints",20},
-                    {"attackMovePoint", 0.4f},
+                    {"attackMovePoint", 0.8f},
                 }
             },
             {
                 SkillLevel.five, new Dictionary<string, float>
                 {
                     {"acquisitionPoints",20},
-                    {"attackMovePoint", 0.5f},
+                    {"attackMovePoint", 1f},
                 }
             }         
         };

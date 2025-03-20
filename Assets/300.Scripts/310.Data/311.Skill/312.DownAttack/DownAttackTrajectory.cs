@@ -6,10 +6,9 @@ public class DownAttackTrajectory : MonoBehaviour
 {
     private LineRenderer trajectoryRenderer; //포물선 라인랜더러
     private Transform player;
-    private LineRenderer landingCircleRenderer; //착지 지점 원 라인 렌더러
+    private SpriteRenderer landingCircleSprite; //착지 지점 원 라인 렌더러
 
     Vector3 landingPoint;
-    private Vector3 targetPosition;
     float gravity = 9.8f;
     //최대 이동거리
     private float maxMoveDistance = 0;
@@ -22,20 +21,14 @@ public class DownAttackTrajectory : MonoBehaviour
     {
         player = this.transform;
         trajectoryRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
-        landingCircleRenderer = transform.GetChild(0).GetComponent<LineRenderer>();
+        landingCircleSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         trajectoryRenderer.positionCount = 0;
-        landingCircleRenderer.positionCount = 0;
 
         trajectoryRenderer.material = new Material(Shader.Find("Sprites/Default"));
         trajectoryRenderer.widthMultiplier = 0.1f;   // 두께 조정
         trajectoryRenderer.startColor = Color.red;   // 포물선 색상: 파란색
         trajectoryRenderer.endColor = Color.red;     // 끝 색상: 빨간색
-
-        landingCircleRenderer.material = new Material(Shader.Find("Sprites/Default"));
-
-        landingCircleRenderer.widthMultiplier = 1;   // 두께 조정
-        landingCircleRenderer.startColor = new Color(1, 0, 0, 0.6f);
-        landingCircleRenderer.endColor = new Color(1, 0, 0, 0.15f);
+        Utils.OnOff(landingCircleSprite.gameObject, false);
     }
 
     //다운어택 스텟 가져오는 함수
@@ -43,18 +36,22 @@ public class DownAttackTrajectory : MonoBehaviour
     {
         attackRadius = Radius;
         maxMoveDistance = maxDistance;
+        Utils.OnOff(landingCircleSprite.gameObject, true);
+    }
+
+    Vector3 FindGroundPoint(Vector3 startPoint)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, Vector2.down, 10f, LayerMask.GetMask("Ground"));
+        return hit.collider != null ? hit.point : startPoint;
     }
 
     public void StartTrajectory()
     {
         //최대 이동거리로 설정
-        attackSpeed = Mathf.Sqrt(2 * gravity * maxMoveDistance);
-
-        // 최대 이동거리로 목표 지점 설정
-        targetPosition = player.position + new Vector3(maxMoveDistance, 0, 0);
+        Vector3 groundPoint = FindGroundPoint(player.position + new Vector3(maxMoveDistance, 0, 0));
 
         // 포물선 그리기 및 착지 지점 원 그리기
-        Vector3 landingPoint = DrawTrajectory(targetPosition);
+        Vector3 landingPoint = DrawTrajectory(groundPoint);
         DrawLandingCircle(landingPoint);
     }
     //포물선 그리기
@@ -62,46 +59,31 @@ public class DownAttackTrajectory : MonoBehaviour
     {
         trajectoryRenderer.positionCount = trajectoryResolution;
 
-        Vector3 startPosition = player.position;
-        Vector3 velocity = new Vector3(maxMoveDistance, 0, 0).normalized * attackSpeed; // X축으로 이동
+        Vector3 startPosition = player.transform.GetChild(1).position;
+        Vector3 endPosition = target; // 무조건 maxMoveDistance까지 이동
+        Vector3 midPosition = (startPosition + endPosition) / 2 + new Vector3(0, maxMoveDistance * 0.5f, 0); // 가운데 높이 조정
 
         List<Vector3> points = new List<Vector3>();
-        Vector3 lastPoint = startPosition; // 마지막 점 저장용
 
-        for (int i = 0; i < trajectoryResolution; i++)
+        for (int i = 0; i <= trajectoryResolution; i++)
         {
-            float t = i * 0.1f;
-            float x = startPosition.x + velocity.x * t;
-            float y = startPosition.y + velocity.y * t - 0.5f * gravity * t * t;
-            Vector3 point = new Vector3(x, y, 0);
+            float t = i / (float)trajectoryResolution; // 0 ~ 1 사이의 값
+            Vector3 point = (1 - t) * (1 - t) * startPosition + 2 * (1 - t) * t * midPosition + t * t * endPosition;
             points.Add(point);
-            lastPoint = point; // 마지막 점 저장
         }
 
         trajectoryRenderer.SetPositions(points.ToArray());
-        return lastPoint; // 포물선 끝점 반환
+        return endPosition; // 포물선 끝점 반환s
     }
 
-    void DrawLandingCircle(Vector3 target)
+    void DrawLandingCircle(Vector3 landingPoint)
     {
-        landingCircleRenderer.positionCount = circleResolution + 1;
-        landingCircleRenderer.useWorldSpace = true; // ✅ 월드 좌표 기준으로 그리기
+        landingCircleSprite.transform.position = landingPoint; //  착지 원 위치 조정
+        landingCircleSprite.transform.rotation = Quaternion.identity; 
 
-        float angleStep = 360f / circleResolution;
-        Vector3[] circlePoints = new Vector3[circleResolution + 1];
-
-        // 🌟 원의 중심을 정확히 착지 지점에 맞추기
-        Vector3 circleCenter = new Vector3(landingPoint.x, landingPoint.y - attackRadius, 0);
-
-        for (int i = 0; i <= circleResolution; i++)
-        {
-            float angle = i * angleStep * Mathf.Deg2Rad;
-            float x = circleCenter.x + Mathf.Cos(angle) * attackRadius; // ✅ X 위치는 원의 중심을 기준으로 회전
-            float y = circleCenter.y + Mathf.Sin(angle) * attackRadius; // ✅ Y 위치는 착지 위치 기준으로 회전
-            circlePoints[i] = new Vector3(x, y, 0);
-        }
-
-        landingCircleRenderer.SetPositions(circlePoints);
+        //  원 크기 설정 (DrawMode를 `Tiled`로 설정해야 함)
+        landingCircleSprite.drawMode = SpriteDrawMode.Tiled;
+        landingCircleSprite.size = new Vector2(attackRadius * 2, attackRadius * 2);
     }
 
     //다운어택 타겟 위치로 이동시키는 함수
