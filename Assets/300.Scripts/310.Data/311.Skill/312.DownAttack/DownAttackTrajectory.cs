@@ -6,7 +6,6 @@ public class DownAttackTrajectory : MonoBehaviour
 {
     private LineRenderer trajectoryRenderer; //포물선 라인랜더러
     private Transform player;
-    private SpriteRenderer landingCircleSprite; //착지 지점 원 라인 렌더러
 
     Vector3 landingPoint;
     float gravity = 9.8f;
@@ -20,15 +19,13 @@ public class DownAttackTrajectory : MonoBehaviour
     private void Awake()
     {
         player = this.transform;
-        trajectoryRenderer = transform.GetChild(1).GetComponent<LineRenderer>();
-        landingCircleSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        trajectoryRenderer = transform.GetChild(0).GetComponent<LineRenderer>();
         trajectoryRenderer.positionCount = 0;
 
         trajectoryRenderer.material = new Material(Shader.Find("Sprites/Default"));
         trajectoryRenderer.widthMultiplier = 0.1f;   // 두께 조정
         trajectoryRenderer.startColor = Color.red;   // 포물선 색상: 파란색
         trajectoryRenderer.endColor = Color.red;     // 끝 색상: 빨간색
-        Utils.OnOff(landingCircleSprite.gameObject, false);
     }
 
     //다운어택 스텟 가져오는 함수
@@ -36,7 +33,6 @@ public class DownAttackTrajectory : MonoBehaviour
     {
         attackRadius = Radius;
         maxMoveDistance = maxDistance;
-        Utils.OnOff(landingCircleSprite.gameObject, true);
     }
 
     Vector3 FindGroundPoint(Vector3 startPoint)
@@ -52,7 +48,6 @@ public class DownAttackTrajectory : MonoBehaviour
 
         // 포물선 그리기 및 착지 지점 원 그리기
         Vector3 landingPoint = DrawTrajectory(groundPoint);
-        DrawLandingCircle(landingPoint);
     }
     //포물선 그리기
     Vector3 DrawTrajectory(Vector3 target)
@@ -74,16 +69,6 @@ public class DownAttackTrajectory : MonoBehaviour
 
         trajectoryRenderer.SetPositions(points.ToArray());
         return endPosition; // 포물선 끝점 반환s
-    }
-
-    void DrawLandingCircle(Vector3 landingPoint)
-    {
-        landingCircleSprite.transform.position = landingPoint; //  착지 원 위치 조정
-        landingCircleSprite.transform.rotation = Quaternion.identity; 
-
-        //  원 크기 설정 (DrawMode를 `Tiled`로 설정해야 함)
-        landingCircleSprite.drawMode = SpriteDrawMode.Tiled;
-        landingCircleSprite.size = new Vector2(attackRadius * 2, attackRadius * 2);
     }
 
     //다운어택 타겟 위치로 이동시키는 함수
