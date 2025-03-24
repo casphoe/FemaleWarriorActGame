@@ -13,6 +13,8 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
 
     public float skillCoolTime =  -Mathf.Infinity;
 
+    bool isCharging = false;
+
     private void Awake()
     {
         img = transform.GetChild(0).GetComponent<Image>();
@@ -58,103 +60,208 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                 switch (index)
                 {
                     case 2:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
+                        var key = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3];
+
+                        // DOWN - 스킬 시작 조건 체크
+                        if (Input.GetKeyDown(key) && !isCharging)
                         {
-                            DownAttackInputSetting(index, downAttack);                         
+                            if (Time.time >= skillCoolTime + downAttack.coolTime &&
+                                Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                                PlayerManager.instance.isGround)
+                            {
+                                isCharging = true;
+
+                                Player.instance.currentStamina -= downAttack.StaminaConsumption;
+                                GameCanvas.instance.SliderChange(1, 1, downAttack.StaminaConsumption);
+                                Player.instance.downAttackTrajectory.DownAttackStat(downAttack.attackMovePoint, downAttack.attackRange);
+                                Player.instance.downAttackTrajectory.StartTrajectory();
+
+                                PlayerManager.instance.isDownAttacking = true;
+                            }
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
+                        // HOLD - 마우스 위치로 라인 이동
+                        if (isCharging && Input.GetKey(key))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
+                        // UP - 스킬 발동
+                        if (isCharging && Input.GetKeyUp(key))
                         {
+                            isCharging = false;
                             PlayerManager.instance.isAiming = false;
-                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            skillCoolTime = Time.time;
+
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+
+                            PlayerManager.instance.isDownAttacking = false;
                         }
                         break;
                     case 3:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
+                        var key2 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4];
+
+                        // DOWN - 스킬 시작 조건 체크
+                        if (Input.GetKeyDown(key2) && !isCharging)
                         {
-                            DownAttackInputSetting(index, downAttack);
+                            if (Time.time >= skillCoolTime + downAttack.coolTime &&
+                                Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                                PlayerManager.instance.isGround)
+                            {
+                                isCharging = true;
+
+                                Player.instance.currentStamina -= downAttack.StaminaConsumption;
+                                GameCanvas.instance.SliderChange(1, 1, downAttack.StaminaConsumption);
+                                Player.instance.downAttackTrajectory.DownAttackStat(downAttack.attackMovePoint, downAttack.attackRange);
+                                Player.instance.downAttackTrajectory.StartTrajectory();
+
+                                PlayerManager.instance.isDownAttacking = true;
+                            }
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
+                        // HOLD - 마우스 위치로 라인 이동
+                        if (isCharging && Input.GetKey(key2))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
+                        // UP - 스킬 발동
+                        if (isCharging && Input.GetKeyUp(key2))
                         {
+                            isCharging = false;
                             PlayerManager.instance.isAiming = false;
-                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            skillCoolTime = Time.time;
+
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+
+                            PlayerManager.instance.isDownAttacking = false;
                         }
                         break;
                     case 4:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
+                        var key3 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5];
+
+                        // DOWN - 스킬 시작 조건 체크
+                        if (Input.GetKeyDown(key3) && !isCharging)
                         {
-                            DownAttackInputSetting(index, downAttack);
+                            if (Time.time >= skillCoolTime + downAttack.coolTime &&
+                                Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                                PlayerManager.instance.isGround)
+                            {
+                                isCharging = true;
+
+                                Player.instance.currentStamina -= downAttack.StaminaConsumption;
+                                GameCanvas.instance.SliderChange(1, 1, downAttack.StaminaConsumption);
+                                Player.instance.downAttackTrajectory.DownAttackStat(downAttack.attackMovePoint, downAttack.attackRange);
+                                Player.instance.downAttackTrajectory.StartTrajectory();
+
+                                PlayerManager.instance.isDownAttacking = true;
+                            }
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
+                        // HOLD - 마우스 위치로 라인 이동
+                        if (isCharging && Input.GetKey(key3))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
+                        // UP - 스킬 발동
+                        if (isCharging && Input.GetKeyUp(key3))
                         {
+                            isCharging = false;
                             PlayerManager.instance.isAiming = false;
-                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            skillCoolTime = Time.time;
+
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+
+                            PlayerManager.instance.isDownAttacking = false;
                         }
                         break;
                     case 5:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
+                        var key4 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6];
+
+                        // DOWN - 스킬 시작 조건 체크
+                        if (Input.GetKeyDown(key4) && !isCharging)
                         {
-                            DownAttackInputSetting(index, downAttack);
+                            if (Time.time >= skillCoolTime + downAttack.coolTime &&
+                                Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                                PlayerManager.instance.isGround)
+                            {
+                                isCharging = true;
+
+                                Player.instance.currentStamina -= downAttack.StaminaConsumption;
+                                GameCanvas.instance.SliderChange(1, 1, downAttack.StaminaConsumption);
+                                Player.instance.downAttackTrajectory.DownAttackStat(downAttack.attackMovePoint, downAttack.attackRange);
+                                Player.instance.downAttackTrajectory.StartTrajectory();
+
+                                PlayerManager.instance.isDownAttacking = true;
+                            }
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
+                        // HOLD - 마우스 위치로 라인 이동
+                        if (isCharging && Input.GetKey(key4))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
+                        // UP - 스킬 발동
+                        if (isCharging && Input.GetKeyUp(key4))
                         {
+                            isCharging = false;
                             PlayerManager.instance.isAiming = false;
-                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            skillCoolTime = Time.time;
+
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+
+                            PlayerManager.instance.isDownAttacking = false;
                         }
                         break;
                     case 6:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
+                        var key5 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7];
+
+                        // DOWN - 스킬 시작 조건 체크
+                        if (Input.GetKeyDown(key5) && !isCharging)
                         {
-                            DownAttackInputSetting(index, downAttack);
+                            if (Time.time >= skillCoolTime + downAttack.coolTime &&
+                                Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                                PlayerManager.instance.isGround)
+                            {
+                                isCharging = true;
+
+                                Player.instance.currentStamina -= downAttack.StaminaConsumption;
+                                GameCanvas.instance.SliderChange(1, 1, downAttack.StaminaConsumption);
+                                Player.instance.downAttackTrajectory.DownAttackStat(downAttack.attackMovePoint, downAttack.attackRange);
+                                Player.instance.downAttackTrajectory.StartTrajectory();
+
+                                PlayerManager.instance.isDownAttacking = true;
+                            }
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
+                        // HOLD - 마우스 위치로 라인 이동
+                        if (isCharging && Input.GetKey(key5))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
+                        // UP - 스킬 발동
+                        if (isCharging && Input.GetKeyUp(key5))
                         {
+                            isCharging = false;
                             PlayerManager.instance.isAiming = false;
-                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            skillCoolTime = Time.time;
+
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+
+                            PlayerManager.instance.isDownAttacking = false;
                         }
                         break;
                 }
