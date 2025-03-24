@@ -143,7 +143,15 @@ public class DownAttackTrajectory : MonoBehaviour
 
         Player.instance.rb.gravityScale = originalGravity;
 
-        // TODO: 이곳에 충돌 처리나 공격 로직 추가
+        PlayerManager.instance.isDownAttacking = false;
 
+        // TODO: 이곳에 충돌 처리나 공격 로직 추가
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(target, attackRadius, Player.instance.enemyLayer);
+
+
+        foreach (Collider2D enemyCol in hitEnemies)
+        {
+
+        }
     }
 }
