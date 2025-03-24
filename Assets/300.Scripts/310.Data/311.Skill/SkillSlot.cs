@@ -58,11 +58,37 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         {
                             DownAttackInputSetting(index, downAttack);                         
                         }
+
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        {
+                            PlayerManager.instance.isAiming = true;
+                            Player.instance.downAttackTrajectory.MoveTrajectory();
+                        }
+
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        {
+                            PlayerManager.instance.isAiming = false;
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+                        }
                         break;
                     case 3:
                         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
                         {
                             DownAttackInputSetting(index, downAttack);
+                        }
+
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        {
+                            PlayerManager.instance.isAiming = true;
+                            Player.instance.downAttackTrajectory.MoveTrajectory();
+                        }
+
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        {
+                            PlayerManager.instance.isAiming = false;
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                     case 4:
@@ -70,17 +96,56 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
+
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        {
+                            PlayerManager.instance.isAiming = true;
+                            Player.instance.downAttackTrajectory.MoveTrajectory();
+                        }
+
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        {
+                            PlayerManager.instance.isAiming = false;
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+                        }
                         break;
                     case 5:
                         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
+
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        {
+                            PlayerManager.instance.isAiming = true;
+                            Player.instance.downAttackTrajectory.MoveTrajectory();
+                        }
+
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        {
+                            PlayerManager.instance.isAiming = false;
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
+                        }
                         break;
                     case 6:
                         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
                         {
                             DownAttackInputSetting(index, downAttack);
+                        }
+
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        {
+                            PlayerManager.instance.isAiming = true;
+                            Player.instance.downAttackTrajectory.MoveTrajectory();
+                        }
+
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        {
+                            PlayerManager.instance.isAiming = false;
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
+                            StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                 }
@@ -134,8 +199,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
 
             skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
             PlayerManager.instance.isDownAttacking = true;
-            Player.instance.downAttackTrajectory.StartTrajectory();
-            StartCoroutine(UpdateCooldownUI(_downattack.coolTime));
+            Player.instance.downAttackTrajectory.StartTrajectory();        
         }
     }
 

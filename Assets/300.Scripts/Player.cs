@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public List<Vector2> minLimitList = new List<Vector2>();
     public List<Vector2> maxLimitList = new List<Vector2>();
 
-    private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer render;
     private BoxCollider2D boxCollider;
@@ -35,9 +34,12 @@ public class Player : MonoBehaviour
 
     public float currentStamina;
     public float currentHp;
+    public Rigidbody2D rb;
 
     public DownAttackTrajectory downAttackTrajectory;
     public int currentMapNum;
+
+    public LayerMask enemyLayer;
 
     public static Player instance;
 
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
         currentHp = PlayerManager.instance.player.hp;
         currentStamina = PlayerManager.instance.player.stamina;
         instance = this;
+        enemyLayer = LayerMask.GetMask("Enemy");
         PlayerManager.instance.isGround = true;
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;

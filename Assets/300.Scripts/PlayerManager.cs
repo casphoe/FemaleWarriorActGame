@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     public bool isEquipment = false;
     public bool isSkillPage = false;
     public bool isDownAttacking = false;
+    public bool isAiming = false;
 
     //0 : buy, 1 : 판매
     public int selectShop = -1;
