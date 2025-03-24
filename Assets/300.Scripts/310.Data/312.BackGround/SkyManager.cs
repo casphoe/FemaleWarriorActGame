@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -8,12 +8,12 @@ public class SkyManager : MonoBehaviour
     [SerializeField] Material[] skyMaterial;
 
     [Header("Sun Setting")]
-    [SerializeField] Transform sun; //ÇØ ¿ÀºêÁ§Æ®
+    [SerializeField] Transform sun; //í•´ ì˜¤ë¸Œì íŠ¸
     Camera mainCamera;
-    [SerializeField] float sunHeight = 5f;           // ÇØ°¡ ¶° ÀÖÀ» ³ôÀÌ (Ä«¸Þ¶ó ±âÁØ Y)
-    [SerializeField] float sunZOffset = 10f;         // Ä«¸Þ¶óº¸´Ù ¾Õ¿¡ º¸ÀÌ°Ô Z Á¶Á¤
-    [SerializeField] float sunXRange = 6f;           // ÁÂ¿ì ÀÌµ¿ ¹üÀ§
-    [SerializeField] float sunArcHeight = 3f;   // ¾ÆÄ¡Çü °î¼± ³ôÀÌ (ÃÖÁ¤Á¡)
+    [SerializeField] float sunHeight = 5f;           // í•´ê°€ ë–  ìžˆì„ ë†’ì´ (ì¹´ë©”ë¼ ê¸°ì¤€ Y)
+    [SerializeField] float sunZOffset = 10f;         // ì¹´ë©”ë¼ë³´ë‹¤ ì•žì— ë³´ì´ê²Œ Z ì¡°ì •
+    [SerializeField] float sunXRange = 6f;           // ì¢Œìš° ì´ë™ ë²”ìœ„
+    [SerializeField] float sunArcHeight = 3f;   // ì•„ì¹˜í˜• ê³¡ì„  ë†’ì´ (ìµœì •ì )
 
     int hour;
 
@@ -34,7 +34,7 @@ public class SkyManager : MonoBehaviour
 
         if (hour >= 6 && hour < 10)
         {
-            // ³· ½Ã°£: 6½Ã ~ 17½Ã
+            // ë‚® ì‹œê°„: 6ì‹œ ~ 17ì‹œ
             RenderSettings.skybox = skyMaterial[0];
         }
         else if (hour >= 10 && hour < 17)
@@ -49,7 +49,7 @@ public class SkyManager : MonoBehaviour
         {
             RenderSettings.skybox = skyMaterial[3];
         }
-        // º¯°æµÈ Skybox¸¦ ¹Ù·Î Àû¿ë
+        // ë³€ê²½ëœ Skyboxë¥¼ ë°”ë¡œ ì ìš©
         DynamicGI.UpdateEnvironment();
     }
 
@@ -63,17 +63,17 @@ public class SkyManager : MonoBehaviour
         {
             float t = Mathf.InverseLerp(6f, 17f, hour + (minute / 60f));
 
-            // X: ÁÂ¿ì ÀÌµ¿
+            // X: ì¢Œìš° ì´ë™
             float sunX = Mathf.Lerp(-sunXRange, sunXRange, t);
 
-            // Y: °î¼± °æ·Î
+            // Y: ê³¡ì„  ê²½ë¡œ
             float sunY = camPos.y + sunHeight + Mathf.Sin(t * Mathf.PI) * sunArcHeight;
 
-            // Z: Ä«¸Þ¶óº¸´Ù ¾Õ¿¡
+            // Z: ì¹´ë©”ë¼ë³´ë‹¤ ì•žì—
             Vector3 sunWorldPos = new Vector3(camPos.x + sunX, sunY, camPos.z + sunZOffset);
             sun.position = sunWorldPos;
 
-            // È¸Àüµµ °°ÀÌ Àû¿ë
+            // íšŒì „ë„ ê°™ì´ ì ìš©
             float rotationAngle = Mathf.Lerp(0f, 360f, t);
             sun.rotation = Quaternion.Euler(0f, 0f, rotationAngle);
 
