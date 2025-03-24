@@ -51,99 +51,108 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
             {
                 SkillData downAttack = PlayerManager.instance.player.skill.accquisitionSkillDataList.Find(skill => skill.nameKor == skillName);
 
+                bool canUseSkill = Time.time >= skillCoolTime + downAttack.coolTime &&
+                       Player.instance.currentStamina >= downAttack.StaminaConsumption &&
+                       PlayerManager.instance.isGround;
+
                 switch (index)
                 {
                     case 2:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
                         {
                             DownAttackInputSetting(index, downAttack);                         
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = false;
+                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
                             Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                     case 3:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = false;
+                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
                             Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                     case 4:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = false;
+                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
                             Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                     case 5:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = false;
+                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
                             Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
                         break;
                     case 6:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
                         {
                             DownAttackInputSetting(index, downAttack);
                         }
 
-                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
-                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        if (Input.GetKeyUp(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]) && canUseSkill)
                         {
                             PlayerManager.instance.isAiming = false;
+                            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
                             Player.instance.downAttackTrajectory.ExecuteDownAttack(); // 실제 이동
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
                         }
@@ -197,7 +206,6 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
             GameCanvas.instance.SliderChange(1, 1, _downattack.StaminaConsumption);
             Player.instance.downAttackTrajectory.DownAttackStat(_downattack.attackMovePoint, _downattack.attackRange);
 
-            skillCoolTime = Time.time; // 스킬 사용 시간을 갱신
             PlayerManager.instance.isDownAttacking = true;
             Player.instance.downAttackTrajectory.StartTrajectory();        
         }
