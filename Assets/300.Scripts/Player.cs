@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
 
     private Vector2 originalColliderOffset;
 
+    SpriteRenderer shadowRender;
+
     private float lastDashTime;
     private float lastStaminaTime;
     private float lastHpTime;
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isGround = true;
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
+        shadowRender = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -86,6 +89,11 @@ public class Player : MonoBehaviour
             StaminaPotionEat();
             GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
             GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
+        }
+
+        if(PlayerManager.instance.IsDead == false)
+        {
+            SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
         }
     }
 
@@ -162,7 +170,7 @@ public class Player : MonoBehaviour
             {
                 moveDirection = -1f; // 왼쪽으로 이동
                 render.flipX = true;
-                AdjustColliderOffset(true);
+                AdjustColliderOffset(true);             
             }
             else
             {
@@ -176,7 +184,7 @@ public class Player : MonoBehaviour
             {
                 moveDirection = 1f;
                 render.flipX = false;
-                AdjustColliderOffset(false);
+                AdjustColliderOffset(false);           
             }
             else
             {
