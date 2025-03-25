@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -126,6 +128,32 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (PlayerManager.instance.IsDead) return;
+
+
+        currentHp -= damage;
+        currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록
+
+        // UI 체력바 갱신
+        GameCanvas.instance.SliderChange(0, 1, damage); // (체력, 감소, 양)
+
+        if (currentHp <= 0)
+        {
+            anim.SetBool("Death", true); //  Animator에 Death 상태 전이 발생        
+        }
+        else
+        {
+            anim.SetBool("Hurt", true); //  Animator에 Hurt 상태 전이 발생     
+
+            float hurtAnimLength = anim.runtimeAnimatorController.animationClips
+        .FirstOrDefault(clip => clip.name == "Hurt")?.length ?? 0.3f;
+
+            StartCoroutine(RestAnimation(2, hurtAnimLength));
+        }
+    }
+
     void StaminaCostRestoration()
     {
         if(currentStamina <= PlayerManager.instance.player.stamina)
@@ -214,9 +242,8 @@ public class Player : MonoBehaviour
                 GameCanvas.instance.SliderChange(1, 1, staminaCost[0]);
                 anim.SetBool("Attack", true);
 
-                AnimatorStateInfo attackStateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                float attackAnimationLength = attackStateInfo.length + 0.6f;
-                StartCoroutine(RestAnimation(1, attackAnimationLength));
+                float attackLength = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Attack")?.length ?? 0.3f;
+                StartCoroutine(RestAnimation(1, attackLength));
             }
         }
     }
@@ -245,8 +272,11 @@ public class Player : MonoBehaviour
                 
                 anim.SetBool("Dash", true);
 
-                AnimatorStateInfo dashStateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                float dashAnimationLength = dashStateInfo.length + 0.45f;
+                //대시 중 공격 입력 체크
+                StartCoroutine(HandleDashAttack());
+
+                
+                float dashAnimationLength = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Dash")?.length ?? 0.3f;
                 StartCoroutine(RestAnimation(0, dashAnimationLength));
             }
         }
@@ -264,6 +294,36 @@ public class Player : MonoBehaviour
             case 1:
                 anim.SetBool("Attack", false);
                 break;
+            case 2:
+                anim.SetBool("Hurt", false);
+                break;
+        }
+    }
+
+    IEnumerator HandleDashAttack()
+    {
+        float timer = 0f;
+        float maxDashAttackWindow = 0.3f; // 대시 중 공격 입력 허용 시간
+
+        while (timer < maxDashAttackWindow)
+        {
+            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            {
+                anim.SetBool("Dash", false);
+                anim.SetTrigger("DashAttack"); //  Animator 파라미터 설정 필요
+
+                float animLength = anim.runtimeAnimatorController.animationClips
+                .FirstOrDefault(x => x.name == "Dash-Attack")?.length ?? 0.5f;
+
+                yield return new WaitForSeconds(animLength);
+
+                anim.SetTrigger("Idle");
+
+                yield break; // 더 이상 감지하지 않음
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
 
