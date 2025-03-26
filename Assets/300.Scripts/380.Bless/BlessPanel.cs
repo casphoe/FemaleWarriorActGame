@@ -11,6 +11,8 @@ public class BlessPanel : MonoBehaviour
 
     public float height = 2;
 
+    public Camera uiCamera;
+
     private void Start()
     {
         rectBlessCanvas = Instantiate(createPanel, canvas.transform).GetComponent<RectTransform>();
@@ -18,7 +20,17 @@ public class BlessPanel : MonoBehaviour
 
     private void Update()
     {
-        Vector3 _buyPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
-        rectBlessCanvas.position = _buyPos;
+        Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
+        Vector2 canvasPos;
+
+        // ¿ùµå ÁÂÇ¥ ¡æ Äµ¹ö½º ³» ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(),
+            Camera.main.WorldToScreenPoint(worldPos),
+            uiCamera,
+            out canvasPos
+        );
+
+        rectBlessCanvas.anchoredPosition = canvasPos;
     }
 }

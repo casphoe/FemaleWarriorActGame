@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,11 +42,11 @@ public class Utils
     {
         if (data == 0)
         {
-            return "0"; // 0ÀÏ ¶§´Â ±×´ë·Î 0À¸·Î Ç¥½Ã
+            return "0"; // 0ì¼ ë•ŒëŠ” ê·¸ëŒ€ë¡œ 0ìœ¼ë¡œ í‘œì‹œ
         }
         else
         {
-            return string.Format("{0:#,0.##}", data); //¼Ò¼öÁ¡ ³ª¿À°Ô ¼öÁ¤
+            return string.Format("{0:#,0.##}", data); //ì†Œìˆ˜ì  ë‚˜ì˜¤ê²Œ ìˆ˜ì •
         }
     }
 

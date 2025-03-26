@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (PlayerManager.instance.IsDead) return;
+        if (PlayerManager.instance.IsDead && PlayerManager.instance.isInvincibility) return;
 
 
         currentHp -= damage;

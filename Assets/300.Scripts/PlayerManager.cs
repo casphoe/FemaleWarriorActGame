@@ -22,6 +22,8 @@ public class PlayerManager : MonoBehaviour
     public bool isDownAttacking = false;
     public bool isAiming = false;
 
+    public bool isInvincibility = false;
+
     //0 : buy, 1 : 판매
     public int selectShop = -1;
     // 0 : 아이템, 1 : 물약

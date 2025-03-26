@@ -11,6 +11,8 @@ public class NpcBuyCanvas : MonoBehaviour
 
     public float height = 1.7f;
 
+    public Camera uiCamera;
+
     private void Start()
     {
         rectBuyCanvas = Instantiate(buyObject, canvas.transform).GetComponent<RectTransform>();
@@ -18,7 +20,17 @@ public class NpcBuyCanvas : MonoBehaviour
 
     private void Update()
     {
-        Vector3 _buyPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
-        rectBuyCanvas.position = _buyPos;
+        Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
+        Vector2 canvasPos;
+
+        // ¿ùµå ÁÂÇ¥ ¡æ Äµ¹ö½º ³» ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(),
+            Camera.main.WorldToScreenPoint(worldPos),
+            uiCamera,
+            out canvasPos
+        );
+
+        rectBuyCanvas.anchoredPosition = canvasPos;
     }
 }

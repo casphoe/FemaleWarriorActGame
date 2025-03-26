@@ -6,6 +6,11 @@ public class Portal : MonoBehaviour
 {
     private Animator anim;
 
+    public int portalIndex;
+    public int nextPortalIndex;
+    private bool playerInPortal = false;
+    private GameObject playerObj;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -13,34 +18,71 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             anim.SetBool("Gate", true);
+            playerInPortal = true;
+            playerObj = collision.gameObject;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             anim.SetBool("Gate", false);
+            playerInPortal = false;
+            playerObj = null;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void Update()
     {
-        if(collision.gameObject.tag == "Player")
+        if (playerInPortal && Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
-            {
-                StartCoroutine(PortalCorute());
-            }
+            StartCoroutine(PortalCorute(playerObj));
         }
     }
 
-    IEnumerator PortalCorute()
+    IEnumerator PortalCorute(GameObject player)
     {
         yield return null;
-        //맵 이동 시켜야함
+        Portal[] portals = FindObjectsOfType<Portal>();
+        foreach (Portal portal in portals)
+        {
+            if (portal.portalIndex == nextPortalIndex)
+            {
+                Player.instance.transform.position = portal.transform.position;
+
+                // 맵 번호 변경
+                switch (nextPortalIndex)
+                {
+                    case 0:
+                        Player.instance.currentMapNum = 0;
+                        break;
+                    case 1:
+                        Player.instance.currentMapNum = 1;
+                        break;
+                    case 2:
+                        Player.instance.currentMapNum = 1;
+                        break;
+                    case 3:
+                        Player.instance.currentMapNum = 2;
+                        break;
+                    case 4:
+                        Player.instance.currentMapNum = 2;
+                        break;
+                    case 5:
+                        Player.instance.currentMapNum = 3;
+                        break;
+                    // 더 추가 가능
+                    default:
+                       
+                        break;
+                }
+
+                break;
+            }
+        }
     }
 }
