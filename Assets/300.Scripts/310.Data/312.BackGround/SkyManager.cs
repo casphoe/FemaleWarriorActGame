@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 
 //컴퓨터 시간 1시간을 24시간으로 치환해서 낮 밤을 표시
 
@@ -18,16 +20,20 @@ public class SkyManager : MonoBehaviour
     [SerializeField] float sunXRange = 6f;           // 좌우 이동 범위
     [SerializeField] float sunArcHeight = 3f;   // 아치형 곡선 높이 (최정점)
 
+    [SerializeField] GameObject nightOverlay;
+
     public Sprite shadowUp;
     public Sprite shadowDown;
     public Sprite shadowLeft;
     public Sprite shadowRight;
 
-    float gameMinutesPerRealSecond = 24f * 60f / 3600f; // 약 0.4분/초
+    float gameMinutesPerRealSecond = 24f * 60f / 1800f; // 현실 시간 30분 = 게임 24시간
     float gameTime; // 게임 내 시간 (분 단위)
     float startTime;
 
     public List<Transform> allShadows;
+
+    public float hour;
 
     public static SkyManager instance;
 
@@ -37,6 +43,8 @@ public class SkyManager : MonoBehaviour
         directionalLight = sun.transform.GetChild(0).GetComponent<Light>();
         instance = this;
         startTime = Time.time;
+        Utils.OnOff(nightOverlay, false);
+        nightOverlay.GetComponent<Image>().color = new Color(0.05f, 0.05f, 0.2f, 0.5f);
     }
 
     void Update()
@@ -60,23 +68,26 @@ public class SkyManager : MonoBehaviour
 
     void UpdateSkybox()
     {
-        float hour = GetGameHour(); // 예: 6.25, 14.6 등
-        if (hour >= 6 && hour < 10)
+        hour = GetGameHour(); // 예: 6.25, 14.6 등
+        if (hour >= 6f && hour < 10f)
         {
-            // 낮 시간: 6시 ~ 17시
-            RenderSettings.skybox = skyMaterial[0];
+            RenderSettings.skybox = skyMaterial[0];        
+            nightOverlay.SetActive(false);
         }
-        else if (hour >= 10 && hour < 17)
+        else if (hour >= 10f && hour < 17f)
         {
-            RenderSettings.skybox = skyMaterial[1];
+            RenderSettings.skybox = skyMaterial[1];         
+            nightOverlay.SetActive(false);
         }
-        else if (hour >= 17 && hour < 20)
+        else if (hour >= 17f && hour < 20f)
         {
-            RenderSettings.skybox = skyMaterial[2];
+            RenderSettings.skybox = skyMaterial[2];            
+            nightOverlay.SetActive(false);
         }
         else
         {
             RenderSettings.skybox = skyMaterial[3];
+            nightOverlay.SetActive(true);
         }
         // 변경된 Skybox를 바로 적용
         DynamicGI.UpdateEnvironment();
@@ -84,7 +95,6 @@ public class SkyManager : MonoBehaviour
 
     void UpdateSunPosition()
     {
-        float hour = GetGameHour(); // 예: 6.25, 14.6 등
         float minute = (gameTime % 60f); // 게임 내 분
         Vector3 camPos = mainCamera.transform.position;
 
