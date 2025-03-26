@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     private Animator anim;
     private SpriteRenderer render;
-    private BoxCollider2D boxCollider;
+    private CapsuleCollider2D capsuleCollider;
 
     private Vector2 originalColliderOffset;
 
@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private float lastJumpTime;
     private float lastAttackTime;
     private float[] staminaCost = new float[2];
+    PlayerInvincibility Invincibility;
 
     public float currentStamina;
     public float currentHp;
@@ -53,13 +54,14 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
         currentHp = PlayerManager.instance.player.hp;
         currentStamina = PlayerManager.instance.player.stamina;
         instance = this;
         enemyLayer = LayerMask.GetMask("Enemy");
         PlayerManager.instance.isGround = true;
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
+        Invincibility = GetComponent<PlayerInvincibility>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
         shadowRender = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
@@ -74,7 +76,7 @@ public class Player : MonoBehaviour
         HpOrStaminaCoolTime(1);
         staminaCost[0] = 5;
         staminaCost[1] = 10;
-        originalColliderOffset = boxCollider.offset;
+        originalColliderOffset = capsuleCollider.offset;
     }
 
     private void Update()
@@ -130,7 +132,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (PlayerManager.instance.IsDead && PlayerManager.instance.isInvincibility) return;
+        //죽거나 ,무적상태가 아닐때 데미지가 들어가야함
+        if (PlayerManager.instance.IsDead || PlayerManager.instance.isInvincibility) return;
 
 
         currentHp -= damage;
@@ -151,6 +154,8 @@ public class Player : MonoBehaviour
         .FirstOrDefault(clip => clip.name == "Hurt")?.length ?? 0.3f;
 
             StartCoroutine(RestAnimation(2, hurtAnimLength));
+            //무적효과
+            Invincibility.TriggerInvincibility();
         }
     }
 
@@ -449,12 +454,12 @@ public class Player : MonoBehaviour
         if(flip)
         {
             //좌측 반전시 collider 오프셋을 오른쪽으로 이동
-            boxCollider.offset = new Vector2(-originalColliderOffset.x, boxCollider.offset.y);
+            capsuleCollider.offset = new Vector2(-originalColliderOffset.x, capsuleCollider.offset.y);
         }
         else
         {
             // 반전하지 않으면 원래 오프셋을 유지
-            boxCollider.offset = originalColliderOffset;
+            capsuleCollider.offset = originalColliderOffset;
         }
     }
 }
