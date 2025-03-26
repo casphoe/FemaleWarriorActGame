@@ -15,17 +15,20 @@ public class Npc : MonoBehaviour
     public GameObject buyCanvas;
     public NpcBuyCanvas npcCavnas;
 
+    bool isPlayerNear = false;
+
     private void Start()
     {
         Utils.OnOff(buyCanvas, false);
+        isPlayerNear = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void Update()
     {
-        if(collision.gameObject.tag == "Player")
+        if(isPlayerNear == true)
         {
             Utils.OnOff(buyCanvas, true);
-            if(npcCavnas.rectBuyCanvas != null)
+            if (npcCavnas.rectBuyCanvas != null)
             {
                 Utils.OnOff(npcCavnas.rectBuyCanvas.gameObject, true);
             }
@@ -33,7 +36,7 @@ public class Npc : MonoBehaviour
             if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
             {
                 PlayerManager.instance.isBuy = true;
-                switch(data)
+                switch (data)
                 {
                     case NpcData.Item:
                         Utils.OnOff(GameCanvas.instance.itemBuyPanel, true);
@@ -41,9 +44,17 @@ public class Npc : MonoBehaviour
                     case NpcData.Poition:
                         Utils.OnOff(GameCanvas.instance.buyPanel, true);
                         break;
-                }              
+                }
                 PlayerManager.instance.shopNum = (int)data;
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            isPlayerNear = true;
         }
     }
 
@@ -51,6 +62,7 @@ public class Npc : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            isPlayerNear = false;
             Utils.OnOff(buyCanvas, false);
             if (npcCavnas.rectBuyCanvas != null)
             {

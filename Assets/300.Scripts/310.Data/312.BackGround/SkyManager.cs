@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
+
+//컴퓨터 시간 1시간을 24시간으로 치환해서 낮 밤을 표시
 
 public class SkyManager : MonoBehaviour
 {
@@ -22,7 +23,9 @@ public class SkyManager : MonoBehaviour
     public Sprite shadowLeft;
     public Sprite shadowRight;
 
-    int hour;
+    float gameMinutesPerRealSecond = 24f * 60f / 3600f; // 현실 1초 = 게임 24시간 / 3600초
+    float gameTime; // 게임 내 시간 (분 단위)
+    float startTime;
 
     public List<Transform> allShadows;
 
@@ -37,13 +40,26 @@ public class SkyManager : MonoBehaviour
 
     void Update()
     {
+        UpdateGameTime();
         UpdateSkybox();
         UpdateSunPosition();
     }
 
+    void UpdateGameTime()
+    {
+        float realElapsed = Time.time - startTime;
+        gameTime = realElapsed * gameMinutesPerRealSecond;
+    }
+
+    // 게임 내 시간 (0~24) 반환
+    float GetGameHour()
+    {
+        return (gameTime / 60f) % 24f; // 60으로 나누고 24로 모듈러
+    }
+
     void UpdateSkybox()
     {
-        hour = DateTime.Now.Hour;
+        float hour = GetGameHour();
 
         if (hour >= 6 && hour < 10)
         {
@@ -68,8 +84,8 @@ public class SkyManager : MonoBehaviour
 
     void UpdateSunPosition()
     {
-        int hour = DateTime.Now.Hour;
-        float minute = DateTime.Now.Minute;
+        float hour = GetGameHour();
+        float minute = (gameTime % 60f); // 게임 내 분
         Vector3 camPos = mainCamera.transform.position;
 
         if (hour >= 6 && hour < 17)
