@@ -20,6 +20,9 @@ public class GameManagerData
     public CustomKeyCode keyCode { set; get; }
 
     [SerializeField]
+    public Day day { set; get; }
+
+    [SerializeField]
     public float totalPlayTime = 0;
 
     public int startNum;
@@ -45,6 +48,14 @@ public enum Diffucity
     Easy,Normal,Hard
 }
 
+[SerializeField]
+public enum Day
+{
+    Afternoon,Night
+}
+
+
+[SerializeField]
 public enum CustomKeyCode
 {
     Left,Right,Jump,Attack,Evasion, Equipment, Skill, Inventory, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey

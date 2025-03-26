@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class EnemyData : MonoBehaviour
+[SerializeField]
+public class EnemyData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string Name;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float hp;
+
+    public float attackPower;
+
+    public float defence;
+
+    public int addMoney;
+
+    public int addExp;
 }

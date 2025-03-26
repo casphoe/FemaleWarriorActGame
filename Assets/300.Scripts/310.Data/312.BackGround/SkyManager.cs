@@ -23,7 +23,7 @@ public class SkyManager : MonoBehaviour
     public Sprite shadowLeft;
     public Sprite shadowRight;
 
-    float gameMinutesPerRealSecond = 24f * 60f / 3600f; // 현실 1초 = 게임 24시간 / 3600초
+    float gameMinutesPerRealSecond = 24f * 60f / 3600f; // 약 0.4분/초
     float gameTime; // 게임 내 시간 (분 단위)
     float startTime;
 
@@ -36,6 +36,7 @@ public class SkyManager : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         directionalLight = sun.transform.GetChild(0).GetComponent<Light>();
         instance = this;
+        startTime = Time.time;
     }
 
     void Update()
@@ -59,8 +60,7 @@ public class SkyManager : MonoBehaviour
 
     void UpdateSkybox()
     {
-        float hour = GetGameHour();
-
+        float hour = GetGameHour(); // 예: 6.25, 14.6 등
         if (hour >= 6 && hour < 10)
         {
             // 낮 시간: 6시 ~ 17시
@@ -84,7 +84,7 @@ public class SkyManager : MonoBehaviour
 
     void UpdateSunPosition()
     {
-        float hour = GetGameHour();
+        float hour = GetGameHour(); // 예: 6.25, 14.6 등
         float minute = (gameTime % 60f); // 게임 내 분
         Vector3 camPos = mainCamera.transform.position;
 
