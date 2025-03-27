@@ -9,6 +9,8 @@
 
 https://github.com/nhn/gpm.unity 에셋을 통해 Infinite Scroll 을 통해서 스크롤 뷰를 관리했습니다.
 
+구글 스프리트 시트 https://bonnate.tistory.com/262 위 사이트를 참고 후 적 데이터를 관리했습니다.
+
 - 제작 완료
   1. 메인 화면 키보드 설정, 환경 설정
   2. 메인 화면 세이브 슬롯 3개 이어하기 처음 시작하기 기능 구현 완료
