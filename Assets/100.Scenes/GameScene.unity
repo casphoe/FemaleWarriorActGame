@@ -4618,6 +4618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e72ea1913381e542a340c2c51ceada7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyDataReader: {fileID: 11400000, guid: 57976101754ac74489c424c5cac31d83, type: 2}
 --- !u!1 &158416461
 GameObject:
   m_ObjectHideFlags: 0
@@ -35400,6 +35401,7 @@ MonoBehaviour:
   - {fileID: 413100781}
   - {fileID: 644407971}
   - {fileID: 1846922600}
+  hour: 0
 --- !u!1 &879778267
 GameObject:
   m_ObjectHideFlags: 0

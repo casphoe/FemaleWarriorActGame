@@ -71,22 +71,26 @@ public class SkyManager : MonoBehaviour
         hour = GetGameHour(); // 예: 6.25, 14.6 등
         if (hour >= 6f && hour < 10f)
         {
-            RenderSettings.skybox = skyMaterial[0];        
+            RenderSettings.skybox = skyMaterial[0];
+            GameManager.data.day = Day.Afternoon;
             nightOverlay.SetActive(false);
         }
         else if (hour >= 10f && hour < 17f)
         {
-            RenderSettings.skybox = skyMaterial[1];         
+            RenderSettings.skybox = skyMaterial[1];
+            GameManager.data.day = Day.Afternoon;
             nightOverlay.SetActive(false);
         }
         else if (hour >= 17f && hour < 20f)
         {
-            RenderSettings.skybox = skyMaterial[2];            
+            RenderSettings.skybox = skyMaterial[2];
+            GameManager.data.day = Day.Night;
             nightOverlay.SetActive(false);
         }
         else
         {
             RenderSettings.skybox = skyMaterial[3];
+            GameManager.data.day = Day.Night;
             nightOverlay.SetActive(true);
         }
         // 변경된 Skybox를 바로 적용

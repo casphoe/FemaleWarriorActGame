@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private EnemyDataReader enemyDataReader;
+
     void Start()
     {
-        
+        ApplyEnemyDataToAll();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ApplyEnemyDataToAll()
     {
-        
+        Enemy[] allEnemies = FindObjectsOfType<Enemy>();
+        List<EnemyData> dataList = enemyDataReader.DataList;
+
+        foreach (Enemy enemy in allEnemies)
+        {
+            EnemyData? data = FindMatchingData(enemy.id, dataList);
+
+            if (data.HasValue)
+            {
+                enemy.Init(data.Value);
+            }
+            else
+            {
+                Debug.LogWarning($"'{enemy.id}' 에 해당하는 데이터가 없습니다.");
+            }
+        }
+    }
+
+    private EnemyData? FindMatchingData(int id, List<EnemyData> dataList)
+    {
+        foreach (EnemyData data in dataList)
+        {
+            if (data.id == id) // 혹은 data.id로도 가능
+                return data;
+        }
+
+        return null;
     }
 }

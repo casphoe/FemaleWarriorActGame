@@ -11529,6 +11529,8 @@ MonoBehaviour:
   isEquipment: 0
   isSkillPage: 0
   isDownAttacking: 0
+  isAiming: 0
+  isInvincibility: 0
   selectShop: -1
   shopNum: -1
   itemShopNum: -1
