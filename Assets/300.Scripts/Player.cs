@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
-        {           
+        {
             Move();
             Dash();
             StaminaCostRestoration();

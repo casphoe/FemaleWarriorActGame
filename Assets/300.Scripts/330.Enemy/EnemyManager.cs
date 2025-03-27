@@ -35,7 +35,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (EnemyData data in dataList)
         {
-            if (data.id == id) // 혹은 data.id로도 가능
+            if (data.id == id) // id 값을 토대로 데이터를 가져옴
                 return data;
         }
 

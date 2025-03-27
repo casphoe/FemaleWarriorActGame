@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //스프레드 시트로 읽어올 여러 데이터에 기본이 되는 읽기 형식에 대해 정의한 추상 클래스
 // 추상 클래스 : 직접 객체를 만들 수 없는 클래스 공통 기능과 구조를 정의하고 상속 받은 자식 클래스들이 실제 내용을 구현하도록 강제 가능

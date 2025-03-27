@@ -8,6 +8,7 @@ TagManager:
   - LeftPortal
   - RightPortal
   - SkillSlot
+  - Enemy
   layers:
   - Default
   - TransparentFX

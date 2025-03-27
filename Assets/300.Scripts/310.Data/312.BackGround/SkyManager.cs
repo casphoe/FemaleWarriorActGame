@@ -27,9 +27,7 @@ public class SkyManager : MonoBehaviour
     public Sprite shadowLeft;
     public Sprite shadowRight;
 
-    float gameMinutesPerRealSecond = 24f * 60f / 1800f; // 현실 시간 30분 = 게임 24시간
     float gameTime; // 게임 내 시간 (분 단위)
-    float startTime;
 
     public List<Transform> allShadows;
 
@@ -42,7 +40,6 @@ public class SkyManager : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         directionalLight = sun.transform.GetChild(0).GetComponent<Light>();
         instance = this;
-        startTime = Time.time;
         Utils.OnOff(nightOverlay, false);
         nightOverlay.GetComponent<Image>().color = new Color(0.05f, 0.05f, 0.2f, 0.5f);
     }
@@ -56,8 +53,16 @@ public class SkyManager : MonoBehaviour
 
     void UpdateGameTime()
     {
-        float realElapsed = Time.time - startTime;
-        gameTime = realElapsed * gameMinutesPerRealSecond;
+        DateTime now = DateTime.Now;
+
+        // 현재 시각을 분 단위로 변환
+        float realMinute = now.Hour * 60f + now.Minute + now.Second / 60f;
+
+
+        // 30분 = 게임 24시간 이므로
+        // 하루 = 1440분 → (realMinute % 30) / 30 * 24
+        float minuteInHalfHour = realMinute % 30f; // 0 ~ 30 사이
+        gameTime = (minuteInHalfHour / 30f) * 24f * 60f; // 게임 시간 (분 단위)
     }
 
     // 게임 내 시간 (0~24) 반환
