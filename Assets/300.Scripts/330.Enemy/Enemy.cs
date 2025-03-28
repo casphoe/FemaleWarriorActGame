@@ -33,7 +33,11 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 2f;
 
     [Header("Patrol Path")]
-    public List<Transform> patrolPoints; // 순찰 경로 직접 지정
+    public List<Vector2> patrolPoints; // 순찰 경로 직접 지정
+
+    [Header("Chase Path")]
+    public List<Vector2> chasePoints;
+
     private int currentPatrolIndex = 0;
     public float patrolWaitTime = 2f;
 
@@ -41,7 +45,10 @@ public class Enemy : MonoBehaviour
     private float waitTimer;
     private bool isFacingRight = true;
 
-    private bool gotHit = false;
+    float chasePersistTime = 2f;
+    float chaseTimer = 0f;
+
+    public bool gotHit = false;
 
     #endregion
     public Slider hpSlider;
@@ -123,7 +130,7 @@ public class Enemy : MonoBehaviour
             player = playerObj.transform;
         }
         lastCheckedDay = GameManager.data.day;
-        patrolTarget = patrolPoints.Count > 0 ? patrolPoints[0].position : transform.position;
+        patrolTarget = patrolPoints.Count > 0 ? patrolPoints[0] : transform.localPosition;
     }
 
     private void Update()
@@ -136,17 +143,57 @@ public class Enemy : MonoBehaviour
             ApplyTimeMultiplier();
             lastCheckedDay = GameManager.data.day;
         }
+
+        bool playerInSight = IsPlayerInSight();
+
+        // 상태 갱신
+        switch (enemyState)
+        {
+            case State.Patrol:
+                if (gotHit || playerInSight)
+                {
+                    enemyState = State.Chase;
+                    return;
+                }
+                Patrol();
+                break;
+
+            case State.Chase:
+                if (!playerInSight)
+                {
+                    // 플레이어가 감지 범위를 벗어나야만 gotHit 해제
+                    gotHit = false;
+                    enemyState = State.Patrol;
+                    return;
+                }
+                ChasePlayer();
+                break;
+        }
     }
 
-    #region 이동 및 해동
+    #region 이동 및 추적
+    //순찰
     void Patrol()
     {
         if (patrolPoints.Count == 0) return;
 
-        Transform target = patrolPoints[currentPatrolIndex];
-        Vector2 dir = (target.position - transform.position).normalized;
+        Vector2 target = patrolPoints[currentPatrolIndex];
+        Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
 
-        if (Vector2.Distance(transform.position, target.position) < 0.2f)
+        // Y 고정한 방향 계산
+        Vector2 moveTarget = new Vector2(target.x, currentPos.y);
+        Vector2 dir = (moveTarget - currentPos).normalized;
+        // 너무 가까우면 움직이지 않음
+        if ((moveTarget - currentPos).magnitude > 0.01f)
+        {
+            MoveInDirection(dir);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
+
+        if (Mathf.Abs(transform.position.x - target.x) < 0.1f)
         {
             waitTimer += Time.deltaTime;
             if (waitTimer >= patrolWaitTime)
@@ -156,5 +203,130 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    //적이 플레이어 감지 함수
+    bool IsPlayerInSight()
+    {
+        Vector2 toPlayer = (player.position - transform.position);
+        float dist = toPlayer.magnitude;
+        if (dist > detectionRange) return false;
+
+        Vector2 facing = isFacingRight ? Vector2.right : Vector2.left;
+        float dot = Vector2.Dot(facing, toPlayer.normalized);
+
+        return dot > 0.2f; // 1이면 정면, 0은 수직, -1은 반대
+    }
+    //추적 함수
+    void ChasePlayer()
+    {
+        if (player == null && PlayerManager.instance.IsDead == true) return;
+
+        Vector2 playerPos = new Vector2(player.position.x, transform.position.y); // Y 고정
+        Vector2 dir = (playerPos - (Vector2)transform.position);
+
+        if (dir.magnitude < 0.05f)
+        {
+            anim?.SetBool("isMoving", false);
+            return;
+        }
+
+        dir.Normalize();
+        MoveInDirection(dir);
+    }
+
+    bool IsPlayerWithinChaseBounds()
+    {
+        if (chasePoints == null || chasePoints.Count < 2)
+            return true; // chasePoints가 비정상일 경우 무제한 추적
+
+        float minX = Mathf.Min(chasePoints[0].x, chasePoints[1].x);
+        float maxX = Mathf.Max(chasePoints[0].x, chasePoints[1].x);
+
+        float playerX = player.position.x;
+
+        return playerX >= minX && playerX <= maxX;
+    }
+
+    void MoveInDirection(Vector2 dir)
+    {
+        transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
+
+        if (dir.x != 0)
+        {
+            bool shouldFaceRight = dir.x > 0;
+            if (shouldFaceRight != isFacingRight)
+                Flip();
+        }
+
+        if (dir.magnitude < 0.01f)
+        {
+            anim.SetBool("isMoving", false);
+            return;
+        }
+
+        anim?.SetBool("isMoving", true);
+    }
+
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+
     #endregion
+
+    public void TakeDamage(float damage)
+    {
+        // 방어력보다 데미지가 낮을 경우에도 최소 50%는 받도록 처리
+        float reducedDamage = damage - currentDefence;
+
+        // 데미지 최소 50% 보장
+        float finalDamage = (reducedDamage > 0) ? reducedDamage : damage * 0.5f;
+
+        currentHp -= finalDamage;
+        gotHit = true;
+
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+            enemyState = State.Death;
+            anim.SetTrigger("Death");
+            Utils.OnOff(gameObject, false);
+        }
+        UpdateHpBar();
+    }
+
+    void UpdateHpBar()
+    {
+        if (hpSlider != null)
+        {
+            hpSlider.value = currentHp / maxHp;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 감지 반경 (노란색)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        // 시야 방향 (빨간 선)
+        Gizmos.color = Color.red;
+        Vector3 facingDir = isFacingRight ? Vector3.right : Vector3.left;
+        Gizmos.DrawLine(transform.position, transform.position + facingDir * detectionRange);
+
+        // 시야 부채꼴 (Dot 조건 시각화) - 파란 선으로 부채꼴 그리기
+        Gizmos.color = Color.cyan;
+        float angleRange = 45f; // 시야 각도 (총 90도)
+        int steps = 10;
+
+        for (int i = -steps; i <= steps; i++)
+        {
+            float angle = angleRange * i / steps;
+            Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
+            Vector3 dir = rot * facingDir;
+            Gizmos.DrawLine(transform.position, transform.position + dir.normalized * detectionRange);
+        }
+    }
 }
