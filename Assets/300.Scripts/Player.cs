@@ -21,22 +21,6 @@ public class Player : MonoBehaviour
     public List<Vector2> minLimitList = new List<Vector2>();
     public List<Vector2> maxLimitList = new List<Vector2>();
 
-    private Animator anim;
-    private SpriteRenderer render;
-    private CapsuleCollider2D capsuleCollider;
-
-    private Vector2 originalColliderOffset;
-
-    SpriteRenderer shadowRender;
-
-    private float lastDashTime;
-    private float lastStaminaTime;
-    private float lastHpTime;
-    private float lastJumpTime;
-    private float lastAttackTime;
-    private float[] staminaCost = new float[2];
-    PlayerInvincibility Invincibility;
-
     public float currentStamina;
     public float currentHp;
     public Rigidbody2D rb;
@@ -49,12 +33,28 @@ public class Player : MonoBehaviour
     public static Player instance;
 
 
+    private Animator anim;
+
+    private Vector2 originalColliderOffset;
+
+    SpriteRenderer shadowRender;
+
+    private float lastDashTime;
+    private float lastStaminaTime;
+    private float lastHpTime;
+    private float lastJumpTime;
+    private float lastAttackTime;
+    private float[] staminaCost = new float[2];
+
+    private float lastMoveDirection = 5f; // 1: 오른쪽, -1: 왼쪽
+
+    PlayerInvincibility Invincibility;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        render = GetComponent<SpriteRenderer>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
         currentHp = PlayerManager.instance.player.hp;
         currentStamina = PlayerManager.instance.player.stamina;
         instance = this;
@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
         HpOrStaminaCoolTime(1);
         staminaCost[0] = 5;
         staminaCost[1] = 10;
-        originalColliderOffset = capsuleCollider.offset;
     }
 
     private void Update()
@@ -136,8 +135,21 @@ public class Player : MonoBehaviour
         if (PlayerManager.instance.IsDead || PlayerManager.instance.isInvincibility) return;
 
 
-        currentHp -= damage;
-        currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록
+        float defense = PlayerManager.instance.player.defense;
+
+        // 데미지 감소율을 방어력으로부터 계산 (최대 85% 제한)
+        // 방어력이 높을 수록 데미지를 퍼센트로 감소 시키기 위해 사용
+        /*
+         * 방어력 상승으로 게임 밸런스를 막기 위해서 최대 85퍼센트 데미지만 들어가게 설정
+         */
+        float maxDamageReduction = 0.85f; // 최대 80% 데미지 감소
+
+        float damageReductionPercent = Mathf.Min(defense / 100f, maxDamageReduction);
+
+        float finalDamage = damage * (1 - damageReductionPercent);
+
+        currentHp -= finalDamage;
+        currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록 처리
 
         // UI 체력바 갱신
         GameCanvas.instance.SliderChange(0, 1, damage); // (체력, 감소, 양)
@@ -196,14 +208,11 @@ public class Player : MonoBehaviour
     void Move()
     {
         float moveDirection = 0f;
-
         if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.Left]))
         {
             if(rb.position.x > minLimitList[currentMapNum].x)
             {
-                moveDirection = -1f; // 왼쪽으로 이동
-                render.flipX = true;
-                AdjustColliderOffset(true);             
+                moveDirection = -1f; // 왼쪽으로 이동                   
             }
             else
             {
@@ -215,17 +224,25 @@ public class Player : MonoBehaviour
             // 오른쪽으로 이동 시도
             if (rb.position.x < maxLimitList[currentMapNum].x) // 현재 위치가 최대 제한보다 왼쪽일 때만 이동 허용
             {
-                moveDirection = 1f;
-                render.flipX = false;
-                AdjustColliderOffset(false);           
+                moveDirection = 1f;               
             }
             else
             {
                 moveDirection = 0f; // 제한 위치에 도달하면 이동 막음
             }
         }
+        // 움직이면 방향 저장
+        if (moveDirection != 0f)
+        {
+            lastMoveDirection = moveDirection;
+        }
 
-        rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);
+        // 매 프레임마다 방향 적용
+        Vector3 newScale = transform.localScale;
+        newScale.x = lastMoveDirection > 0 ? Mathf.Abs(newScale.x) : -Mathf.Abs(newScale.x);
+        transform.localScale = newScale;
+
+        rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);       
         if (moveDirection != 0f)
         {
             anim.SetBool("Move", true);
@@ -264,8 +281,8 @@ public class Player : MonoBehaviour
                 lastDashTime = Time.time;
                 GameCanvas.instance.SliderChange(1, 1, staminaCost[1]);
 
-                //대시 방향 계산
-                float dashDirection = render.flipX ? -1f : 1f;
+                // 방향 판단 (왼쪽: -1, 오른쪽: 1)
+                float dashDirection = lastMoveDirection;
 
                 //대시 이동 처리
                 Vector2 targetPosition = rb.position + new Vector2(dashDirection * moveSpeed * 1.2f, 0);
@@ -446,20 +463,6 @@ public class Player : MonoBehaviour
                     GameCanvas.instance.SliderChange(1, 0, 15);
                 }
             }
-        }
-    }
-
-    void AdjustColliderOffset(bool flip)
-    {
-        if(flip)
-        {
-            //좌측 반전시 collider 오프셋을 오른쪽으로 이동
-            capsuleCollider.offset = new Vector2(-originalColliderOffset.x, capsuleCollider.offset.y);
-        }
-        else
-        {
-            // 반전하지 않으면 원래 오프셋을 유지
-            capsuleCollider.offset = originalColliderOffset;
         }
     }
 }
