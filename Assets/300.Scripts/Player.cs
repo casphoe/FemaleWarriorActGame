@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
         currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록 처리
 
         // UI 체력바 갱신
-        GameCanvas.instance.SliderChange(0, 1, damage); // (체력, 감소, 양)
+        GameCanvas.instance.SliderChange(0, 1, finalDamage); // (체력, 감소, 양)
 
         switch(num)
         {

@@ -327,6 +327,16 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage , float critcleRate, float critcleDmg)
     {
+
+        //크리티컬 판정
+        int rand = UnityEngine.Random.Range(1, 101); // 1~100 포함
+        bool isCritical = rand <= critcleRate;
+
+        if(isCritical)
+        {
+            damage = damage * (critcleDmg / 100f); // 예: 150 → 1.5배
+        }
+
         // 방어력보다 데미지가 낮을 경우에도 최소 50%는 받도록 처리
         float reducedDamage = damage - currentDefence;
 
