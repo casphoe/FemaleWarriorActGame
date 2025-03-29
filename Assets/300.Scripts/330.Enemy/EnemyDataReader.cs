@@ -20,8 +20,10 @@ public struct EnemyData
     public float defence;
     public int addMoney;
     public int addExp;
+    public float critcleRate;
+    public float critcleDmg;
 
-    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp)
+    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp , float critcleRate, float critcleDmg)
     {
         this.id = id;
         this.name = name;
@@ -30,6 +32,8 @@ public struct EnemyData
         this.defence = defence;
         this.addMoney = addMoney;
         this.addExp = addExp;
+        this.critcleRate = critcleRate;
+        this.critcleDmg = critcleDmg;
     }
 }
 
@@ -44,7 +48,7 @@ public class EnemyDataReader : DataReaderBase
     {
         int id = 0, addMoney = 0, addExp = 0;
         string name = null;
-        float hp = 0, attack = 0, defence = 0;
+        float hp = 0, attack = 0, defence = 0, critcleRate = 0, critcleDmg = 0;
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -85,10 +89,20 @@ public class EnemyDataReader : DataReaderBase
                         addExp = int.Parse(list[i].value);
                         break;
                     }
+                case "critcleRate":
+                    {
+                        critcleRate = float.Parse(list[i].value);
+                        break;
+                    }
+                case "critcleDmg":
+                    {
+                        critcleDmg = float.Parse(list[i].value);
+                        break;
+                    }
             }
         }
 
-        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp));
+        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp,critcleRate,critcleDmg));
     }
 }
 

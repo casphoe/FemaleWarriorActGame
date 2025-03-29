@@ -129,13 +129,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float critcleRate,float critcleDmg,int num)
     {
         //죽거나 ,무적상태가 아닐때 데미지가 들어가야함
         if (PlayerManager.instance.IsDead || PlayerManager.instance.isInvincibility) return;
 
 
         float defense = PlayerManager.instance.player.defense;
+
+        int rand = UnityEngine.Random.Range(1, 101); // 1 ~ 100 포함
+
+        bool isCritical = rand <= critcleRate;
 
         // 데미지 감소율을 방어력으로부터 계산 (최대 85% 제한)
         // 방어력이 높을 수록 데미지를 퍼센트로 감소 시키기 위해 사용
@@ -148,11 +152,35 @@ public class Player : MonoBehaviour
 
         float finalDamage = damage * (1 - damageReductionPercent);
 
+        if (isCritical)
+        {
+            finalDamage *= critcleDmg;
+        }
+
         currentHp -= finalDamage;
         currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록 처리
 
         // UI 체력바 갱신
         GameCanvas.instance.SliderChange(0, 1, damage); // (체력, 감소, 양)
+
+        switch(num)
+        {
+            //함정
+            case 0:
+                ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+                break;
+                //몬스터
+            case 1:
+                if(isCritical) //크리티컬 히트
+                {
+                    ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
+                }
+                else
+                {
+                    ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+                }
+                break;
+        }
 
         if (currentHp <= 0)
         {

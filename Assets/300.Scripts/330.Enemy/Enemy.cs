@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 //일정 범위 순찰, 공격, 죽음, 플레이어 발견시 추적
+/*
+ * 순찰 -> 플레이어 감지 or 피격시 추적 -> 시야에서 놓치거나 범위 벗어나면 다시 순찰
+ */
 public enum State
 {
     Patrol, Attack,Death, Chase
@@ -18,6 +21,8 @@ public class Enemy : MonoBehaviour
     public float defence;
     public int addMoney;
     public int addExp;
+    public float critcleRate;
+    public float critcleDmg;
     [Header("난이도에 따른 적 데이터")]
     public float currentHp;
     public float maxHp;
@@ -25,18 +30,22 @@ public class Enemy : MonoBehaviour
     public float currentDefence;
     public int currentAddMoney;
     public int currentAddExp;
+    public float currentCritcleRate;
+    public float currentCritcleDmg;
     #region 적 상태 설정
     public State enemyState = State.Patrol;
 
     [Header("AI Settings")]
+    //적 감지 범위
     public float detectionRange = 2f;
+    //적 이동 속도
     public float moveSpeed = 2f;
 
     [Header("Patrol Path")]
     public List<Vector2> patrolPoints; // 순찰 경로 직접 지정
 
     [Header("Chase Path")]
-    public List<Vector2> chasePoints;
+    public List<Vector2> chasePoints; //위 범위 안에서만 추적 가능합니다 
 
     private int currentPatrolIndex = 0;
     public float patrolWaitTime = 2f;
@@ -45,10 +54,15 @@ public class Enemy : MonoBehaviour
     private float waitTimer;
     private bool isFacingRight = true;
 
+    private bool isChasingPlayer = false;
+    private Vector2 lastKnownPlayerPos;
+
     float chasePersistTime = 2f;
     float chaseTimer = 0f;
 
     public bool gotHit = false;
+
+    public int currentMapNum = 0;
 
     #endregion
     public Slider hpSlider;
@@ -71,6 +85,8 @@ public class Enemy : MonoBehaviour
         defence = data.defence;
         addMoney = data.addMoney;
         addExp = data.addExp;
+        critcleRate = data.critcleRate;
+        critcleDmg = data.critcleDmg;
         EnemyDifficuitySetting();
         ApplyTimeMultiplier();
     }
@@ -110,6 +126,9 @@ public class Enemy : MonoBehaviour
         currentAddMoney = Mathf.RoundToInt(addMoney * baseMultiplier * timeMultiplier);
         currentAddExp = Mathf.RoundToInt(addExp * baseMultiplier * timeMultiplier);
 
+        currentCritcleRate = critcleRate * baseMultiplier * timeMultiplier;
+        currentCritcleDmg = critcleDmg * baseMultiplier * timeMultiplier;
+
         hpSlider.maxValue = maxHp;
         hpSlider.value = currentHp;
     }
@@ -140,7 +159,7 @@ public class Enemy : MonoBehaviour
 
         if (GameManager.data.day != lastCheckedDay)
         {
-            ApplyTimeMultiplier();
+            ApplyTimeMultiplier(); //밤이 되면 능력치 강화 , 낮이면 되면 밤에 강화 되었던 능력치 약화
             lastCheckedDay = GameManager.data.day;
         }
 
@@ -150,23 +169,40 @@ public class Enemy : MonoBehaviour
         switch (enemyState)
         {
             case State.Patrol:
+                //플레이어가 보이거나 데미지를 받았으면 추적
                 if (gotHit || playerInSight)
                 {
+                    lastKnownPlayerPos = player.position;
                     enemyState = State.Chase;
+                    gotHit = false;
                     return;
                 }
                 Patrol();
                 break;
 
             case State.Chase:
-                if (!playerInSight)
+                //시야에 있는 동안 마지막 위치 갱신
+                if (playerInSight)
                 {
-                    // 플레이어가 감지 범위를 벗어나야만 gotHit 해제
-                    gotHit = false;
+                    lastKnownPlayerPos = player.position;
+                }
+                //시야에 없을 경우 마지막 위치에 도달 한 후 그 이후 시야에 없으면 순찰로 복귀
+                if (!playerInSight && Mathf.Abs(transform.position.x - lastKnownPlayerPos.x) < 0.1f)
+                {                  
                     enemyState = State.Patrol;
+                    gotHit = false;
                     return;
                 }
-                ChasePlayer();
+
+                //플레이어 위치가 chasePoints  범위를 벗어나면 즉시 순찰로 전환
+                if (!IsWithinChaseRange(lastKnownPlayerPos))
+                {
+                    enemyState = State.Patrol;
+                    gotHit = false;
+                    return;
+                }
+
+                MoveToPosition(lastKnownPlayerPos);
                 break;
         }
     }
@@ -175,13 +211,18 @@ public class Enemy : MonoBehaviour
     //순찰
     void Patrol()
     {
+        //순찰 지점이 하나도 없으면 함수 종료
         if (patrolPoints.Count == 0) return;
 
+        //현재 순찰 지점
+        //currentPatrolIndex 지금 가고 있는 지점의 인덱스 번호
         Vector2 target = patrolPoints[currentPatrolIndex];
+        //현재 적 위치
         Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
 
-        // Y 고정한 방향 계산
+        // Y 고정한 방향 계산(x축 만 이동)
         Vector2 moveTarget = new Vector2(target.x, currentPos.y);
+        //현재 위치에서 타겟까지의 방향 백터
         Vector2 dir = (moveTarget - currentPos).normalized;
         // 너무 가까우면 움직이지 않음
         if ((moveTarget - currentPos).magnitude > 0.01f)
@@ -192,7 +233,8 @@ public class Enemy : MonoBehaviour
         {
             anim.SetBool("isMoving", false);
         }
-
+        //x 축 기준으로 도착 했다고 판단
+        //도착후 일정 시간 기다린 뒤 다음 지점으로 이동
         if (Mathf.Abs(transform.position.x - target.x) < 0.1f)
         {
             waitTimer += Time.deltaTime;
@@ -206,50 +248,57 @@ public class Enemy : MonoBehaviour
     //적이 플레이어 감지 함수
     bool IsPlayerInSight()
     {
-        Vector2 toPlayer = (player.position - transform.position);
-        float dist = toPlayer.magnitude;
-        if (dist > detectionRange) return false;
-
+        //적과 플레이어가 서로 다른 맵에 있을 경우 감지못하기 위해서 막는 조건
+        if (Player.instance.currentMapNum != currentMapNum)
+            return false;
+        //적과 플레이어 방향을 나타내는 백터
+        Vector2 toPlayer = player.position - transform.position;
+        //플레이어가 적으로 감지 범위 바깥에 있다면 감지 불가하게 함(두점 사이의 직선 거리와 감지 범위를 통해서 false인지 true인지 반영)
+        if (toPlayer.magnitude > detectionRange) return false;
+        //적이 왼쪽/오른쪽 어느 방향을 보고 있는 판단해는 함수
         Vector2 facing = isFacingRight ? Vector2.right : Vector2.left;
-        float dot = Vector2.Dot(facing, toPlayer.normalized);
+        //적이 바라보는 방향과 플레이어 방향 사이의 코사인 값을 구함 1에 가까울수록 정면 0이면 90도 -1이면 완전한 반대 값
+        float dot = Vector2.Dot(facing.normalized, toPlayer.normalized);
 
-        return dot > 0.2f; // 1이면 정면, 0은 수직, -1은 반대
+        //적이 바라보는 방향 기준으로 += 60도 (총 120도) 이내에 플레이어가 있으면 true를 반환
+        return dot > 0.5f;
     }
-    //추적 함수
-    void ChasePlayer()
+    //적을 특정 위치까지 자연스럽게 이동시키는 함수
+    void MoveToPosition(Vector2 target)
     {
-        if (player == null && PlayerManager.instance.IsDead == true) return;
+        //목표 타겟
+        Vector2 moveTarget = new Vector2(target.x, transform.position.y);
+        //목표 위치까지 어느 방향으로 얼마나 가야하는지 알려주는 백터 값
+        Vector2 dir = moveTarget - (Vector2)transform.position;
 
-        Vector2 playerPos = new Vector2(player.position.x, transform.position.y); // Y 고정
-        Vector2 dir = (playerPos - (Vector2)transform.position);
-
-        if (dir.magnitude < 0.05f)
+        //목표 지점까지 직선거리로 0.01 만큼 떨어져 잇으면 이동시키고 아니면 이동을 멈춤
+        if (dir.magnitude > 0.01f)
         {
-            anim?.SetBool("isMoving", false);
+            MoveInDirection(dir.normalized);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
             return;
         }
-
-        dir.Normalize();
-        MoveInDirection(dir);
     }
 
-    bool IsPlayerWithinChaseBounds()
+    //지정된 추적 범위 안에 플레이어가 있는지 확인하는 함수
+    bool IsWithinChaseRange(Vector2 pos)
     {
-        if (chasePoints == null || chasePoints.Count < 2)
-            return true; // chasePoints가 비정상일 경우 무제한 추적
-
         float minX = Mathf.Min(chasePoints[0].x, chasePoints[1].x);
         float maxX = Mathf.Max(chasePoints[0].x, chasePoints[1].x);
 
-        float playerX = player.position.x;
-
-        return playerX >= minX && playerX <= maxX;
+        return pos.x >= minX && pos.x <= maxX;
     }
 
+    //적이 주어진 방향으로 자연스럽게 이동시키는 함수
     void MoveInDirection(Vector2 dir)
     {
+        //프레임 속도에 관계 없이 일정한 속도로 이동
         transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
 
+        //좌우 방향 전환 처리
         if (dir.x != 0)
         {
             bool shouldFaceRight = dir.x > 0;
@@ -276,7 +325,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage , float critcleRate, float critcleDmg)
     {
         // 방어력보다 데미지가 낮을 경우에도 최소 50%는 받도록 처리
         float reducedDamage = damage - currentDefence;

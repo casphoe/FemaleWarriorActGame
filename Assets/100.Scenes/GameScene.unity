@@ -1923,6 +1923,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54329300}
   m_CullTransparentMesh: 1
+--- !u!1 &62608781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 62608782}
+  m_Layer: 0
+  m_Name: Txt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &62608782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62608781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 289234560}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &63599249
 GameObject:
   m_ObjectHideFlags: 0
@@ -9589,6 +9620,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283714636}
   m_CullTransparentMesh: 1
+--- !u!1 &289234559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 289234560}
+  - component: {fileID: 289234561}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &289234560
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289234559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 62608782}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289234561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289234559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1101cf1fa4bd048a926686e9d59e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTxtPrefab: {fileID: 5665770090963048970, guid: 2288ab4a79527ca4f861ec1d2ebe7adb, type: 3}
 --- !u!1 &291189639
 GameObject:
   m_ObjectHideFlags: 0
@@ -9738,7 +9815,7 @@ Transform:
   m_GameObject: {fileID: 299053091}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.13, y: -9.053, z: 0}
+  m_LocalPosition: {x: 28.87, y: -9.053, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9784,12 +9861,16 @@ MonoBehaviour:
   defence: 0
   addMoney: 0
   addExp: 0
+  critcleRate: 0
+  critcleDmg: 0
   currentHp: 0
   maxHp: 0
   currentAttack: 0
   currentDefence: 0
   currentAddMoney: 0
   currentAddExp: 0
+  currentCritcleRate: 0
+  currentCritcleDmg: 0
   enemyState: 0
   detectionRange: 5
   moveSpeed: 2
@@ -9797,10 +9878,11 @@ MonoBehaviour:
   - {x: 29.17, y: -9.053}
   - {x: 20.12, y: -9.053}
   chasePoints:
-  - {x: 18.23, y: -9.053}
-  - {x: 28.96, y: -9.053}
+  - {x: 29.17, y: -9.053}
+  - {x: 17.47, y: -9.053}
   patrolWaitTime: 2
   gotHit: 0
+  currentMapNum: 2
   hpSlider: {fileID: 258343345606762227}
 --- !u!61 &299053095
 BoxCollider2D:
@@ -9831,7 +9913,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0144844055, y: 0.58722854}
@@ -59273,12 +59355,16 @@ MonoBehaviour:
   defence: 0
   addMoney: 0
   addExp: 0
+  critcleRate: 0
+  critcleDmg: 0
   currentHp: 0
   maxHp: 0
   currentAttack: 0
   currentDefence: 0
   currentAddMoney: 0
   currentAddExp: 0
+  currentCritcleRate: 0
+  currentCritcleDmg: 0
   enemyState: 0
   detectionRange: 5
   moveSpeed: 2
@@ -59288,6 +59374,7 @@ MonoBehaviour:
   chasePoints: []
   patrolWaitTime: 2
   gotHit: 0
+  currentMapNum: 0
   hpSlider: {fileID: 4938735620889994270}
 --- !u!95 &1652147667
 Animator:
@@ -75184,3 +75271,4 @@ SceneRoots:
   - {fileID: 155229139}
   - {fileID: 875836084}
   - {fileID: 238589253}
+  - {fileID: 289234560}

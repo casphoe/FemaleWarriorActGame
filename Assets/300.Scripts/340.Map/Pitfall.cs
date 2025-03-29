@@ -47,7 +47,7 @@ public class Pitfall : MonoBehaviour
         {
             if(player != null)
             {
-                player.TakeDamage(damge);
+                player.TakeDamage(damge, 0, 0, 0);
             }
         }
     }
