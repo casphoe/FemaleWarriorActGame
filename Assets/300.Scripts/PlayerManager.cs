@@ -80,4 +80,24 @@ public class PlayerManager : MonoBehaviour
         }
         GameCanvas.instance.SliderEquipChange();
     }
+
+    #region 적 처치 시 경험치 , 돈 획득 함수
+    public void AddExp(int baseExp)
+    {
+        int bonusExp = Mathf.FloorToInt(baseExp * (player.expUp / 100f));
+        int totalExp = baseExp + bonusExp;
+
+        player.currentExp += totalExp;
+
+        LevelUp(); //레벨 업 체크
+    }
+
+    public void AddMoney(int baseMoney)
+    {
+        int bonusMoney = Mathf.FloorToInt(baseMoney * (player.moneyUp / 100f));
+        int totalMoney = baseMoney + bonusMoney;
+
+        player.money += totalMoney;
+    }
+    #endregion
 }

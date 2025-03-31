@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    #region 변수
     public float moveSpeed;
     public float jumpSpeed;
     //0 : 체력 포션 쿨타임, 1 : 스태미나 포션 쿨타임
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour
 
     public static Player instance;
 
+    //공격 애니메이션 실행중인지 판단
+    private bool isAttacking = false;
 
     private Animator anim;
 
@@ -46,9 +50,15 @@ public class Player : MonoBehaviour
     private float lastAttackTime;
     private float[] staminaCost = new float[2];
 
+    [SerializeField] Text hpText;
+    [SerializeField] Text staminaText;
+
     private float lastMoveDirection = 5f; // 1: 오른쪽, -1: 왼쪽
 
+    PlayerAttack playerAttack;
     PlayerInvincibility Invincibility;
+
+    #endregion
 
 
     private void Awake()
@@ -60,6 +70,7 @@ public class Player : MonoBehaviour
         instance = this;
         enemyLayer = LayerMask.GetMask("Enemy");
         PlayerManager.instance.isGround = true;
+        playerAttack = GetComponent<PlayerAttack>();
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
         Invincibility = GetComponent<PlayerInvincibility>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
@@ -75,7 +86,7 @@ public class Player : MonoBehaviour
         HpOrStaminaCoolTime(0);
         HpOrStaminaCoolTime(1);
         staminaCost[0] = 5;
-        staminaCost[1] = 10;
+        staminaCost[1] = 3;
     }
 
     private void Update()
@@ -92,6 +103,8 @@ public class Player : MonoBehaviour
             StaminaPotionEat();
             GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
             GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
+            HpTextChange(currentHp, PlayerManager.instance.player.hp);
+            StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
         }
 
         if(PlayerManager.instance.IsDead == false)
@@ -129,6 +142,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    #region Hp,Stamian Text 변경 함수
+    public void HpTextChange(float current, float max)
+    {
+        hpText.text = current + " / " + max;
+    }
+
+    public void StaminaTextChange(float current, float max)
+    {
+        staminaText.text = current + " / " + max;
+    }
+    #endregion
+
+    #region 데미지 입었을 때 실행되는 함수
     public void TakeDamage(float damage, float critcleRate,float critcleDmg,int num)
     {
         //죽거나 ,무적상태가 아닐때 데미지가 들어가야함
@@ -189,16 +215,21 @@ public class Player : MonoBehaviour
         else
         {
             anim.SetBool("Hurt", true); //  Animator에 Hurt 상태 전이 발생     
-
-            float hurtAnimLength = anim.runtimeAnimatorController.animationClips
-        .FirstOrDefault(clip => clip.name == "Hurt")?.length ?? 0.3f;
-
-            StartCoroutine(RestAnimation(2, hurtAnimLength));
+            
             //무적효과
             Invincibility.TriggerInvincibility();
         }
     }
 
+    public void HurtEnd()
+    {
+        anim.SetBool("Hurt", false);
+    }
+
+    #endregion
+
+
+    #region 체력,스태미나 자동 회복
     void StaminaCostRestoration()
     {
         if(currentStamina <= PlayerManager.instance.player.stamina)
@@ -232,7 +263,10 @@ public class Player : MonoBehaviour
             }
         }
     }
+    #endregion
 
+
+    #region 이동 함수
     void Move()
     {
         float moveDirection = 0f;
@@ -269,7 +303,7 @@ public class Player : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale.x = lastMoveDirection > 0 ? Mathf.Abs(newScale.x) : -Mathf.Abs(newScale.x);
         transform.localScale = newScale;
-
+        playerAttack.SetFacingDir(newScale.x);
         rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);       
         if (moveDirection != 0f)
         {
@@ -280,24 +314,35 @@ public class Player : MonoBehaviour
             anim.SetBool("Move", false);
         }
     }
+    #endregion
 
+
+    #region 공격 함수
     void Attack()
     {
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
-        {         
-            if(Time.time >= lastAttackTime + CoolTime[4] && currentStamina >= staminaCost[0])
+        {
+            if (!isAttacking && Time.time >= lastAttackTime + CoolTime[4] && currentStamina >= staminaCost[0])
             {
+                isAttacking = true; // 공격 중 플래그 ON
                 currentStamina -= staminaCost[0];
                 lastAttackTime = Time.time;
                 GameCanvas.instance.SliderChange(1, 1, staminaCost[0]);
-                anim.SetBool("Attack", true);
-
-                float attackLength = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Attack")?.length ?? 0.3f;
-                StartCoroutine(RestAnimation(1, attackLength));
+                anim.SetBool("Attack", true);              
             }
         }
     }
 
+    public void OnAttackEnd()
+    {
+        anim.SetBool("Attack", false);
+        isAttacking = false;
+    }
+
+    #endregion
+
+
+    #region 대시 함수
     void Dash()
     {
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Evasion]))
@@ -323,32 +368,18 @@ public class Player : MonoBehaviour
                 anim.SetBool("Dash", true);
 
                 //대시 중 공격 입력 체크
-                StartCoroutine(HandleDashAttack());
-
-                
-                float dashAnimationLength = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Dash")?.length ?? 0.3f;
-                StartCoroutine(RestAnimation(0, dashAnimationLength));
+                StartCoroutine(HandleDashAttack());      
             }
         }
     }
 
-    IEnumerator RestAnimation(int num,float time)
+    public void DashEnd()
     {
-        yield return new WaitForSeconds(time);
-        switch(num)
-        {
-            case 0:
-                anim.SetBool("Dash", false);
-                PlayerManager.instance.isInvisble = false;
-                break;
-            case 1:
-                anim.SetBool("Attack", false);
-                break;
-            case 2:
-                anim.SetBool("Hurt", false);
-                break;
-        }
+        anim.SetBool("Dash", false);
+        PlayerManager.instance.isInvisble = false;
     }
+
+    #endregion
 
     IEnumerator HandleDashAttack()
     {
@@ -421,7 +452,7 @@ public class Player : MonoBehaviour
         }
     }
 
-
+    #region 체력,스태미나 포션 먹는 함수
     void HpPotionEat()
     {
         if (PlayerManager.instance.hpPotionCount[PlayerManager.instance.player.hpPotionSelectnum] > 0  && currentHp < PlayerManager.instance.player.hp)
@@ -493,4 +524,5 @@ public class Player : MonoBehaviour
             }
         }
     }
+    #endregion
 }

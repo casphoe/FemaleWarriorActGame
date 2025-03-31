@@ -64,6 +64,11 @@ public class Enemy : MonoBehaviour
 
     public int currentMapNum = 0;
 
+    [Header("Attack Setting")]
+    private bool isNearPlayer = false;
+
+    public float attackTimer = 0;
+
     #endregion
     public Slider hpSlider;
 
@@ -139,6 +144,7 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        isNearPlayer = false;
     }
 
     private void Start()
@@ -164,6 +170,9 @@ public class Enemy : MonoBehaviour
         }
 
         bool playerInSight = IsPlayerInSight();
+
+
+        Attack();
 
         // 상태 갱신
         switch (enemyState)
@@ -277,8 +286,7 @@ public class Enemy : MonoBehaviour
             MoveInDirection(dir.normalized);
         }
         else
-        {
-            anim.SetBool("isMoving", false);
+        {        
             return;
         }
     }
@@ -295,6 +303,12 @@ public class Enemy : MonoBehaviour
     //적이 주어진 방향으로 자연스럽게 이동시키는 함수
     void MoveInDirection(Vector2 dir)
     {
+        //공격 상태일 때는 이동 애니메이션을 멈춤
+        if (enemyState == State.Attack)
+        {          
+            return;
+        }
+
         //프레임 속도에 관계 없이 일정한 속도로 이동
         transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
 
@@ -307,12 +321,11 @@ public class Enemy : MonoBehaviour
         }
 
         if (dir.magnitude < 0.01f)
-        {
-            anim.SetBool("isMoving", false);
+        {         
             return;
         }
 
-        anim?.SetBool("isMoving", true);
+        anim.SetBool("isMoving", true);
     }
 
     void Flip()
@@ -346,21 +359,36 @@ public class Enemy : MonoBehaviour
         currentHp -= finalDamage;
         gotHit = true;
 
+        if(isCritical)
+        {
+            ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
+        }
+        else
+        {
+            ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+        }
+
         if (currentHp <= 0)
         {
             currentHp = 0;
             enemyState = State.Death;
             anim.SetTrigger("Death");
-            Utils.OnOff(gameObject, false);
+            PlayerManager.instance.AddExp(addExp);
+            PlayerManager.instance.AddMoney(addMoney);
         }
         UpdateHpBar();
+    }
+
+    public void DeathEnd()
+    {
+        Utils.OnOff(gameObject, false);
     }
 
     void UpdateHpBar()
     {
         if (hpSlider != null)
         {
-            hpSlider.value = currentHp / maxHp;
+            hpSlider.value = currentHp;
         }
     }
 
@@ -388,4 +416,63 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawLine(transform.position, transform.position + dir.normalized * detectionRange);
         }
     }
+
+    #region 공격 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isNearPlayer = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isNearPlayer = false;
+            attackTimer = 0f;
+        }
+    }
+
+    void Attack()
+    {
+        if (enemyState != State.Death && isNearPlayer)
+        {
+            attackTimer += Time.deltaTime;
+
+            if (attackTimer >= 1.5f) // 공격 주기 조절 (1.5초 등)
+            {
+                enemyState = State.Attack;
+                anim.SetBool("Attack",true); // Animator에 "Attack" 트리거 있어야 함
+                anim.SetBool("isMoving", false);
+                Player.instance.TakeDamage(attack, critcleRate, critcleDmg, 1);
+                attackTimer = 0f;
+            }
+        }
+    }
+
+    public void OnAttackEnd()
+    {
+        anim.SetBool("Attack", false); // 다시 false로 돌려서 transition 조건 충족시키기
+        anim.SetBool("isMoving", true);
+        // 공격 도중에 플레이어가 도망간 경우
+        if (!isNearPlayer)
+        {
+            if (IsPlayerInSight())
+            {
+                lastKnownPlayerPos = player.position;
+                enemyState = State.Chase;
+            }
+            else
+            {
+                enemyState = State.Patrol;
+            }
+        }
+        else
+        {           
+            enemyState = State.Attack; // 혹은 Attack 유지도 가능
+        }
+    }
+    #endregion
 }
