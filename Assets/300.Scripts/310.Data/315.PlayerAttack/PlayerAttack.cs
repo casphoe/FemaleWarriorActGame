@@ -26,4 +26,11 @@ public class PlayerAttack : MonoBehaviour
     {
         facingDir = x > 0 ? 1 : -1;
     }
+
+    void OnDrawGizmosSelected()
+    {
+        Vector2 attackCenter = (Vector2)transform.position + new Vector2(facingDir * 0.5f, 0f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackCenter, attackRange);
+    }
 }

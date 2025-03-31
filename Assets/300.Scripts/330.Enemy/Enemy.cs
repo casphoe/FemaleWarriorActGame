@@ -392,7 +392,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    /*private void OnDrawGizmosSelected()
     {
         // 감지 반경 (노란색)
         Gizmos.color = Color.yellow;
@@ -415,7 +415,7 @@ public class Enemy : MonoBehaviour
             Vector3 dir = rot * facingDir;
             Gizmos.DrawLine(transform.position, transform.position + dir.normalized * detectionRange);
         }
-    }
+    }*/
 
     #region 공격 
     private void OnCollisionEnter2D(Collision2D collision)

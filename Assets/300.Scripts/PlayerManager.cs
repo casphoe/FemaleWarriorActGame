@@ -90,6 +90,8 @@ public class PlayerManager : MonoBehaviour
         player.currentExp += totalExp;
 
         LevelUp(); //레벨 업 체크
+
+        GameCanvas.instance.LevelAndExpSetting();
     }
 
     public void AddMoney(int baseMoney)
@@ -98,6 +100,8 @@ public class PlayerManager : MonoBehaviour
         int totalMoney = baseMoney + bonusMoney;
 
         player.money += totalMoney;
+
+        GameCanvas.instance.MoneySetting();
     }
     #endregion
 }
