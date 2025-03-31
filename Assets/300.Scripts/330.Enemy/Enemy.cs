@@ -453,10 +453,10 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
+    //공격 애니메이션 끝나는 타임에 Event로 등록해서 처리
     public void OnAttackEnd()
     {
-        anim.SetBool("Attack", false); // 다시 false로 돌려서 transition 조건 충족시키기
+        anim.SetBool("Attack", false); // 공격 애니메이션 종료
         anim.SetBool("isMoving", true);
         // 공격 도중에 플레이어가 도망간 경우
         if (!isNearPlayer)
