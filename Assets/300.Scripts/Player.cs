@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
     //공격 애니메이션 실행중인지 판단
     private bool isAttacking = false;
 
+    //대시 공격 여부
+    private bool isDashAttacking = false;
+
     private Animator anim;
 
     private Vector2 originalColliderOffset;
@@ -320,6 +323,8 @@ public class Player : MonoBehaviour
     #region 공격 함수
     void Attack()
     {
+        if (isDashAttacking) return; // ← 대시 공격 중이면 무시
+
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
         {
             if (!isAttacking && Time.time >= lastAttackTime + CoolTime[4] && currentStamina >= staminaCost[0])
@@ -381,6 +386,8 @@ public class Player : MonoBehaviour
 
     #endregion
 
+
+    #region 대시 공격 어택 함수
     IEnumerator HandleDashAttack()
     {
         float timer = 0f;
@@ -391,15 +398,9 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
             {
                 anim.SetBool("Dash", false);
+                anim.SetBool("Attack", false);
                 anim.SetTrigger("DashAttack"); //  Animator 파라미터 설정 필요
-
-                float animLength = anim.runtimeAnimatorController.animationClips
-                .FirstOrDefault(x => x.name == "Dash-Attack")?.length ?? 0.5f;
-
-                yield return new WaitForSeconds(animLength);
-
-                anim.SetTrigger("Idle");
-
+                isDashAttacking = true;
                 yield break; // 더 이상 감지하지 않음
             }
 
@@ -407,6 +408,13 @@ public class Player : MonoBehaviour
             yield return null;
         }
     }
+
+    public void DashAttackEnd()
+    {
+        anim.SetTrigger("Idle");
+        isDashAttacking = false;
+    }
+    #endregion
 
     void Jump()
     {
