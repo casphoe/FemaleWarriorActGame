@@ -368,6 +368,8 @@ public class Enemy : MonoBehaviour
             ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
         }
 
+        SoundManager.Instance.PlaySFX("SlimeSplash");
+
         if (currentHp <= 0)
         {
             currentHp = 0;
