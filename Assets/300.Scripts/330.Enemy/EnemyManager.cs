@@ -29,6 +29,21 @@ public class EnemyManager : MonoBehaviour
                 Debug.LogWarning($"'{enemy.id}' 에 해당하는 데이터가 없습니다.");
             }
         }
+
+        //적들끼리 충돌 무시
+        for (int i = 0; i < allEnemies.Length; i++)
+        {
+            Collider2D colA = allEnemies[i].GetComponent<Collider2D>();
+            if (colA == null) continue;
+
+            for (int j = i + 1; j < allEnemies.Length; j++)
+            {
+                Collider2D colB = allEnemies[j].GetComponent<Collider2D>();
+                if (colB == null) continue;
+
+                Physics2D.IgnoreCollision(colA, colB);
+            }
+        }
     }
 
     private EnemyData? FindMatchingData(int id, List<EnemyData> dataList)

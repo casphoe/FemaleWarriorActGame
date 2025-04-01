@@ -104,4 +104,8 @@ public class PlayerManager : MonoBehaviour
         GameCanvas.instance.MoneySetting();
     }
     #endregion
+
+    #region 보물상자 열었을 때 체력증가, 스태미나 증가
+
+    #endregion
 }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
  */
 public enum State
 {
-    Patrol, Attack,Death, Chase
+    Patrol, Attack,Death, Chase, Stun
 }
 
 public class Enemy : MonoBehaviour
@@ -39,7 +39,10 @@ public class Enemy : MonoBehaviour
     //적 감지 범위
     public float detectionRange = 2f;
     //적 이동 속도
-    public float moveSpeed = 2f;
+    private float moveSpeed = 2f;
+
+    private float maxMoveSpeed = 2f;
+    private float minMoveSpeed = 1f;
 
     [Header("Patrol Path")]
     public List<Vector2> patrolPoints; // 순찰 경로 직접 지정
@@ -156,11 +159,12 @@ public class Enemy : MonoBehaviour
         }
         lastCheckedDay = GameManager.data.day;
         patrolTarget = patrolPoints.Count > 0 ? patrolPoints[0] : transform.localPosition;
+        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }
 
     private void Update()
     {
-        if (enemyState == State.Death) return;
+        if (enemyState == State.Death && enemyState == State.Stun) return;
 
 
         if (GameManager.data.day != lastCheckedDay)
@@ -209,6 +213,14 @@ public class Enemy : MonoBehaviour
                     enemyState = State.Patrol;
                     gotHit = false;
                     return;
+                }
+
+                switch (id)
+                {
+                    case 1:
+                        //플레이어랑 적이 근처에 있을 때 실행 되어야함
+                        SoundManager.Instance.PlaySFX("batMove");
+                        break;
                 }
 
                 MoveToPosition(lastKnownPlayerPos);
@@ -368,7 +380,15 @@ public class Enemy : MonoBehaviour
             ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
         }
 
-        SoundManager.Instance.PlaySFX("SlimeSplash");
+        switch(id)
+        {
+            case 0:
+                SoundManager.Instance.PlaySFX("SlimeSplash");
+                break;
+            case 1:
+                anim.SetTrigger("Hurt");
+                break;
+        }
 
         if (currentHp <= 0)
         {
@@ -474,6 +494,38 @@ public class Enemy : MonoBehaviour
         else
         {           
             enemyState = State.Attack; // 혹은 Attack 유지도 가능
+        }
+    }
+    #endregion
+
+    #region 기절 효과
+    public void ApplyStun(float stunDuration)
+    {
+        if (enemyState == State.Death) return;
+
+        StopAllCoroutines(); // 혹시 이전 상태 처리 중이던 코루틴이 있다면 중단
+        enemyState = State.Stun;
+
+        anim.SetBool("isMoving", true);
+        anim.SetBool("Attack", false);
+        StartCoroutine(StunRoutine(stunDuration));
+    }
+
+    private IEnumerator StunRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        // 기절 후, 다시 추적 상태로
+        if (Player.instance != null && IsPlayerInSight())
+        {
+            lastKnownPlayerPos = Player.instance.transform.position;
+            enemyState = State.Chase;
+            gotHit = true; //  맞았으니까 다시 추적하도록 플래그 유지
+        }
+        else
+        {
+            enemyState = State.Patrol;
+            gotHit = false;
         }
     }
     #endregion

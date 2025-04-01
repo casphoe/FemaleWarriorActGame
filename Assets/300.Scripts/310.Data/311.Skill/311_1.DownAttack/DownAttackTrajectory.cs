@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TinyJSON;
 using UnityEngine;
 
 public class DownAttackTrajectory : MonoBehaviour
@@ -101,17 +102,17 @@ public class DownAttackTrajectory : MonoBehaviour
     }
 
     //다운어택 타겟 위치로 이동시키는 함수
-    public void ExecuteDownAttack()
+    public void ExecuteDownAttack(SkillData data)
     {
         // trajectoryRenderer 마지막 점으로 이동
         if (trajectoryRenderer.positionCount > 0)
         {
             Vector3 target = trajectoryRenderer.GetPosition(trajectoryRenderer.positionCount - 1);
-            StartCoroutine(DownAttackMove(target));
+            StartCoroutine(DownAttackMove(target, data));
         }
     }
 
-    IEnumerator DownAttackMove(Vector3 target)
+    IEnumerator DownAttackMove(Vector3 target, SkillData data)
     {
         Vector3 start = player.position;
         float elapsed = 0f;
@@ -151,7 +152,27 @@ public class DownAttackTrajectory : MonoBehaviour
 
         foreach (Collider2D enemyCol in hitEnemies)
         {
+            //착지 지점에 가까울 수록 더 큰 데미지를 입게 만들어야 함
+            Vector3 enemyPos = enemyCol.transform.position;
 
+            float distance = Vector3.Distance(target, enemyPos);
+            // 거리 비율: 0이면 중심, 1이면 반지름 끝
+            float t = Mathf.Clamp01(distance / attackRadius);
+
+            // 가까울수록 데미지가 높게
+            float damageMultiplier = Mathf.Lerp(2, 1, t);
+
+            float finalDamage = data.damage * damageMultiplier;
+
+            Enemy enemy = enemyCol.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(finalDamage, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg);
+
+                // 스턴 효과 추가
+                float stunDuration = Mathf.Lerp(2f, 0.5f, t); // 중심일수록 오래 스턴됨
+                enemy.ApplyStun(stunDuration);
+            }
         }
     }
 }

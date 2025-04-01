@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
     PlayerAttack playerAttack;
     PlayerInvincibility Invincibility;
 
+    public float moveDirection = 0f;
+
     #endregion
 
 
@@ -96,8 +98,6 @@ public class Player : MonoBehaviour
     {
         if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
         {
-            Move();
-            Dash();
             StaminaCostRestoration();
             AutoHpRestoration();
             Jump();
@@ -113,6 +113,15 @@ public class Player : MonoBehaviour
         if(PlayerManager.instance.IsDead == false)
         {
             SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
+        {
+            Move();
+            Dash();
         }
     }
 
@@ -272,7 +281,8 @@ public class Player : MonoBehaviour
     #region 이동 함수
     void Move()
     {
-        float moveDirection = 0f;
+        moveDirection = 0;
+
         if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.Left]))
         {
             if(rb.position.x > minLimitList[currentMapNum].x)
@@ -307,6 +317,7 @@ public class Player : MonoBehaviour
         newScale.x = lastMoveDirection > 0 ? Mathf.Abs(newScale.x) : -Mathf.Abs(newScale.x);
         transform.localScale = newScale;
         playerAttack.SetFacingDir(newScale.x);
+
         rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);       
         if (moveDirection != 0f)
         {

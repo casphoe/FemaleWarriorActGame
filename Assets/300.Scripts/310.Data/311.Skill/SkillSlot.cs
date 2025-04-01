@@ -94,7 +94,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                             PlayerManager.instance.isAiming = false;
                             skillCoolTime = Time.time;
 
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(downAttack);
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
 
                             PlayerManager.instance.isDownAttacking = false;
@@ -135,7 +135,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                             PlayerManager.instance.isAiming = false;
                             skillCoolTime = Time.time;
 
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(downAttack);
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
 
                             PlayerManager.instance.isDownAttacking = false;
@@ -176,7 +176,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                             PlayerManager.instance.isAiming = false;
                             skillCoolTime = Time.time;
 
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(downAttack);
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
 
                             PlayerManager.instance.isDownAttacking = false;
@@ -217,7 +217,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                             PlayerManager.instance.isAiming = false;
                             skillCoolTime = Time.time;
 
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(downAttack);
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
 
                             PlayerManager.instance.isDownAttacking = false;
@@ -258,7 +258,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                             PlayerManager.instance.isAiming = false;
                             skillCoolTime = Time.time;
 
-                            Player.instance.downAttackTrajectory.ExecuteDownAttack();
+                            Player.instance.downAttackTrajectory.ExecuteDownAttack(downAttack);
                             StartCoroutine(UpdateCooldownUI(downAttack.coolTime));
 
                             PlayerManager.instance.isDownAttacking = false;
