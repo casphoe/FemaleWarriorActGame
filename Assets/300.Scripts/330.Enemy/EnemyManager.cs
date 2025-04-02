@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,11 +26,11 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"'{enemy.id}' ¿¡ ÇØ´çÇÏ´Â µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning($"'{enemy.id}' ì— í•´ë‹¹í•˜ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.");
             }
         }
 
-        //Àûµé³¢¸® Ãæµ¹ ¹«½Ã
+        //ì ë“¤ë¼ë¦¬ ì¶©ëŒ ë¬´ì‹œ
         for (int i = 0; i < allEnemies.Length; i++)
         {
             Collider2D colA = allEnemies[i].GetComponent<Collider2D>();
@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (EnemyData data in dataList)
         {
-            if (data.id == id) // id °ªÀ» Åä´ë·Î µ¥ÀÌÅÍ¸¦ °¡Á®¿È
+            if (data.id == id) // id ê°’ì„ í† ëŒ€ë¡œ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜´
                 return data;
         }
 

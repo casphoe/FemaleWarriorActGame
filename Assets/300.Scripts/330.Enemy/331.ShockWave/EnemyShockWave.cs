@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyShockWave : MonoBehaviour
 {
     public float speed = 3f;
-    public float expandSpeed = 1.5f;       // Ä¿Áö´Â ¼Óµµ
-    public float fadeSpeed = 1f;           // »ç¶óÁö´Â ¼Óµµ
-    public float duration = 1.2f;          // ÃÑ ¾Ö´Ï¸ŞÀÌ¼Ç Áö¼Ó ½Ã°£
+    public float expandSpeed = 1.5f;       // ì»¤ì§€ëŠ” ì†ë„
+    public float fadeSpeed = 1f;           // ì‚¬ë¼ì§€ëŠ” ì†ë„
+    public float duration = 1.2f;          // ì´ ì• ë‹ˆë©”ì´ì…˜ ì§€ì† ì‹œê°„
 
     private SpriteRenderer sr;
     private Vector3 initialScale;
@@ -34,29 +34,36 @@ public class EnemyShockWave : MonoBehaviour
     {
         moveDir = direction.normalized;
         transform.localScale = initialScale;
-        sr.color = new Color(1, 1, 1, 1); // ¿ÏÀü ºÒÅõ¸í
+        sr.color = new Color(1, 1, 1, 1); // ì™„ì „ ë¶ˆíˆ¬ëª…
         timer = 0f;
         damage = _damage;
         criticleRate = _criticleRate;
         criticleDmage = _critileDamage;
+
+        if (moveDir.x < 0f)
+        {
+            // ì¢Œìš° ë’¤ì§‘ê¸°
+            transform.localScale = new Vector3(-initialScale.x, initialScale.y, initialScale.z);
+        }
+        else
+        {
+            transform.localScale = initialScale;
+        }
     }
 
     void Update()
     {
         timer += Time.deltaTime;
 
-        // ¾ÕÀ¸·Î ÀÌµ¿
-        transform.Translate(moveDir * speed * Time.deltaTime, Space.World);
+        // ì•ìœ¼ë¡œ ì´ë™
+        transform.Translate(moveDir * speed * Time.deltaTime);
 
-        // Á¡Á¡ Ä¿Áü
-        transform.localScale += Vector3.one * expandSpeed * Time.deltaTime;
-
-        // Á¡Á¡ »ç¶óÁü
+        // ì ì  ì‚¬ë¼ì§
         Color c = sr.color;
         c.a -= fadeSpeed * Time.deltaTime;
         sr.color = c;
 
-        // Áö¼Ó ½Ã°£ Á¾·á ¡æ ºñÈ°¼ºÈ­
+        // ì§€ì† ì‹œê°„ ì¢…ë£Œ â†’ ë¹„í™œì„±í™”
         if (timer >= duration)
         {
             gameObject.SetActive(false);
