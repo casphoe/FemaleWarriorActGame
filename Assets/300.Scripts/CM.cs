@@ -13,6 +13,11 @@ public class CM : MonoBehaviour
     public List<Vector2> maxMapLimitPoistion = new List<Vector2>();
 
     public static CM instance;
+    #region 카메라 흔들림 변수
+    private Vector3 shakeOffset = Vector3.zero;
+    private float shakeDuration = 0f;
+    private float shakeMagnitude = 0f;
+    #endregion
 
     private void Awake()
     {
@@ -36,8 +41,27 @@ public class CM : MonoBehaviour
             newPosition.x = Mathf.Clamp(newPosition.x, minMapLimitPoistion[Player.instance.currentMapNum].x, maxMapLimitPoistion[Player.instance.currentMapNum].x);
             newPosition.y = Mathf.Clamp(newPosition.y, minMapLimitPoistion[Player.instance.currentMapNum].y, maxMapLimitPoistion[Player.instance.currentMapNum].y);
 
+            //흔들림 적용
+            if(shakeDuration > 0)
+            {
+                //반지름 1짜리 3D 구 안에서 무작위 위치를 반환
+                shakeOffset = Random.insideUnitSphere * shakeMagnitude;
+                shakeOffset.z = 0f;
+                shakeDuration -= Time.deltaTime;
+            }
+            else
+            {
+                shakeOffset = Vector3.zero;
+            }
+
             //카메라 위치를 적용
-            transform.position = newPosition;
+            transform.position = newPosition + shakeOffset;
         }
+    }
+
+    public void Shake(float duration, float magnitude)
+    {
+        shakeDuration = duration;
+        shakeMagnitude = magnitude;
     }
 }

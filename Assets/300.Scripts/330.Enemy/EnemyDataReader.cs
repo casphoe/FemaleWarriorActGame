@@ -20,8 +20,9 @@ public struct EnemyData
     public int addExp;
     public float critcleRate;
     public float critcleDmg;
+    public string attackPattern;
 
-    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp , float critcleRate, float critcleDmg)
+    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp , float critcleRate, float critcleDmg, string attackPattern)
     {
         this.id = id;
         this.name = name;
@@ -32,6 +33,7 @@ public struct EnemyData
         this.addExp = addExp;
         this.critcleRate = critcleRate;
         this.critcleDmg = critcleDmg;
+        this.attackPattern = attackPattern;
     }
 }
 
@@ -45,7 +47,7 @@ public class EnemyDataReader : DataReaderBase
     internal void UpdateStats(List<GSTU_Cell> list, int itemID)
     {
         int id = 0, addMoney = 0, addExp = 0;
-        string name = null;
+        string name = null, attackPattern = null;
         float hp = 0, attack = 0, defence = 0, critcleRate = 0, critcleDmg = 0;
 
         for (int i = 0; i < list.Count; i++)
@@ -97,10 +99,15 @@ public class EnemyDataReader : DataReaderBase
                         critcleDmg = float.Parse(list[i].value);
                         break;
                     }
+                case "attackPattern":
+                    {
+                        attackPattern = list[i].value;
+                        break;
+                    }
             }
         }
 
-        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp,critcleRate,critcleDmg));
+        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp,critcleRate,critcleDmg, attackPattern));
     }
 }
 

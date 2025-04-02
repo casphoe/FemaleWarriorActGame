@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //오브젝트 풀링 관리 함수
 public class ObjectPool : MonoBehaviour
 {
     List<GameObject> damageList = new List<GameObject>();
+    List<GameObject> ConfusionList = new List<GameObject>();
+    List<GameObject> shockWaveList = new List<GameObject>();
 
     [SerializeField] GameObject damageTxtPrefab;
+    [SerializeField] GameObject damageConfusionPrefab;
+    [SerializeField] GameObject shockWavePrefab;
 
     int damagePoolSize = 70;
+    int confusionPoolSize = 40;
+    int shockWavePoolSize = 40;
 
     public static ObjectPool instance;
 
@@ -17,6 +24,8 @@ public class ObjectPool : MonoBehaviour
     {
         instance = this;
         InitializeTxtPool();
+        InitializeConfusionPool();
+        InitializeShockWavePool();
     }
 
     #region 데미지 텍스트
@@ -62,6 +71,65 @@ public class ObjectPool : MonoBehaviour
         _damageText.SetActive(true);
         damageList.Add(_damageText);
         return _damageText;
+    }
+    #endregion
+
+    #region 혼란을 알려주는 오브젝트
+    void InitializeConfusionPool()
+    {
+        for (int i = 0; i < confusionPoolSize; i++)
+        {
+            GameObject confusion = Instantiate(damageConfusionPrefab, transform);
+            confusion.transform.SetParent(this.transform.GetChild(1).transform);
+            confusion.SetActive(false);
+            ConfusionList.Add(confusion);
+        }
+    }
+
+    public void SetConfusion(Vector3 target, float duration)
+    {
+        GameObject confusion = GetConfusion();
+        if(confusion != null)
+        {
+            confusion.transform.position = target;
+            confusion.SetActive(true);
+
+            ConfusionQuestionMark mark = confusion.GetComponent<ConfusionQuestionMark>();
+            if(mark != null)
+            {
+                mark.ActivateForDuration(duration);
+            }
+        }
+    }
+
+    GameObject GetConfusion()
+    {
+        foreach (GameObject damageConfusion in ConfusionList)
+        {
+            if (!damageConfusion.activeInHierarchy)
+            {
+                damageConfusion.SetActive(true);
+                return damageConfusion;
+            }
+        }
+
+        GameObject _damageConfusion = Instantiate(damageConfusionPrefab);
+        _damageConfusion.SetActive(true);
+        ConfusionList.Add(_damageConfusion);
+        return _damageConfusion;
+    }
+    #endregion
+
+    #region 초음파 공격 오브젝트
+    void InitializeShockWavePool()
+    {
+        for (int i = 0; i < shockWavePoolSize; i++)
+        {
+            GameObject shockWave = Instantiate(shockWavePrefab, transform);
+            shockWave.transform.SetParent(this.transform.GetChild(2).transform);
+            shockWave.SetActive(false);
+            shockWaveList.Add(shockWave);
+        }
     }
     #endregion
 }

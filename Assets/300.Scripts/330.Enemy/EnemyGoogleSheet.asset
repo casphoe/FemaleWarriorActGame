@@ -26,6 +26,7 @@ MonoBehaviour:
     addExp: 10
     critcleRate: 5
     critcleDmg: 1.5
+    attackPattern: vicinity
   - id: 1
     name: "\uBC15\uC950"
     hp: 60
@@ -35,6 +36,7 @@ MonoBehaviour:
     addExp: 20
     critcleRate: 5
     critcleDmg: 1.5
+    attackPattern: long
   - id: 2
     name: "\uC950"
     hp: 70
@@ -44,6 +46,7 @@ MonoBehaviour:
     addExp: 20
     critcleRate: 5
     critcleDmg: 1.5
+    attackPattern: vicinity
   - id: 3
     name: "\uB3D9\uAD74\uAC8C"
     hp: 80
@@ -53,6 +56,7 @@ MonoBehaviour:
     addExp: 30
     critcleRate: 5
     critcleDmg: 1.5
+    attackPattern: vicinity
   - id: 4
     name: "\uC774\uBE14\uC544\uC774"
     hp: 90
@@ -62,6 +66,7 @@ MonoBehaviour:
     addExp: 35
     critcleRate: 5
     critcleDmg: 2
+    attackPattern: long
   - id: 5
     name: "\uBA38\uC2DC\uB8F8"
     hp: 100
@@ -71,6 +76,7 @@ MonoBehaviour:
     addExp: 40
     critcleRate: 5
     critcleDmg: 2
+    attackPattern: vicinity
   - id: 6
     name: "\uACE0\uBE14\uB9B0"
     hp: 120
@@ -80,6 +86,7 @@ MonoBehaviour:
     addExp: 50
     critcleRate: 5
     critcleDmg: 2
+    attackPattern: vicinity
   - id: 7
     name: "\uD574\uACE8"
     hp: 140
@@ -89,6 +96,7 @@ MonoBehaviour:
     addExp: 60
     critcleRate: 5
     critcleDmg: 2
+    attackPattern: vicinity
   - id: 8
     name: "\uC2A4\uCF08\uB808\uD1A4"
     hp: 180
@@ -98,6 +106,7 @@ MonoBehaviour:
     addExp: 80
     critcleRate: 5
     critcleDmg: 2
+    attackPattern: vicinity
   - id: 9
     name: "\uACE8\uB818"
     hp: 220
@@ -107,6 +116,7 @@ MonoBehaviour:
     addExp: 100
     critcleRate: 10
     critcleDmg: 3
+    attackPattern: vicinity
   - id: 10
     name: "\uAC11\uC637\uACE8\uB818"
     hp: 300
@@ -116,3 +126,4 @@ MonoBehaviour:
     addExp: 150
     critcleRate: 10
     critcleDmg: 3
+    attackPattern: vicinity

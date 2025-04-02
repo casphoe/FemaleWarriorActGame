@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     public int addExp;
     public float critcleRate;
     public float critcleDmg;
+    public string attackPattern;
+
     [Header("난이도에 따른 적 데이터")]
     public float currentHp;
     public float maxHp;
@@ -71,6 +73,9 @@ public class Enemy : MonoBehaviour
     private bool isNearPlayer = false;
 
     public float attackTimer = 0;
+    public float rangedAttackRange = 3f; // 원거리 몬스터는 x축 거리 3 이내일 때 공격
+
+    [SerializeField] Transform shockWaveAttackTrans;
 
     #endregion
     public Slider hpSlider;
@@ -78,6 +83,8 @@ public class Enemy : MonoBehaviour
     private Transform player;
     private Animator anim;
     private SpriteRenderer sprite;
+    private Text txtHp;
+    private Transform hpSliderParent;
 
     private Day lastCheckedDay;
 
@@ -95,6 +102,7 @@ public class Enemy : MonoBehaviour
         addExp = data.addExp;
         critcleRate = data.critcleRate;
         critcleDmg = data.critcleDmg;
+        attackPattern = data.attackPattern;
         EnemyDifficuitySetting();
         ApplyTimeMultiplier();
     }
@@ -139,6 +147,7 @@ public class Enemy : MonoBehaviour
 
         hpSlider.maxValue = maxHp;
         hpSlider.value = currentHp;
+        txtHp.text = currentHp + " / " + maxHp;
     }
 
     #endregion
@@ -148,6 +157,8 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         isNearPlayer = false;
+        txtHp = hpSlider.transform.GetChild(2).GetComponent<Text>();
+        hpSliderParent = hpSlider.transform.parent;
     }
 
     private void Start()
@@ -346,6 +357,7 @@ public class Enemy : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+        hpSliderParent.localScale = scale;
     }
 
     #endregion
@@ -354,10 +366,19 @@ public class Enemy : MonoBehaviour
     {
 
         //크리티컬 판정
-        int rand = UnityEngine.Random.Range(1, 101); // 1~100 포함
-        bool isCritical = rand <= critcleRate;
+        int rand = Random.Range(1, 101); // 1~100 포함
+        bool isCritical = false;
 
-        if(isCritical)
+        if (enemyState == State.Stun)
+        {
+            isCritical = true;
+        }
+        else
+        {
+            isCritical = rand <= critcleRate;
+        }
+
+        if (isCritical)
         {
             damage = damage * (critcleDmg / 100f); // 예: 150 → 1.5배
         }
@@ -411,6 +432,7 @@ public class Enemy : MonoBehaviour
         if (hpSlider != null)
         {
             hpSlider.value = currentHp;
+            txtHp.text = currentHp + " / " + maxHp;
         }
     }
 
@@ -459,17 +481,42 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        if (enemyState != State.Death && isNearPlayer)
+        if (enemyState != State.Death && enemyState != State.Stun && isNearPlayer)
         {
             attackTimer += Time.deltaTime;
 
-            if (attackTimer >= 1.5f) // 공격 주기 조절 (1.5초 등)
+            //원거리 공격
+            if(attackPattern == "long")
             {
-                enemyState = State.Attack;
-                anim.SetBool("Attack",true); // Animator에 "Attack" 트리거 있어야 함
-                anim.SetBool("isMoving", false);
-                Player.instance.TakeDamage(attack, critcleRate, critcleDmg, 1);
-                attackTimer = 0f;
+                float xDistance = Mathf.Abs(player.position.x - transform.position.x);
+                bool isPlayerInRange = xDistance <= rangedAttackRange;
+
+                if (enemyState == State.Chase && isPlayerInRange)
+                {
+                    enemyState = State.Attack;
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("isMoving", false);
+
+                    attackTimer = 0f;
+
+                    // 바라보는 방향으로 발사
+                    Vector2 dir = isFacingRight ? Vector2.right : Vector2.left;
+                }
+            }
+            else
+            {
+                //근접 공격
+                if(isNearPlayer)
+                {
+                    if (attackTimer >= 1.5f) // 공격 주기 조절 (1.5초 등)
+                    {
+                        enemyState = State.Attack;
+                        anim.SetBool("Attack", true); // Animator에 "Attack" 트리거 있어야 함
+                        anim.SetBool("isMoving", false);
+                        Player.instance.TakeDamage(attack, critcleRate, critcleDmg, 1);
+                        attackTimer = 0f;
+                    }
+                }
             }
         }
     }

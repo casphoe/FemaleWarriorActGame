@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TinyJSON;
 using UnityEngine;
 
 public class DownAttackTrajectory : MonoBehaviour
@@ -146,6 +145,10 @@ public class DownAttackTrajectory : MonoBehaviour
 
         PlayerManager.instance.isDownAttacking = false;
 
+        SoundManager.Instance.PlaySFX("DownAttackMoveFinish");
+
+        CM.instance.Shake(0.2f, 0.15f);
+
         // TODO: 이곳에 충돌 처리나 공격 로직 추가
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(target, attackRadius, Player.instance.enemyLayer);
 
@@ -160,9 +163,9 @@ public class DownAttackTrajectory : MonoBehaviour
             float t = Mathf.Clamp01(distance / attackRadius);
 
             // 가까울수록 데미지가 높게
-            float damageMultiplier = Mathf.Lerp(2, 1, t);
+            float damageMultiplier = Mathf.Lerp(2.5f, 1, t);
 
-            float finalDamage = data.damage * damageMultiplier;
+            float finalDamage = (PlayerManager.instance.player.attack +  data.damage) * damageMultiplier;
 
             Enemy enemy = enemyCol.GetComponent<Enemy>();
             if (enemy != null)
@@ -170,8 +173,10 @@ public class DownAttackTrajectory : MonoBehaviour
                 enemy.TakeDamage(finalDamage, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg);
 
                 // 스턴 효과 추가
-                float stunDuration = Mathf.Lerp(2f, 0.5f, t); // 중심일수록 오래 스턴됨
+                float stunDuration = Mathf.Lerp(4, 2, t); // 중심일수록 오래 스턴됨
                 enemy.ApplyStun(stunDuration);
+
+                ObjectPool.instance.SetConfusion(enemy.transform.position + new Vector3(0, 1.8f, 0), stunDuration);
             }
         }
     }

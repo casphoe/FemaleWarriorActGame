@@ -11597,12 +11597,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSourcePrefab: {fileID: 650575832739579738, guid: bface25d17174ec40a359913efb24171, type: 3}
-  poolSize: 30
   sfxClips:
   - name: SlimeSplash
     clip: {fileID: 8300000, guid: ebbed237de04ca44eaab696610ddc5c2, type: 3}
   - name: batMove
     clip: {fileID: 8300000, guid: 18b2f8b592a28034b8149a3fcd544e63, type: 3}
+  - name: DownAttackMoveFinish
+    clip: {fileID: 8300000, guid: fc8322734818d43438a2a692e25a683b, type: 3}
 --- !u!1 &1583810551
 GameObject:
   m_ObjectHideFlags: 0

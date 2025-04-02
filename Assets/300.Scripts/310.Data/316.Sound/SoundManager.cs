@@ -8,7 +8,7 @@ public class SoundManager : MonoBehaviour
     //환경음 오디오 사운드를 풀링 해서 겹쳐도 깨지지 않게 하기 위해서 사용
     [Header("SFX")]
     public AudioSource audioSourcePrefab; // 풀링할 AudioSource 프리팹
-    public int poolSize = 30;
+    private int poolSize = 40;
     
     
     public List<Sound> sfxClips = new List<Sound>(); //효과음 재생 리스트
