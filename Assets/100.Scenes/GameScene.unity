@@ -10230,7 +10230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTxtPrefab: {fileID: 5665770090963048970, guid: 2288ab4a79527ca4f861ec1d2ebe7adb, type: 3}
   damageConfusionPrefab: {fileID: 1499265347079236018, guid: 08cad8b9131e8f64a8f9861045beaae8, type: 3}
-  shockWavePrefab: {fileID: 0}
+  shockWavePrefab: {fileID: 5434348395681122905, guid: dd907b9ca8ed30448b938ca3154c6faa, type: 3}
 --- !u!1 &291189639
 GameObject:
   m_ObjectHideFlags: 0
