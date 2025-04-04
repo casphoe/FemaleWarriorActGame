@@ -8,15 +8,15 @@ public class ObjectPool : MonoBehaviour
 {
     List<GameObject> damageList = new List<GameObject>();
     List<GameObject> ConfusionList = new List<GameObject>();
-    List<GameObject> shockWaveList = new List<GameObject>();
+    List<GameObject> slasheList = new List<GameObject>();
 
     [SerializeField] GameObject damageTxtPrefab;
     [SerializeField] GameObject damageConfusionPrefab;
-    [SerializeField] GameObject shockWavePrefab;
+    [SerializeField] GameObject slasehrefab;
 
     int damagePoolSize = 70;
     int confusionPoolSize = 40;
-    int shockWavePoolSize = 40;
+    int slashPoolSize = 40;
 
     public static ObjectPool instance;
 
@@ -25,7 +25,7 @@ public class ObjectPool : MonoBehaviour
         instance = this;
         InitializeTxtPool();
         InitializeConfusionPool();
-        InitializeShockWavePool();
+        InitializeSlashPool();
     }
 
     #region 데미지 텍스트
@@ -120,15 +120,15 @@ public class ObjectPool : MonoBehaviour
     }
     #endregion
 
-    #region 초음파 공격 오브젝트
-    void InitializeShockWavePool()
+    #region 검기
+    void InitializeSlashPool()
     {
-        for (int i = 0; i < shockWavePoolSize; i++)
+        for (int i = 0; i < slashPoolSize; i++)
         {
-            GameObject shockWave = Instantiate(shockWavePrefab, transform);
-            shockWave.transform.SetParent(this.transform.GetChild(2).transform);
-            shockWave.SetActive(false);
-            shockWaveList.Add(shockWave);
+            GameObject slash = Instantiate(slasehrefab, transform);
+            slash.transform.SetParent(this.transform.GetChild(2).transform);
+            slash.SetActive(false);
+            slasheList.Add(slash);
         }
     }
     #endregion

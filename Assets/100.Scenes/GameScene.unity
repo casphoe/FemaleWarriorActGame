@@ -3491,7 +3491,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.086, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalScale: {x: 0.015625, y: 0.015625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2056766951}
@@ -9074,7 +9074,7 @@ RectTransform:
   m_Father: {fileID: 1265296833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10008,7 +10008,7 @@ Transform:
   m_GameObject: {fileID: 277557047}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.091, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10230,7 +10230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTxtPrefab: {fileID: 5665770090963048970, guid: 2288ab4a79527ca4f861ec1d2ebe7adb, type: 3}
   damageConfusionPrefab: {fileID: 1499265347079236018, guid: 08cad8b9131e8f64a8f9861045beaae8, type: 3}
-  shockWavePrefab: {fileID: 5434348395681122905, guid: dd907b9ca8ed30448b938ca3154c6faa, type: 3}
+  slasehrefab: {fileID: 5434348395681122905, guid: eff622b503a24f0468d0092c51cc6f33, type: 3}
 --- !u!1 &291189639
 GameObject:
   m_ObjectHideFlags: 0
@@ -10370,7 +10370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299053092
 Transform:
   m_ObjectHideFlags: 0
@@ -10446,11 +10446,12 @@ MonoBehaviour:
   - {x: 29.17, y: -9.053}
   - {x: 17.47, y: -9.053}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
   currentMapNum: 2
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 0}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 258343345606762227}
 --- !u!61 &299053095
 BoxCollider2D:
@@ -19115,7 +19116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.086, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalScale: {x: 0.015625, y: 0.015625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 221354958}
@@ -47103,7 +47104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &898648202
 Transform:
   m_ObjectHideFlags: 0
@@ -47180,11 +47181,12 @@ MonoBehaviour:
   - {x: 130.4, y: -7.26}
   - {x: 158.2, y: -7.26}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 3
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 1160413156}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 748868547}
 --- !u!61 &898648205
 BoxCollider2D:
@@ -48830,7 +48832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &934502114
 Transform:
   m_ObjectHideFlags: 0
@@ -48906,11 +48908,12 @@ MonoBehaviour:
   - {x: 40.23, y: -9.053}
   - {x: 64.68, y: -9.053}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 2
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 0}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 1929408486}
 --- !u!61 &934502117
 BoxCollider2D:
@@ -64531,6 +64534,7 @@ GameObject:
   - component: {fileID: 1452441635}
   - component: {fileID: 1452441634}
   - component: {fileID: 1452441633}
+  - component: {fileID: 1452441636}
   - component: {fileID: 1452441632}
   m_Layer: 7
   m_Name: Bat
@@ -64615,11 +64619,12 @@ MonoBehaviour:
   - {x: 86.5, y: -7.26}
   - {x: 107.4, y: -7.26}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 3
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 277557048}
+  shockWave: {fileID: 1452441636}
   hpSlider: {fileID: 2029743742}
 --- !u!61 &1452441634
 BoxCollider2D:
@@ -64718,6 +64723,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1452441636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452441630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff577c992923474082a2fe337f88ca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shockWaveMat: {fileID: 2100000, guid: 7d90fa514574aa949990b0192830038e, type: 2}
 --- !u!1 &1454117393
 GameObject:
   m_ObjectHideFlags: 0
@@ -66662,7 +66680,7 @@ RectTransform:
   m_Father: {fileID: 1944188882}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -67107,7 +67125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1521116823
 Transform:
   m_ObjectHideFlags: 0
@@ -67184,11 +67202,12 @@ MonoBehaviour:
   - {x: 130.4, y: -7.26}
   - {x: 158.2, y: -7.26}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 3
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 1853859338}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 566881323}
 --- !u!61 &1521116826
 BoxCollider2D:
@@ -67598,7 +67617,7 @@ RectTransform:
   m_Father: {fileID: 1541877658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -73195,11 +73214,12 @@ MonoBehaviour:
   - {x: 40.23, y: -9.053}
   - {x: 64.68, y: -9.053}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 2
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 0}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 4938735620889994270}
 --- !u!95 &1652147667
 Animator:
@@ -76429,7 +76449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1759104386
 Transform:
   m_ObjectHideFlags: 0
@@ -76506,11 +76526,12 @@ MonoBehaviour:
   - {x: 86.5, y: -7.26}
   - {x: 107.4, y: -7.26}
   patrolWaitTime: 2
+  isFacingRight: 1
   gotHit: 0
-  currentMapNum: 0
+  currentMapNum: 3
   attackTimer: 0
-  rangedAttackRange: 3
   shockWaveAttackTrans: {fileID: 14587060}
+  shockWave: {fileID: 0}
   hpSlider: {fileID: 1565322067}
 --- !u!61 &1759104389
 BoxCollider2D:
@@ -78059,7 +78080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1815854200}
   m_Layer: 0
-  m_Name: ShockWave
+  m_Name: slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83123,7 +83144,7 @@ RectTransform:
   m_Father: {fileID: 1951899304}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -84981,7 +85002,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.086, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalScale: {x: 0.015625, y: 0.015625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 446236147}
@@ -86021,7 +86042,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.086, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalScale: {x: 0.015625, y: 0.015625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1730780793}
@@ -88395,7 +88416,7 @@ RectTransform:
   m_Father: {fileID: 3787525004441538912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

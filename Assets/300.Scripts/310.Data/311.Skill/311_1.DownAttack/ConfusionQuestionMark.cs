@@ -13,7 +13,7 @@ public class ConfusionQuestionMark : MonoBehaviour
     private Vector3 startPos;
     private SpriteRenderer sr;
 
-    void Start()
+    void Awake()
     {
         startPos = transform.localPosition;
         sr = GetComponent<SpriteRenderer>();

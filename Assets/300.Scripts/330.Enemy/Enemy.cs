@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
 
     private Vector2 patrolTarget;
     private float waitTimer;
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     private bool isChasingPlayer = false;
     private Vector2 lastKnownPlayerPos;
@@ -73,9 +73,10 @@ public class Enemy : MonoBehaviour
     private bool isNearPlayer = false;
 
     public float attackTimer = 0;
-    public float rangedAttackRange = 3f; // 원거리 몬스터는 x축 거리 3 이내일 때 공격
+    private float rangedAttackRange = 4f; // 원거리 몬스터는 x축 거리 4 이내일 때 공격
 
-    [SerializeField] Transform shockWaveAttackTrans;
+    public Transform shockWaveAttackTrans;
+    [SerializeField] EnemyShockWave shockWave;
 
     #endregion
     public Slider hpSlider;
@@ -189,6 +190,9 @@ public class Enemy : MonoBehaviour
 
         Attack();
 
+        // Attack 상태면 이동하지 않고 즉시 리턴
+        if (enemyState == State.Attack) return;
+
         // 상태 갱신
         switch (enemyState)
         {
@@ -284,12 +288,13 @@ public class Enemy : MonoBehaviour
         if (Player.instance.currentMapNum != currentMapNum)
             return false;
         //적과 플레이어 방향을 나타내는 백터
-        Vector2 toPlayer = player.position - transform.position;
+        float xDistance = Mathf.Abs(player.position.x - transform.position.x);
         //플레이어가 적으로 감지 범위 바깥에 있다면 감지 불가하게 함(두점 사이의 직선 거리와 감지 범위를 통해서 false인지 true인지 반영)
-        if (toPlayer.magnitude > detectionRange) return false;
+        if(xDistance > detectionRange) return false;
         //적이 왼쪽/오른쪽 어느 방향을 보고 있는 판단해는 함수
         Vector2 facing = isFacingRight ? Vector2.right : Vector2.left;
         //적이 바라보는 방향과 플레이어 방향 사이의 코사인 값을 구함 1에 가까울수록 정면 0이면 90도 -1이면 완전한 반대 값
+        Vector2 toPlayer = player.position - transform.position;
         float dot = Vector2.Dot(facing.normalized, toPlayer.normalized);
 
         //적이 바라보는 방향 기준으로 += 60도 (총 120도) 이내에 플레이어가 있으면 true를 반환
@@ -436,7 +441,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /*private void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         // 감지 반경 (노란색)
         Gizmos.color = Color.yellow;
@@ -459,14 +464,15 @@ public class Enemy : MonoBehaviour
             Vector3 dir = rot * facingDir;
             Gizmos.DrawLine(transform.position, transform.position + dir.normalized * detectionRange);
         }
-    }*/
+    }
 
     #region 공격 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isNearPlayer = true;
+            if (attackPattern != "long")
+                isNearPlayer = true;
         }
     }
 
@@ -474,33 +480,42 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isNearPlayer = false;
-            attackTimer = 0f;
+            if(attackPattern != "long")
+            {
+                isNearPlayer = false;
+                attackTimer = 0f;
+            }
         }
     }
 
     void Attack()
     {
-        if (enemyState != State.Death && enemyState != State.Stun && isNearPlayer)
+        if (enemyState != State.Death && enemyState != State.Stun &&
+     (attackPattern == "long" || isNearPlayer))
         {
-            attackTimer += Time.deltaTime;
-
+          
             //원거리 공격
             if(attackPattern == "long")
             {
                 float xDistance = Mathf.Abs(player.position.x - transform.position.x);
                 bool isPlayerInRange = xDistance <= rangedAttackRange;
-
-                if (enemyState == State.Chase && isPlayerInRange)
+                if (enemyState == State.Chase || isPlayerInRange)
                 {
-                    enemyState = State.Attack;
-                    anim.SetBool("Attack", true);
-                    anim.SetBool("isMoving", false);
+                    attackTimer += Time.deltaTime;
+                    if(attackTimer >= 1.5f)
+                    {
+                        enemyState = State.Attack;
+                        anim.SetBool("Attack", true);
+                        anim.SetBool("isMoving", false);
 
-                    attackTimer = 0f;
 
-                    // 바라보는 방향으로 발사
-                    Vector2 dir = isFacingRight ? Vector2.right : Vector2.left;
+                        // 바라보는 방향으로 발사
+                        Vector2 dir = isFacingRight ? Vector2.right : Vector2.left;
+                        shockWave.Init(currentAttack, currentCritcleRate, currentCritcleDmg);
+                        shockWave.FireShockWave(isFacingRight);
+
+                        attackTimer = 0f;
+                    }
                 }
             }
             else
@@ -508,8 +523,11 @@ public class Enemy : MonoBehaviour
                 //근접 공격
                 if(isNearPlayer)
                 {
+                    attackTimer += Time.deltaTime;
+
                     if (attackTimer >= 1.5f) // 공격 주기 조절 (1.5초 등)
                     {
+
                         enemyState = State.Attack;
                         anim.SetBool("Attack", true); // Animator에 "Attack" 트리거 있어야 함
                         anim.SetBool("isMoving", false);
@@ -525,22 +543,39 @@ public class Enemy : MonoBehaviour
     {
         anim.SetBool("Attack", false); // 공격 애니메이션 종료
         anim.SetBool("isMoving", true);
-        // 공격 도중에 플레이어가 도망간 경우
-        if (!isNearPlayer)
+        if (attackPattern == "long")
         {
-            if (IsPlayerInSight())
+            if (IsPlayerInSight() && Mathf.Abs(player.position.x - transform.position.x) <= rangedAttackRange)
             {
-                lastKnownPlayerPos = player.position;
-                enemyState = State.Chase;
+                enemyState = State.Attack; // 플레이어가 범위 안에 있으면 다시 공격 준비
+            }
+            else if (IsPlayerInSight())
+            {
+                enemyState = State.Chase; // 플레이어가 시야에는 있지만 범위 밖이면 추적
             }
             else
             {
-                enemyState = State.Patrol;
+                enemyState = State.Patrol; // 플레이어가 시야에 없으면 순찰
             }
         }
         else
-        {           
-            enemyState = State.Attack; // 혹은 Attack 유지도 가능
+        {
+            if (!isNearPlayer)
+            {
+                if (IsPlayerInSight())
+                {
+                    lastKnownPlayerPos = player.position;
+                    enemyState = State.Chase;
+                }
+                else
+                {
+                    enemyState = State.Patrol;
+                }
+            }
+            else
+            {
+                enemyState = State.Attack;
+            }
         }
     }
     #endregion
