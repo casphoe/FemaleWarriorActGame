@@ -106,13 +106,13 @@ public class Player : MonoBehaviour
             StaminaPotionEat();
             GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
             GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
-            HpTextChange(currentHp, PlayerManager.instance.player.hp);
-            StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
         }
 
         if(PlayerManager.instance.IsDead == false)
         {
             SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
+            HpTextChange(currentHp, PlayerManager.instance.player.hp);
+            StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
         }
     }
 
@@ -223,6 +223,7 @@ public class Player : MonoBehaviour
         if (currentHp <= 0)
         {
             anim.SetBool("Death", true); //  Animator에 Death 상태 전이 발생        
+            PlayerManager.instance.IsDead = true;
         }
         else
         {

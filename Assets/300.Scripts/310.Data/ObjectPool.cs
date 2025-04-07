@@ -8,7 +8,7 @@ public class ObjectPool : MonoBehaviour
 {
     List<GameObject> damageList = new List<GameObject>();
     List<GameObject> ConfusionList = new List<GameObject>();
-    List<GameObject> slasheList = new List<GameObject>();
+    List<GameObject> SlasheList = new List<GameObject>();
 
     [SerializeField] GameObject damageTxtPrefab;
     [SerializeField] GameObject damageConfusionPrefab;
@@ -128,8 +128,41 @@ public class ObjectPool : MonoBehaviour
             GameObject slash = Instantiate(slasehrefab, transform);
             slash.transform.SetParent(this.transform.GetChild(2).transform);
             slash.SetActive(false);
-            slasheList.Add(slash);
+            SlasheList.Add(slash);
         }
+    }
+
+    public void SetSlash(Vector3 target,float damage,float cirticleRate,float cirticleDamage,float moveSpeed, float duration, Vector2 moveDir, float expandSpeed, SlashState state)
+    {
+        GameObject slash = GetSlash();
+        if(slash != null)
+        {
+            slash.transform.position = target;
+            slash.SetActive(true);
+
+            Slash _slash = slash.GetComponent<Slash>();
+            if(_slash != null)
+            {
+                _slash.Init(damage, cirticleRate, cirticleDamage, moveSpeed, duration, moveDir, expandSpeed, state);
+            }
+        }
+    }
+
+    GameObject GetSlash()
+    {
+        foreach (GameObject slashObject in SlasheList)
+        {
+            if (!slashObject.activeInHierarchy)
+            {
+                slashObject.SetActive(true);
+                return slashObject;
+            }
+        }
+
+        GameObject _slashObject = Instantiate(slasehrefab);
+        _slashObject.SetActive(true);
+        SlasheList.Add(_slashObject);
+        return _slashObject;
     }
     #endregion
 }

@@ -76,7 +76,6 @@ public class Enemy : MonoBehaviour
     private float rangedAttackRange = 4f; // 원거리 몬스터는 x축 거리 4 이내일 때 공격
 
     public Transform shockWaveAttackTrans;
-    [SerializeField] EnemyShockWave shockWave;
 
     #endregion
     public Slider hpSlider;
@@ -492,13 +491,15 @@ public class Enemy : MonoBehaviour
     {
         if (enemyState != State.Death && enemyState != State.Stun &&
      (attackPattern == "long" || isNearPlayer))
-        {
-          
+        {        
             //원거리 공격
             if(attackPattern == "long")
             {
+                //두 오브젝트 사이의 x축 거리를 절댓값으로 계산하기 위해서 사용(플레이어와 적 사이의 수평거리)
                 float xDistance = Mathf.Abs(player.position.x - transform.position.x);
+                //플레이어가 적 원거리 공격 범위 안에 들어왔는지 확인
                 bool isPlayerInRange = xDistance <= rangedAttackRange;
+                //적이 추적상태이거나 또는 플레이어가 사거리 안에 있다면 공격
                 if (enemyState == State.Chase || isPlayerInRange)
                 {
                     attackTimer += Time.deltaTime;
@@ -509,10 +510,9 @@ public class Enemy : MonoBehaviour
                         anim.SetBool("isMoving", false);
 
 
-                        // 바라보는 방향으로 발사
+                        // 바라보는 방향으로 발사(투사체가 날아가는 방향)
                         Vector2 dir = isFacingRight ? Vector2.right : Vector2.left;
-                        shockWave.Init(currentAttack, currentCritcleRate, currentCritcleDmg);
-                        shockWave.FireShockWave(isFacingRight);
+                        ObjectPool.instance.SetSlash(shockWaveAttackTrans.position, currentAttack, currentCritcleRate, currentCritcleDmg, 3, 3, dir, 0.3f, SlashState.Enemy);
 
                         attackTimer = 0f;
                     }
