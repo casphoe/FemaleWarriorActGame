@@ -67,7 +67,6 @@ public class Slash : MonoBehaviour
         transform.localScale = initialScale;
 
         sr.flipX = moveDir.x < 0;
-
         sr.color = new Color(1, 1, 1, 1);
     }
 
@@ -77,21 +76,25 @@ public class Slash : MonoBehaviour
 
         transform.Translate(moveDir * moveSpeed * Time.deltaTime);
 
+        //오브젝트 가 시간에 따라서 켜지는 기능
         transform.localScale += initialScale * expandSpeed * Time.deltaTime;
 
+        //오브젝트 투명도 감소
         alpha -= fadeSpeed * Time.deltaTime;
         alpha = Mathf.Clamp01(alpha);
         sr.color = new Color(1, 1, 1, alpha);
 
-        float attackRadius = transform.localScale.x * 0.5f; // 또는 원하는 값
+        //충돌 범위
+        float attackRadius = transform.localScale.x * 1.5f; // 또는 원하는 값
 
         // 충돌 체크 (거리 기반)
         if (!hasHit)
-        {       
+        {
             if (state == SlashState.Enemy) //적이 생성
             {
+                //현재 오브젝트 좌표에서 충돌 범위안에 Player Layer가 있는 오브젝트의 충돌 콜라이더를 찾음
                 Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Player"));
-                foreach (Collider2D col in hitTargets)
+                foreach (Collider2D col in hitTargets) 
                 {
                     Player player = col.GetComponent<Player>();
                     if (player != null)
@@ -99,28 +102,25 @@ public class Slash : MonoBehaviour
                         float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지
                         player.TakeDamage(scaledDamage, criticleRate, criticleDamage, 1);
                         hasHit = true;
+                        gameObject.SetActive(false); 
                     }
                 }
             }
             else //플레이어 생성
             {
-                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-                foreach (GameObject enemyObj in enemies)
+                Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Enemy"));
+                foreach (Collider2D col in hitTargets)
                 {
-                    Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Enemy"));
-                    foreach (Collider2D col in hitTargets)
+                    Enemy enemy = col.GetComponent<Enemy>();
+                    if (enemy != null)
                     {
-                        Enemy enemy = col.GetComponent<Enemy>();
-                        if(enemy != null)
-                        {
-                            float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지
-                            enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage);
-                            hasHit = true;
-                        }
+                        float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지(충돌체 생성 위치와 적이 가까이 잇으면 있을 수록 데미지 증가)
+                        enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage);
+                        hasHit = true;
+                        gameObject.SetActive(false);
                     }
                 }
-            }               
+            }
         }
 
 

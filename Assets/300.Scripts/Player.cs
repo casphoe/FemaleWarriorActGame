@@ -46,11 +46,11 @@ public class Player : MonoBehaviour
 
     SpriteRenderer shadowRender;
 
-    private float lastDashTime;
-    private float lastStaminaTime;
-    private float lastHpTime;
-    private float lastJumpTime;
-    private float lastAttackTime;
+    private float lastDashTime = 0;
+    private float lastStaminaTime = 0;
+    private float lastHpTime = 0;
+    private float lastJumpTime = 0;
+    private float lastAttackTime = 0;
     private float[] staminaCost = new float[2];
 
     [SerializeField] Text hpText;
@@ -102,6 +102,8 @@ public class Player : MonoBehaviour
             AutoHpRestoration();
             Jump();
             Attack();
+            Dash();
+            Move();
             HpPotionEat();
             StaminaPotionEat();
             GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
@@ -113,15 +115,6 @@ public class Player : MonoBehaviour
             SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
             HpTextChange(currentHp, PlayerManager.instance.player.hp);
             StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
-        {
-            Move();
-            Dash();
         }
     }
 
