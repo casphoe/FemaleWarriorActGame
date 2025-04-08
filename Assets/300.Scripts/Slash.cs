@@ -83,13 +83,14 @@ public class Slash : MonoBehaviour
         alpha = Mathf.Clamp01(alpha);
         sr.color = new Color(1, 1, 1, alpha);
 
-        float attackRadius = transform.localScale.x * 0.5f; // 또는 원하는 값
+        float attackRadius = transform.localScale.x * 1.5f; // 또는 원하는 값
 
         // 충돌 체크 (거리 기반)
         if (!hasHit)
         {       
             if (state == SlashState.Enemy) //적이 생성
             {
+                //현재 오브젝트 좌표에서 충돌 범위안에 Player Layer가 있는 오브젝트의 충돌 콜라이더를 찾음
                 Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Player"));
                 foreach (Collider2D col in hitTargets)
                 {
@@ -104,20 +105,15 @@ public class Slash : MonoBehaviour
             }
             else //플레이어 생성
             {
-                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-                foreach (GameObject enemyObj in enemies)
+                Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Enemy"));
+                foreach (Collider2D col in hitTargets)
                 {
-                    Collider2D[] hitTargets = Physics2D.OverlapCircleAll(transform.position, attackRadius, LayerMask.GetMask("Enemy"));
-                    foreach (Collider2D col in hitTargets)
+                    Enemy enemy = col.GetComponent<Enemy>();
+                    if (enemy != null)
                     {
-                        Enemy enemy = col.GetComponent<Enemy>();
-                        if(enemy != null)
-                        {
-                            float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지
-                            enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage);
-                            hasHit = true;
-                        }
+                        float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지
+                        enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage);
+                        hasHit = true;
                     }
                 }
             }               

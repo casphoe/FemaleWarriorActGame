@@ -106,6 +106,8 @@ public class Player : MonoBehaviour
             StaminaPotionEat();
             GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
             GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
+            Move();
+            Dash();
         }
 
         if(PlayerManager.instance.IsDead == false)
@@ -113,15 +115,6 @@ public class Player : MonoBehaviour
             SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
             HpTextChange(currentHp, PlayerManager.instance.player.hp);
             StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
-        {
-            Move();
-            Dash();
         }
     }
 
