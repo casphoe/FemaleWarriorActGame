@@ -26,46 +26,54 @@
         },
         {
             "customKeyCode": 6,
-            "keyCode": 107
+            "keyCode": 112
         },
         {
             "customKeyCode": 7,
-            "keyCode": 105
+            "keyCode": 107
         },
         {
             "customKeyCode": 8,
-            "keyCode": 49
+            "keyCode": 105
         },
         {
             "customKeyCode": 9,
-            "keyCode": 50
+            "keyCode": 324
         },
         {
             "customKeyCode": 10,
-            "keyCode": 51
+            "keyCode": 49
         },
         {
             "customKeyCode": 11,
-            "keyCode": 52
+            "keyCode": 50
         },
         {
             "customKeyCode": 12,
-            "keyCode": 53
+            "keyCode": 51
         },
         {
             "customKeyCode": 13,
-            "keyCode": 54
+            "keyCode": 52
         },
         {
             "customKeyCode": 14,
-            "keyCode": 55
+            "keyCode": 53
         },
         {
             "customKeyCode": 15,
-            "keyCode": 273
+            "keyCode": 54
         },
         {
             "customKeyCode": 16,
+            "keyCode": 55
+        },
+        {
+            "customKeyCode": 17,
+            "keyCode": 273
+        },
+        {
+            "customKeyCode": 18,
             "keyCode": 27
         }
     ]

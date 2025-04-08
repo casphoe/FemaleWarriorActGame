@@ -22,8 +22,10 @@ public class KeyManager : MonoBehaviour
     { KeyCode.Z, CustomKeyCode.Attack },
     { KeyCode.LeftControl, CustomKeyCode.Evasion },
     { KeyCode.E, CustomKeyCode.Equipment },
+     { KeyCode.P, CustomKeyCode.PlayerInfo },
     { KeyCode.K, CustomKeyCode.Skill },
     { KeyCode.I, CustomKeyCode.Inventory },
+    { KeyCode.Mouse1, CustomKeyCode.BlockKey }, //1 :마우스 오른쪽, 2 : 마우스 가운데, 0 : 마우스 왼쪽 
     { KeyCode.Alpha1, CustomKeyCode.ShortcutKey1 },
     { KeyCode.Alpha2, CustomKeyCode.ShortcutKey2 },
     { KeyCode.Alpha3, CustomKeyCode.ShortcutKey3 },
@@ -165,8 +167,10 @@ public class KeyManager : MonoBehaviour
         GameManager.data.keyMappings[CustomKeyCode.Attack] = KeyCode.Z;
         GameManager.data.keyMappings[CustomKeyCode.Evasion] = KeyCode.LeftControl;
         GameManager.data.keyMappings[CustomKeyCode.Equipment] = KeyCode.E;
+        GameManager.data.keyMappings[CustomKeyCode.PlayerInfo] = KeyCode.P;
         GameManager.data.keyMappings[CustomKeyCode.Skill] = KeyCode.K;
         GameManager.data.keyMappings[CustomKeyCode.Inventory] = KeyCode.I;
+        GameManager.data.keyMappings[CustomKeyCode.BlockKey] = KeyCode.Mouse1;
         GameManager.data.keyMappings[CustomKeyCode.ShortcutKey1] = KeyCode.Alpha1;
         GameManager.data.keyMappings[CustomKeyCode.ShortcutKey2] = KeyCode.Alpha2;
         GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3] = KeyCode.Alpha3;

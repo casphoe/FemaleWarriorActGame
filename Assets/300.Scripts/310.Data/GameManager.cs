@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Dynamic;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using Unity.VisualScripting.FullSerializer.Internal;
 
 [SerializeField]
 public class GameManagerData
@@ -58,7 +55,7 @@ public enum Day
 [SerializeField]
 public enum CustomKeyCode
 {
-    Left,Right,Jump,Attack,Evasion, Equipment, Skill, Inventory, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey
+    Left,Right,Jump,Attack,Evasion, Equipment,PlayerInfo, Skill, Inventory,BlockKey, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey
 }
 
 [SerializeField]
