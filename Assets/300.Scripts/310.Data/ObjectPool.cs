@@ -98,6 +98,7 @@ public class ObjectPool : MonoBehaviour
             if(mark != null)
             {
                 mark.ActivateForDuration(duration);
+                mark.SetBasePosition(target);
             }
         }
     }

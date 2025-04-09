@@ -27,6 +27,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 1.5
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 30
+    guardRecoverycoolTime: 5
+    guardRecoveryValue: 3
   - id: 1
     name: "\uBC15\uC950"
     hp: 60
@@ -37,6 +41,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 1.5
     attackPattern: long
+    attackRange: 2
+    guardValue: 30
+    guardRecoverycoolTime: 5
+    guardRecoveryValue: 3
   - id: 2
     name: "\uC950"
     hp: 70
@@ -47,6 +55,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 1.5
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 40
+    guardRecoverycoolTime: 10
+    guardRecoveryValue: 3
   - id: 3
     name: "\uB3D9\uAD74\uAC8C"
     hp: 80
@@ -57,6 +69,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 1.5
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 50
+    guardRecoverycoolTime: 10
+    guardRecoveryValue: 4
   - id: 4
     name: "\uC774\uBE14\uC544\uC774"
     hp: 90
@@ -67,6 +83,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 2
     attackPattern: long
+    attackRange: 3
+    guardValue: 60
+    guardRecoverycoolTime: 15
+    guardRecoveryValue: 4
   - id: 5
     name: "\uBA38\uC2DC\uB8F8"
     hp: 100
@@ -77,6 +97,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 2
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 80
+    guardRecoverycoolTime: 15
+    guardRecoveryValue: 4
   - id: 6
     name: "\uACE0\uBE14\uB9B0"
     hp: 120
@@ -87,6 +111,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 2
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 80
+    guardRecoverycoolTime: 15
+    guardRecoveryValue: 4
   - id: 7
     name: "\uD574\uACE8"
     hp: 140
@@ -97,6 +125,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 2
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 80
+    guardRecoverycoolTime: 15
+    guardRecoveryValue: 6
   - id: 8
     name: "\uC2A4\uCF08\uB808\uD1A4"
     hp: 180
@@ -107,6 +139,10 @@ MonoBehaviour:
     critcleRate: 5
     critcleDmg: 2
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 100
+    guardRecoverycoolTime: 20
+    guardRecoveryValue: 6
   - id: 9
     name: "\uACE8\uB818"
     hp: 220
@@ -117,6 +153,10 @@ MonoBehaviour:
     critcleRate: 10
     critcleDmg: 3
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 100
+    guardRecoverycoolTime: 20
+    guardRecoveryValue: 6
   - id: 10
     name: "\uAC11\uC637\uACE8\uB818"
     hp: 300
@@ -127,3 +167,7 @@ MonoBehaviour:
     critcleRate: 10
     critcleDmg: 3
     attackPattern: vicinity
+    attackRange: 0
+    guardValue: 120
+    guardRecoverycoolTime: 20
+    guardRecoveryValue: 6

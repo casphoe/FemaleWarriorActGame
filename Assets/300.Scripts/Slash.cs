@@ -112,7 +112,7 @@ public class Slash : MonoBehaviour
                     if (enemy != null)
                     {
                         float scaledDamage = damage * Mathf.Lerp(0.5f, 1f, alpha); // 알파값 비례 데미지
-                        enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage);
+                        enemy.TakeDamage(scaledDamage, criticleRate, criticleDamage,1);
                         hasHit = true;
                     }
                 }

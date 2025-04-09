@@ -24,6 +24,10 @@ public class Enemy : MonoBehaviour
     public float critcleRate;
     public float critcleDmg;
     public string attackPattern;
+    public float attackRange;
+    public float guardValue;
+    public float guardRecoverycoolTime;
+    public float guardRecoveryValue;
 
     [Header("난이도에 따른 적 데이터")]
     public float currentHp;
@@ -34,6 +38,12 @@ public class Enemy : MonoBehaviour
     public int currentAddExp;
     public float currentCritcleRate;
     public float currentCritcleDmg;
+    public float currentAttackRange;
+    public float currentGuardValue;
+    public float currentMaxGuardValue;
+    public float currentGuardRecoverycoolTime;
+    public float currentGuardRecoveryValue;
+
     #region 적 상태 설정
     public State enemyState = State.Patrol;
 
@@ -73,7 +83,6 @@ public class Enemy : MonoBehaviour
     private bool isNearPlayer = false;
 
     public float attackTimer = 0;
-    private float rangedAttackRange = 4f; // 원거리 몬스터는 x축 거리 4 이내일 때 공격
 
     public Transform shockWaveAttackTrans;
 
@@ -85,10 +94,14 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer sprite;
     private Text txtHp;
     private Transform hpSliderParent;
+    private GuardShrinkSlider guardSlider;
+    private float guardRecoverTimer;
 
     private Day lastCheckedDay;
 
     private float baseMultiplier = 1f; // 난이도 계수 저장용
+    private float reveseBaseMultiplier = 1;
+    private bool canRecoverGuard = false;
 
     #region 적 데이터 관리 
     //EnemyManager에서 적 데이터 가져오는 함수
@@ -103,23 +116,30 @@ public class Enemy : MonoBehaviour
         critcleRate = data.critcleRate;
         critcleDmg = data.critcleDmg;
         attackPattern = data.attackPattern;
+        attackRange = data.attackRange;
+        guardValue = data.guardValue;
+        guardRecoverycoolTime = data.guardRecoverycoolTime;
+        guardRecoveryValue = data.guardRecoveryValue;
         EnemyDifficuitySetting();
         ApplyTimeMultiplier();
     }
 
     //난이도에 따른 적 데이터 설정
-    void EnemyDifficuitySetting()
+    public void EnemyDifficuitySetting()
     {
         switch (GameManager.data.diffucity)
         {
             case Diffucity.Easy:
                 baseMultiplier = 0.5f;
+                reveseBaseMultiplier = 1.5f;
                 break;
             case Diffucity.Normal:
                 baseMultiplier = 1f;
+                reveseBaseMultiplier = 1f;
                 break;
             case Diffucity.Hard:
                 baseMultiplier = 1.5f;
+                reveseBaseMultiplier = 0.5f;
                 break;
         }
     }
@@ -128,12 +148,14 @@ public class Enemy : MonoBehaviour
     void ApplyTimeMultiplier()
     {
         float timeMultiplier = (GameManager.data.day == Day.Night) ? 1.5f : 1f;
+        float reveaseTimeMultiplier = (GameManager.data.day == Day.Night) ? 0.5f : 1f;
+
+        maxHp = hp * baseMultiplier * timeMultiplier;
 
         float oldMaxHp = maxHp;
         float hpRatio = (oldMaxHp > 0f) ? currentHp / oldMaxHp : 1f;
 
         // 능력치 재계산
-        maxHp = hp * baseMultiplier * timeMultiplier;
         currentHp = maxHp * hpRatio; //  비율 그대로 반영
 
         // 원본 * 난이도 * 시간
@@ -144,6 +166,17 @@ public class Enemy : MonoBehaviour
 
         currentCritcleRate = critcleRate * baseMultiplier * timeMultiplier;
         currentCritcleDmg = critcleDmg * baseMultiplier * timeMultiplier;
+        currentAttackRange = attackRange * baseMultiplier * timeMultiplier;
+
+        currentMaxGuardValue = guardValue * baseMultiplier * timeMultiplier;
+
+        float oldMaxGuard = currentMaxGuardValue;
+        float guardRatio = (oldMaxGuard > 0f) ? currentGuardValue / oldMaxGuard : 1f;
+
+        currentGuardValue = guardValue * guardRatio;
+
+        currentGuardRecoveryValue = guardRecoveryValue * baseMultiplier * timeMultiplier;
+        currentGuardRecoverycoolTime = guardRecoverycoolTime * reveseBaseMultiplier * reveaseTimeMultiplier;
 
         hpSlider.maxValue = maxHp;
         hpSlider.value = currentHp;
@@ -159,6 +192,8 @@ public class Enemy : MonoBehaviour
         isNearPlayer = false;
         txtHp = hpSlider.transform.GetChild(2).GetComponent<Text>();
         hpSliderParent = hpSlider.transform.parent;
+        guardSlider = hpSliderParent.transform.GetChild(1).GetChild(0).GetComponent<GuardShrinkSlider>();
+        canRecoverGuard = false;
     }
 
     private void Start()
@@ -188,6 +223,7 @@ public class Enemy : MonoBehaviour
 
 
         Attack();
+        UpdateGuard();
 
         // Attack 상태면 이동하지 않고 즉시 리턴
         if (enemyState == State.Attack) return;
@@ -366,12 +402,32 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    public void TakeDamage(float damage , float critcleRate, float critcleDmg)
+    public void TakeDamage(float damage , float critcleRate, float critcleDmg, int num)
     {
 
         //크리티컬 판정
         int rand = Random.Range(1, 101); // 1~100 포함
         bool isCritical = false;
+
+        if (num == 0)
+        {
+            currentGuardValue = 0;
+            guardSlider.SetValue(0);
+        }
+        else
+        {
+            currentGuardValue -= damage;
+            currentGuardValue = Mathf.Clamp(currentGuardValue, 0f, currentMaxGuardValue);
+
+            float guardRatio = currentGuardValue / currentMaxGuardValue;
+            guardSlider.SetValue(guardRatio);
+        }
+      
+
+        if (currentGuardValue <= 0f && enemyState != State.Stun && enemyState != State.Death)
+        {
+            ApplyStun(currentGuardRecoverycoolTime, 1);
+        }
 
         if (enemyState == State.Stun)
         {
@@ -396,7 +452,7 @@ public class Enemy : MonoBehaviour
         currentHp -= finalDamage;
         gotHit = true;
 
-        if(isCritical)
+        if (isCritical)
         {
             ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
         }
@@ -424,6 +480,8 @@ public class Enemy : MonoBehaviour
             PlayerManager.instance.AddMoney(addMoney);
         }
         UpdateHpBar();
+        guardRecoverTimer = 0f;
+        canRecoverGuard = false;
     }
 
     public void DeathEnd()
@@ -439,6 +497,30 @@ public class Enemy : MonoBehaviour
             txtHp.text = currentHp + " / " + maxHp;
         }
     }
+
+    #region 가드 회복
+    void UpdateGuard()
+    {
+        if (enemyState != State.Death && enemyState != State.Stun && currentGuardValue < currentMaxGuardValue)
+        {
+            guardRecoverTimer += Time.deltaTime;
+
+            if (!canRecoverGuard && guardRecoverTimer >= currentGuardRecoverycoolTime)
+            {
+                canRecoverGuard = true;
+            }
+
+            if (canRecoverGuard)
+            {
+                currentGuardValue += currentGuardRecoveryValue * Time.deltaTime;
+                currentGuardValue = Mathf.Clamp(currentGuardValue, 0f, currentMaxGuardValue);
+
+                float guardRatio = currentGuardValue / currentMaxGuardValue;
+                guardSlider.SetValue(guardRatio);                
+            }
+        }
+    }
+    #endregion
 
     private void OnDrawGizmosSelected()
     {
@@ -498,7 +580,7 @@ public class Enemy : MonoBehaviour
                 //두 오브젝트 사이의 x축 거리를 절댓값으로 계산하기 위해서 사용(플레이어와 적 사이의 수평거리)
                 float xDistance = Mathf.Abs(player.position.x - transform.position.x);
                 //플레이어가 적 원거리 공격 범위 안에 들어왔는지 확인
-                bool isPlayerInRange = xDistance <= rangedAttackRange;
+                bool isPlayerInRange = xDistance <= currentAttackRange;
                 //적이 추적상태이거나 또는 플레이어가 사거리 안에 있다면 공격
                 if (enemyState == State.Chase || isPlayerInRange)
                 {
@@ -545,7 +627,7 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isMoving", true);
         if (attackPattern == "long")
         {
-            if (IsPlayerInSight() && Mathf.Abs(player.position.x - transform.position.x) <= rangedAttackRange)
+            if (IsPlayerInSight() && Mathf.Abs(player.position.x - transform.position.x) <= currentAttackRange)
             {
                 enemyState = State.Attack; // 플레이어가 범위 안에 있으면 다시 공격 준비
             }
@@ -581,16 +663,25 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region 기절 효과
-    public void ApplyStun(float stunDuration)
+    public void ApplyStun(float stunDuration, int num)
     {
-        if (enemyState == State.Death) return;
-
+        if (enemyState == State.Death) return;       
         StopAllCoroutines(); // 혹시 이전 상태 처리 중이던 코루틴이 있다면 중단
         enemyState = State.Stun;
 
         anim.SetBool("isMoving", true);
         anim.SetBool("Attack", false);
-        StartCoroutine(StunRoutine(stunDuration));
+        if(num == 0)
+        {
+            ObjectPool.instance.SetConfusion(transform.position + new Vector3(0, 1.8f , 0), stunDuration * currentGuardRecoverycoolTime);
+            StartCoroutine(StunRoutine(stunDuration * currentGuardRecoverycoolTime));
+        }
+        else
+        {
+            StartCoroutine(StunRoutine(stunDuration));
+            ObjectPool.instance.SetConfusion(transform.position + new Vector3(0, 1.8f, 0), stunDuration);
+        }
+
     }
 
     private IEnumerator StunRoutine(float duration)
@@ -598,17 +689,55 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         // 기절 후, 다시 추적 상태로
-        if (Player.instance != null && IsPlayerInSight())
+        if (Player.instance != null)
         {
             lastKnownPlayerPos = Player.instance.transform.position;
-            enemyState = State.Chase;
-            gotHit = true; //  맞았으니까 다시 추적하도록 플래그 유지
+
+            bool playerInSight = IsPlayerInSight();
+            float xDistance = Mathf.Abs(player.position.x - transform.position.x);
+            bool inRange = xDistance <= currentAttackRange;
+
+            if (attackPattern == "long") // 원거리 적
+            {
+                if (playerInSight && inRange)
+                {
+                    enemyState = State.Attack;
+                }
+                else if (playerInSight)
+                {
+                    enemyState = State.Chase;
+                }
+                else
+                {
+                    enemyState = State.Patrol;
+                }
+            }
+            else // 근거리 적
+            {
+                if (isNearPlayer)
+                {
+                    enemyState = State.Attack;
+                }
+                else if (playerInSight)
+                {
+                    enemyState = State.Chase;
+                }
+                else
+                {
+                    enemyState = State.Patrol;
+                }
+            }
+
+            gotHit = (enemyState != State.Patrol); // 추적 또는 공격 시에는 gotHit 유지
         }
         else
         {
             enemyState = State.Patrol;
             gotHit = false;
         }
+        //스턴이 끝나면 다시 기절 안되게 가드 게이지 최대치로 맞춤
+        currentGuardValue = currentMaxGuardValue;
+        guardSlider.SetValue(1);
     }
     #endregion
 }

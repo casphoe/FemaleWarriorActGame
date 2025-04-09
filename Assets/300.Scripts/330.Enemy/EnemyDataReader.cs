@@ -21,8 +21,12 @@ public struct EnemyData
     public float critcleRate;
     public float critcleDmg;
     public string attackPattern;
+    public float attackRange;
+    public float guardValue;
+    public float guardRecoverycoolTime;
+    public float guardRecoveryValue;
 
-    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp , float critcleRate, float critcleDmg, string attackPattern)
+    public EnemyData(int id, string name, float hp, float attack, float defence, int addMoney, int addExp , float critcleRate, float critcleDmg, string attackPattern, float attackRange, float guardValue, float guardRecoverycoolTime, float guardRecoveryValue)
     {
         this.id = id;
         this.name = name;
@@ -34,6 +38,10 @@ public struct EnemyData
         this.critcleRate = critcleRate;
         this.critcleDmg = critcleDmg;
         this.attackPattern = attackPattern;
+        this.attackRange = attackRange;
+        this.guardValue = guardValue;
+        this.guardRecoverycoolTime = guardRecoverycoolTime;
+        this.guardRecoveryValue = guardRecoveryValue;
     }
 }
 
@@ -48,7 +56,7 @@ public class EnemyDataReader : DataReaderBase
     {
         int id = 0, addMoney = 0, addExp = 0;
         string name = null, attackPattern = null;
-        float hp = 0, attack = 0, defence = 0, critcleRate = 0, critcleDmg = 0;
+        float hp = 0, attack = 0, defence = 0, critcleRate = 0, critcleDmg = 0, attackRange = 0, guardValue = 0, guardRecoverycoolTime = 0, guardRecoveryValue = 0;
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -104,10 +112,30 @@ public class EnemyDataReader : DataReaderBase
                         attackPattern = list[i].value;
                         break;
                     }
+                case "attackRange":
+                    {
+                        attackRange = float.Parse(list[i].value);
+                        break;
+                    }
+                case "guardValue":
+                    {
+                        guardValue = float.Parse(list[i].value);
+                        break;
+                    }
+                case "guardRecoverycoolTime":
+                    {
+                        guardRecoverycoolTime = float.Parse(list[i].value);
+                        break;
+                    }
+                case "guardRecoveryValue":
+                    {
+                        guardRecoveryValue = float.Parse(list[i].value);
+                        break;
+                    }
             }
         }
 
-        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp,critcleRate,critcleDmg, attackPattern));
+        DataList.Add(new EnemyData(id, name, hp,attack,defence,addMoney,addExp,critcleRate,critcleDmg, attackPattern, attackRange, guardValue, guardRecoverycoolTime, guardRecoveryValue));
     }
 }
 

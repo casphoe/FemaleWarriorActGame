@@ -52,6 +52,11 @@ public class Player : MonoBehaviour
     private float lastJumpTime;
     private float lastAttackTime;
     private float[] staminaCost = new float[2];
+    private float guradRecoveryValue = 10;
+    private float guradRecoveryCoolTime = 6;
+    private float guardRecoverTimer = 0;
+    bool canRecoverGuard = false;
+    [SerializeField] GuardShrinkSlider playerGuardShrinkSlider;
 
     [SerializeField] Text hpText;
     [SerializeField] Text staminaText;
@@ -88,15 +93,18 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isPause = false;
         PlayerManager.instance.isBuy = false;
         PlayerManager.instance.isState = false;
+        PlayerManager.instance.isStun = false;
+        PlayerManager.instance.isGuarding = false;
         HpOrStaminaCoolTime(0);
         HpOrStaminaCoolTime(1);
         staminaCost[0] = 5;
         staminaCost[1] = 3;
+        canRecoverGuard = false;
     }
 
     private void Update()
     {
-        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false)
+        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false && PlayerManager.instance.isStun == false)
         {
             StaminaCostRestoration();
             AutoHpRestoration();
@@ -108,6 +116,7 @@ public class Player : MonoBehaviour
             GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
             Move();
             Dash();
+            UpdateGuardSlider();
         }
 
         if(PlayerManager.instance.IsDead == false)
@@ -170,7 +179,23 @@ public class Player : MonoBehaviour
 
         int rand = UnityEngine.Random.Range(1, 101); // 1 ~ 100 포함
 
-        bool isCritical = rand <= critcleRate;
+        bool isCritical = false;
+
+        PlayerManager.instance.player.currentGuardValue -= damage;
+        PlayerManager.instance.player.currentGuardValue = Mathf.Clamp(PlayerManager.instance.player.currentGuardValue, 0, PlayerManager.instance.player.maxGuardValue);
+
+        float guardRatio = PlayerManager.instance.player.currentGuardValue / PlayerManager.instance.player.maxGuardValue;
+        playerGuardShrinkSlider.SetValue(guardRatio);
+
+        if(PlayerManager.instance.player.currentGuardValue <= 0f && PlayerManager.instance.isStun == false)
+        {
+            isCritical = true;
+            ApplyStun(guradRecoveryCoolTime);
+        }
+        else
+        {
+            isCritical = rand <= critcleRate;
+        }
 
         // 데미지 감소율을 방어력으로부터 계산 (최대 85% 제한)
         // 방어력이 높을 수록 데미지를 퍼센트로 감소 시키기 위해 사용
@@ -225,6 +250,9 @@ public class Player : MonoBehaviour
             //무적효과
             Invincibility.TriggerInvincibility();
         }
+
+        guardRecoverTimer = 0;
+        canRecoverGuard = false;
     }
 
     public void HurtEnd()
@@ -421,6 +449,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    #region 점프
     void Jump()
     {
         if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Jump]))
@@ -448,6 +477,7 @@ public class Player : MonoBehaviour
             PlayerManager.instance.isJump = false;
         }
     }
+    #endregion
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -536,6 +566,54 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+    #endregion
+
+    #region 가드 
+    void UpdateGuardSlider()
+    {
+        if(PlayerManager.instance.player.currentGuardValue < PlayerManager.instance.player.maxGuardValue)
+        {
+            guardRecoverTimer += Time.deltaTime;
+
+            if (!canRecoverGuard && guardRecoverTimer >= guradRecoveryCoolTime)
+            {
+                canRecoverGuard = true;
+            }
+
+            if (canRecoverGuard)
+            {
+                PlayerManager.instance.player.currentGuardValue += guradRecoveryValue * Time.deltaTime;
+                PlayerManager.instance.player.currentGuardValue = Mathf.Clamp(PlayerManager.instance.player.currentGuardValue, 0f, PlayerManager.instance.player.maxGuardValue);
+
+                float guardRatio = PlayerManager.instance.player.currentGuardValue / PlayerManager.instance.player.maxGuardValue;
+                playerGuardShrinkSlider.SetValue(guardRatio);
+            }
+        }
+    }
+    #endregion
+
+    #region 기절 효과
+    void ApplyStun(float duration)
+    {
+        ObjectPool.instance.SetConfusion(transform.position, guradRecoveryCoolTime);
+        if (PlayerManager.instance.IsDead == false)
+            return;
+        PlayerManager.instance.isStun = true;
+        anim.SetBool("Dash", false);
+        anim.SetBool("Attack", false);
+        isAttacking = false;
+        anim.SetBool("Move", false);
+        StartCoroutine(StunRoutine(guradRecoveryCoolTime));
+    }
+
+    private IEnumerator StunRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        PlayerManager.instance.isStun = false;
+        PlayerManager.instance.player.currentGuardValue = PlayerManager.instance.player.maxGuardValue;
+        playerGuardShrinkSlider.SetValue(1);
     }
     #endregion
 }

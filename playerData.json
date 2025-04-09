@@ -16,6 +16,8 @@
       "slotNum": 0,
       "name": "FemaleWarrior",
       "currentExp": 0,
+      "maxGuardValue": 100.0,
+      "currentGuardValue": 100.0,
       "rewardNumList": [],
       "rewardClearList": [],
       "currentMapNum": 1,
@@ -44,9 +46,9 @@
         "inventoryDataList": [
           {
             "slotNum": 1,
-            "slotDateTime": "2025-03-29 13:34:23",
+            "slotDateTime": "2025-04-09 14:44:11",
             "item": {
-              "id": "32c8eca9-a31d-40ff-b23f-08a35e99861a",
+              "id": "f32d4af8-6c2d-4c5f-94cc-6b0b0931d3c1",
               "db": 3,
               "equip": 0,
               "dataDb": 9,
@@ -78,9 +80,9 @@
           },
           {
             "slotNum": 2,
-            "slotDateTime": "2025-03-29 13:34:23",
+            "slotDateTime": "2025-04-09 14:44:11",
             "item": {
-              "id": "f0be6e12-2626-4d8b-a0ec-4ea8374d35ef",
+              "id": "b35e00d4-03df-4ca5-9793-31647b21412f",
               "db": 4,
               "equip": 0,
               "dataDb": 9,
@@ -133,6 +135,8 @@
       "slotNum": 1,
       "name": "FemaleWarrior",
       "currentExp": 0,
+      "maxGuardValue": 0.0,
+      "currentGuardValue": 0.0,
       "rewardNumList": [],
       "rewardClearList": [],
       "currentMapNum": 1,

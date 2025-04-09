@@ -58,7 +58,7 @@ public class SkillPanel : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerManager.instance.IsDead == false)
+        if (PlayerManager.instance.IsDead == false && PlayerManager.instance.isStun == false)
         {
             if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Skill]))
             {

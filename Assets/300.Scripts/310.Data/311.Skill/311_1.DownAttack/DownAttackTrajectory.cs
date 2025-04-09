@@ -170,13 +170,11 @@ public class DownAttackTrajectory : MonoBehaviour
             Enemy enemy = enemyCol.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(finalDamage, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg);
+                enemy.TakeDamage(finalDamage, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg , 0);
 
                 // 스턴 효과 추가
-                float stunDuration = Mathf.Lerp(4, 2, t); // 중심일수록 오래 스턴됨
-                enemy.ApplyStun(stunDuration);
-
-                ObjectPool.instance.SetConfusion(enemy.transform.position + new Vector3(0, 1.8f, 0), stunDuration);
+                float stunDuration = Mathf.Lerp(5, 2.5f, t); // 중심일수록 오래 스턴됨
+                enemy.ApplyStun(stunDuration, 0);
             }
         }
     }

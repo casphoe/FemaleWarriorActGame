@@ -23,6 +23,9 @@ public class PlayerData
     public string name = string.Empty;
     public int currentExp = 0;
 
+    public float maxGuardValue;
+    public float currentGuardValue;
+
     public List<int> rewardNumList = new List<int>();
     public List<bool> rewardClearList = new List<bool>();
     public int currentMapNum = 0;
@@ -60,7 +63,9 @@ public class PlayerData
             skillCount = 0;
             staminaAutoRestoration = 2f;
             hpAutoRestoration = 0;
-            levelUpExp = 200;           
+            levelUpExp = 200;
+            maxGuardValue = 100;
+            currentGuardValue = 100;
         }
         else
         {
@@ -102,7 +107,9 @@ public class PlayerData
         PM.playerData.critcleDmg = critcleDmg;
         PM.playerData.staminaAutoRestoration = staminaAutoRestoration;
         PM.playerData.hpAutoRestoration = hpAutoRestoration;
-        PM.playerData.levelUpExp = levelUpExp;      
+        PM.playerData.levelUpExp = levelUpExp;
+        PM.playerData.maxGuardValue = maxGuardValue;
+        PM.playerData.currentGuardValue = currentGuardValue;
     }
 }
 

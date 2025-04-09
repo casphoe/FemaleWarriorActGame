@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackCenter, attackRange, Player.instance.enemyLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(PlayerManager.instance.player.attack, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg);
+            enemy.GetComponent<Enemy>().TakeDamage(PlayerManager.instance.player.attack, PlayerManager.instance.player.critcleRate, PlayerManager.instance.player.critcleDmg, 1);
         }
     }
 

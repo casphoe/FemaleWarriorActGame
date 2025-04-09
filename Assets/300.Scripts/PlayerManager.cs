@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour
     public bool isSkillPage = false;
     public bool isDownAttacking = false;
     public bool isAiming = false;
+    public bool isStun = false;
+    public bool isGuarding = false;
 
     public bool isInvincibility = false;
 

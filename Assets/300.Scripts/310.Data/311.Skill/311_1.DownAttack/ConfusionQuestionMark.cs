@@ -15,13 +15,19 @@ public class ConfusionQuestionMark : MonoBehaviour
 
     void Awake()
     {
-        startPos = transform.localPosition;
         sr = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
     {
+        startPos = transform.position;
         sr.color = new Color(1, 1, 1, 1);
+    }
+
+    public void SetBasePosition(Vector3 pos)
+    {
+        startPos = pos;
+        transform.position = startPos;
     }
 
     void Update()
@@ -31,7 +37,10 @@ public class ConfusionQuestionMark : MonoBehaviour
 
         // sin을 이용해서 부드럽게 위 아래로 움직이는 부유 효과를 나타냄
         float offset = Mathf.Sin(Time.time * floatSpeed) * floatHeight;
-        transform.localPosition = startPos + new Vector3(0, offset, 0);
+        Vector3 newPos = startPos + new Vector3(0, offset, 0);
+        transform.position = newPos;
+
+        Debug.Log(startPos);
 
         // 깜빡임 (알파 값이 0~1 사이에서 주기적으로 변화하게 함) 
         float alpha = Mathf.Abs(Mathf.Sin(Time.time * alphaSpeed));
