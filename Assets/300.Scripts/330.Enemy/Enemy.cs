@@ -103,6 +103,8 @@ public class Enemy : MonoBehaviour
     private float reveseBaseMultiplier = 1;
     private bool canRecoverGuard = false;
 
+    private GameObject currentConfusionEffect;
+
     #region 적 데이터 관리 
     //EnemyManager에서 적 데이터 가져오는 함수
     public void Init(EnemyData data)
@@ -486,6 +488,14 @@ public class Enemy : MonoBehaviour
 
     public void DeathEnd()
     {
+        if(currentConfusionEffect != null)
+        {
+            if(currentConfusionEffect.activeSelf)
+            {
+                currentConfusionEffect.SetActive(false);
+            }
+            currentConfusionEffect = null;
+        }
         Utils.OnOff(gameObject, false);
     }
 
@@ -673,13 +683,13 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Attack", false);
         if(num == 0)
         {
-            ObjectPool.instance.SetConfusion(transform.position + new Vector3(0, 1.8f , 0), stunDuration * currentGuardRecoverycoolTime);
+            currentConfusionEffect = ObjectPool.instance.SetGameObjectConfusion(transform.position + new Vector3(0, 1.8f , 0), stunDuration * currentGuardRecoverycoolTime);
             StartCoroutine(StunRoutine(stunDuration * currentGuardRecoverycoolTime));
         }
         else
         {
-            StartCoroutine(StunRoutine(stunDuration));
-            ObjectPool.instance.SetConfusion(transform.position + new Vector3(0, 1.8f, 0), stunDuration);
+            currentConfusionEffect = ObjectPool.instance.SetGameObjectConfusion(transform.position + new Vector3(0, 1.8f, 0), stunDuration);
+            StartCoroutine(StunRoutine(stunDuration));           
         }
 
     }

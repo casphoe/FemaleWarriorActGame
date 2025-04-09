@@ -14,11 +14,12 @@ public class GuardShrinkSlider : MonoBehaviour
     {
         if(fillBar != null)
         {
+            //슬라이더의 원래 사이즈
             originalSize = fillBar.sizeDelta;
         }
         SetValue(1f);
     }
-
+    //value 값을 통해서 0~1 범위로 UI 조절
     public void SetValue(float value)
     {
         setValue = Mathf.Clamp01(value);

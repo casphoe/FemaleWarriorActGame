@@ -33,7 +33,9 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < damagePoolSize; i++)
         {
+            //damageTxtPrefab 생성
             GameObject txt = Instantiate(damageTxtPrefab, transform);
+            //0번째 자식으로 낮둠
             txt.transform.SetParent(this.transform.GetChild(0).transform);
             txt.SetActive(false);
             damageList.Add(txt);
@@ -100,6 +102,28 @@ public class ObjectPool : MonoBehaviour
                 mark.ActivateForDuration(duration);
                 mark.SetBasePosition(target);
             }
+        }
+    }
+
+    public GameObject SetGameObjectConfusion(Vector3 target, float duration)
+    {
+        GameObject confusion = GetConfusion();
+        if (confusion != null)
+        {
+            confusion.transform.position = target;
+            confusion.SetActive(true);
+
+            ConfusionQuestionMark mark = confusion.GetComponent<ConfusionQuestionMark>();
+            if (mark != null)
+            {
+                mark.ActivateForDuration(duration);
+                mark.SetBasePosition(target);
+            }
+            return confusion;
+        }
+        else
+        {
+            return null;
         }
     }
 

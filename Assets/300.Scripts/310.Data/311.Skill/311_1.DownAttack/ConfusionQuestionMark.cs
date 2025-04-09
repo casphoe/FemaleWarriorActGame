@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//다운어택 에 맞거나 경직 당했을 때 혼란 상태를 나타내주는 스크립트
+//다운어택 에 맞거나 가드 게이지 값이 0이 되었을 때 혼란 상태를 나타내주는 스크립트
 public class ConfusionQuestionMark : MonoBehaviour
 {
     public float rotateSpeed = 45f;        // 초당 회전 속도
