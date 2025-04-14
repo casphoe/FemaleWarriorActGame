@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventoryPanel : MonoBehaviour
@@ -61,7 +62,7 @@ public class InventoryPanel : MonoBehaviour
     {
         if(PlayerManager.instance.IsDead == false)
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Inventory]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Inventory))
             {              
                 PlayerManager.instance.isInventroy = !PlayerManager.instance.isInventroy;
                 if(PlayerManager.instance.isInventroy == true)
@@ -81,7 +82,7 @@ public class InventoryPanel : MonoBehaviour
                 if (isSelect[0] == false && isSelect[1] == false && isSelect[2] == false && isSelect[3] == false)
                 {
                     // 왼쪽 화살표 키로 이전 버튼 선택
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Left]))
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))
                     {
                         if (selectIndex > 0)
                         {
@@ -91,7 +92,7 @@ public class InventoryPanel : MonoBehaviour
                     }
 
                     // 오른쪽 화살표 키로 다음 버튼 선택
-                    if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Right]))
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Right))
                     {
                         if (selectIndex < btnSelectPanel.Length - 1)
                         {
@@ -102,7 +103,7 @@ public class InventoryPanel : MonoBehaviour
                 }
 
                 // Z 키로 아이템 선택
-                if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                 {
                     StopAllBinking(btnSelectPanel);
                     isSelect[selectIndex] = true;
@@ -136,17 +137,13 @@ public class InventoryPanel : MonoBehaviour
                         }
                     }                    
                 }
-                else if(Input.GetKeyDown(KeyCode.X))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Canel))
                 {
                     for (int i = 0; i < isSelect.Length; i++)
-                    {
                         isSelect[i] = false;
-                    }
 
-                    for(int i = 0; i < isOnce.Length; i++)
-                    {
+                    for (int i = 0; i < isOnce.Length; i++)
                         isOnce[i] = false;
-                    }
 
                     OnInventroySelectButton(selectIndex);
                 }

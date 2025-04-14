@@ -40,7 +40,7 @@ public class TreasureChest : MonoBehaviour
         if (isOpened || !isPlayerNear)
             return;
 
-        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
+        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
         {
             OpenChest();
         }

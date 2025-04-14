@@ -33,7 +33,7 @@ public class Npc : MonoBehaviour
                 Utils.OnOff(npcCavnas.rectBuyCanvas.gameObject, true);
             }
 
-            if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
             {
                 PlayerManager.instance.isBuy = true;
                 switch (data)

@@ -305,7 +305,7 @@ public class Player : MonoBehaviour
     {
         moveDirection = 0;
 
-        if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.Left]))
+        if (PlayerManager.GetCustomKey(CustomKeyCode.Left))
         {
             if(rb.position.x > minLimitList[currentMapNum].x)
             {
@@ -316,7 +316,7 @@ public class Player : MonoBehaviour
                 moveDirection = 0;
             }
         }
-        else if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.Right]))
+        else if (PlayerManager.GetCustomKey(CustomKeyCode.Right))
         {
             // 오른쪽으로 이동 시도
             if (rb.position.x < maxLimitList[currentMapNum].x) // 현재 위치가 최대 제한보다 왼쪽일 때만 이동 허용
@@ -358,7 +358,7 @@ public class Player : MonoBehaviour
     {
         if (isDashAttacking) return; // ← 대시 공격 중이면 무시
 
-        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
         {
             if (!isAttacking && Time.time >= lastAttackTime + CoolTime[4] && currentStamina >= staminaCost[0])
             {
@@ -383,7 +383,7 @@ public class Player : MonoBehaviour
     #region 대시 함수
     void Dash()
     {
-        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Evasion]))
+        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Evasion))
         {
             if (Time.time >= lastDashTime + CoolTime[0] && currentStamina >= staminaCost[1])
             {
@@ -428,7 +428,7 @@ public class Player : MonoBehaviour
 
         while (timer < maxDashAttackWindow)
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
             {
                 anim.SetBool("Dash", false);
                 anim.SetBool("Attack", false);
@@ -452,7 +452,7 @@ public class Player : MonoBehaviour
     #region 점프
     void Jump()
     {
-        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Jump]))
+        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Jump))
         {
             if(Time.time >= lastJumpTime + CoolTime[3] && PlayerManager.instance.isJump == false && PlayerManager.instance.isGround == true)
             {
@@ -502,7 +502,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time >= lastHpPotionUseTime + shortKeyCoolTime[0])
             {
-                if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey1]))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey1))
                 {
                     // Consume HP potion
                     switch(PlayerManager.instance.player.hpPotionSelectnum)
@@ -538,7 +538,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time >= lastStaminaPotionUseTime + shortKeyCoolTime[1])
             {
-                if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey2]))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey2))
                 {
                     // Consume Stamina potion
                     switch(PlayerManager.instance.player.staminaPotionSelectnum)

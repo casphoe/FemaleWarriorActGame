@@ -83,6 +83,14 @@
     "ENG": "KeySetting",
     "KOR": "키설정"
   },
+  "게임패드설정": {
+    "ENG": "GamePadSetting",
+    "KOR": "게임패드설정"
+  },
+  "취소 키 :": {
+    "ENG": "Cancel Key :",
+    "KOR": "취소 키 :"
+  },
   "쉬움": {
     "ENG": "Easy",
     "KOR": "쉬움"

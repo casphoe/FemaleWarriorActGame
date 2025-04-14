@@ -35,7 +35,7 @@ public class ItemInventoryList : MonoBehaviour
     {
         if (InventoryPanel.instance.isSelect[0] == true)
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Left]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))
             {
                 if(selectIndex > 0)
                 {
@@ -44,7 +44,7 @@ public class ItemInventoryList : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Right]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Right))
             {
                 if(selectIndex < btnClick.Length - 1)
                 {
@@ -53,7 +53,7 @@ public class ItemInventoryList : MonoBehaviour
                 }
             }
 
-            if(Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            if(PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
             {
                 itemCount = PlayerManager.instance.player.inventory.GetItemCountByName(InventoryList.instance.itemInventoryList[selectIndex].nameKor);
                 if (itemCount > 0)

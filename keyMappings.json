@@ -2,79 +2,103 @@
     "keyMappings": [
         {
             "customKeyCode": 0,
-            "keyCode": 276
+            "keyCode": 276,
+            "gamepadButton": "leftStick/left"
         },
         {
             "customKeyCode": 1,
-            "keyCode": 275
+            "keyCode": 275,
+            "gamepadButton": "leftStick/right"
         },
         {
             "customKeyCode": 2,
-            "keyCode": 32
+            "keyCode": 32,
+            "gamepadButton": "buttonSouth"
         },
         {
             "customKeyCode": 3,
-            "keyCode": 122
+            "keyCode": 122,
+            "gamepadButton": "buttonWest"
         },
         {
             "customKeyCode": 4,
-            "keyCode": 306
+            "keyCode": 306,
+            "gamepadButton": "buttonEast"
         },
         {
             "customKeyCode": 5,
-            "keyCode": 101
+            "keyCode": 101,
+            "gamepadButton": "rightShoulder"
         },
         {
             "customKeyCode": 6,
-            "keyCode": 112
+            "keyCode": 112,
+            "gamepadButton": "dpad/up"
         },
         {
             "customKeyCode": 7,
-            "keyCode": 107
+            "keyCode": 107,
+            "gamepadButton": "leftShoulder"
         },
         {
             "customKeyCode": 8,
-            "keyCode": 105
+            "keyCode": 105,
+            "gamepadButton": "dpad/down"
         },
         {
             "customKeyCode": 9,
-            "keyCode": 324
+            "keyCode": 324,
+            "gamepadButton": "buttonNorth"
         },
         {
             "customKeyCode": 10,
-            "keyCode": 49
+            "keyCode": 49,
+            "gamepadButton": "dpad/left"
         },
         {
             "customKeyCode": 11,
-            "keyCode": 50
+            "keyCode": 50,
+            "gamepadButton": "dpad/right"
         },
         {
             "customKeyCode": 12,
-            "keyCode": 51
+            "keyCode": 51,
+            "gamepadButton": "buttonWest+buttonEast"
         },
         {
             "customKeyCode": 13,
-            "keyCode": 52
+            "keyCode": 52,
+            "gamepadButton": "buttonSouth+buttonWest"
         },
         {
             "customKeyCode": 14,
-            "keyCode": 53
+            "keyCode": 53,
+            "gamepadButton": "buttonEast+buttonSouth"
         },
         {
             "customKeyCode": 15,
-            "keyCode": 54
+            "keyCode": 54,
+            "gamepadButton": "buttonNorth+buttonSouth"
         },
         {
             "customKeyCode": 16,
-            "keyCode": 55
+            "keyCode": 55,
+            "gamepadButton": "buttonNorth+buttonEast"
         },
         {
             "customKeyCode": 17,
-            "keyCode": 273
+            "keyCode": 273,
+            "gamepadButton": "rightStickClick"
         },
         {
             "customKeyCode": 18,
-            "keyCode": 27
+            "keyCode": 27,
+            "gamepadButton": "start"
+        },
+        {
+            "customKeyCode": 19,
+            "keyCode": 120,
+            "gamepadButton": "select"
         }
     ]
 }

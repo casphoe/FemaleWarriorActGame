@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +23,7 @@ public class BlessPanel : MonoBehaviour
         Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
         Vector2 canvasPos;
 
-        // ¿ùµå ÁÂÇ¥ ¡æ Äµ¹ö½º ³» ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
+        // ì›”ë“œ ì¢Œí‘œ â†’ ìº”ë²„ìŠ¤ ë‚´ ë¡œì»¬ ì¢Œí‘œë¡œ ë³€í™˜
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.GetComponent<RectTransform>(),
             Camera.main.WorldToScreenPoint(worldPos),

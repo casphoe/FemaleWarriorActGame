@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class EquipmentPanel : MonoBehaviour
@@ -75,7 +76,7 @@ public class EquipmentPanel : MonoBehaviour
     {
         if(PlayerManager.instance.IsDead == false)
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Equipment]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Equipment))
             {
                 PlayerManager.instance.isEquipment = !PlayerManager.instance.isEquipment;
                 if(PlayerManager.instance.isEquipment == true)
@@ -99,7 +100,7 @@ public class EquipmentPanel : MonoBehaviour
     {
         if (isSelectOne[0] == false && isSelectOne[1] == false)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))
             {
                 if (selectIndex > 0)
                 {
@@ -108,7 +109,7 @@ public class EquipmentPanel : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Right))
             {
                 if (selectIndex < btnEquip.Length - 1)
                 {
@@ -117,7 +118,7 @@ public class EquipmentPanel : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
             {
                 StopAllBinking(btnEquip, 0);
                 isSelectOne[selectIndex] = true;
@@ -142,7 +143,7 @@ public class EquipmentPanel : MonoBehaviour
             {
                 if (isSelectOne[0] == true)
                 {
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    if (Keyboard.current != null && Keyboard.current.upArrowKey.wasPressedThisFrame)
                     {
                         if (selectEquipIndex > 0)
                         {
@@ -151,7 +152,7 @@ public class EquipmentPanel : MonoBehaviour
                         }
                     }
 
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    if (Keyboard.current != null && Keyboard.current.downArrowKey.wasPressedThisFrame)
                     {
                         if (selectEquipIndex < btnSelectPanel.Length - 1)
                         {
@@ -162,7 +163,7 @@ public class EquipmentPanel : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
             {
                 StopAllBinking(btnSelectPanel, 1);
                 isSelectTwo[selectEquipIndex] = true;
@@ -222,7 +223,7 @@ public class EquipmentPanel : MonoBehaviour
                     btnEquipSelect[i] = equipContent.transform.GetChild(i).GetComponent<Button>();
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))
                 {
                     if (selectEquip > 0)
                     {
@@ -233,7 +234,7 @@ public class EquipmentPanel : MonoBehaviour
                     , equipItemList[selectEquip].lukUp, equipItemList[selectEquip].expUp, equipItemList[selectEquip].moneyUp);
                 }
 
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Right))
                 {
                     if (selectEquip < btnEquipSelect.Length - 1)
                     {
@@ -245,7 +246,7 @@ public class EquipmentPanel : MonoBehaviour
                 }
 
 
-                if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Attack]))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                 {
                     if (imgEquip[selectEquipIndex].sprite == null) //미장착 상태
                     {
@@ -285,7 +286,7 @@ public class EquipmentPanel : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Canel))
         {
             if (isSelectTwo[0] == false && isSelectTwo[1] == false && isSelectTwo[2] == false && isSelectTwo[3] == false && isSelectTwo[4] == false && isSelectTwo[5] == false && isSelectTwo[6] == false && isSelectTwo[7] == false && isSelectTwo[8] == false)
             {

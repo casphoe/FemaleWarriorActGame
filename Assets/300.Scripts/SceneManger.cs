@@ -45,6 +45,7 @@ public class SceneManger : MonoBehaviour
         btnOption[1].onClick.AddListener(() => OptionClick(1));
         btnOption[2].onClick.AddListener(() => OptionClick(2));
         btnOption[3].onClick.AddListener(() => OptionClick(3));
+        btnOption[4].onClick.AddListener(() => OptionClick(4));
         GameManager.data.lanauge = LANGUAGE.KOR;
     }
 
@@ -207,7 +208,7 @@ public class SceneManger : MonoBehaviour
 
     void OptionClick(int num)
     {
-        if(num != 3)
+        if(num != 4)
         {
             for (int i = 0; i < optionObject.Length; i++)
             {

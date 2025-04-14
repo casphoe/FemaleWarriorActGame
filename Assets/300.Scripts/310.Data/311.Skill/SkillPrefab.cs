@@ -29,9 +29,11 @@ public class SkillPrefab : MonoBehaviour
         dragSkill = GetComponent<SkillDragHandler>();
         btnLevel[0].onClick.AddListener(() => LevelBtnClick(0));
         btnLevel[1].onClick.AddListener(() => LevelBtnClick(1));
-        btnSkillRegistration = transform.GetChild(0).GetComponent<Button>();
-
-        btnSkillRegistration.onClick.AddListener(() => SkillDrag());
+        if(poistion != SkillPoistion.Passive)
+        {
+            btnSkillRegistration = transform.GetChild(0).GetComponent<Button>();
+            btnSkillRegistration.onClick.AddListener(() => SkillDrag());
+        }
     }
 
     private void Start()

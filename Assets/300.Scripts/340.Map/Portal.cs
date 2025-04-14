@@ -38,7 +38,7 @@ public class Portal : MonoBehaviour
 
     private void Update()
     {
-        if (playerInPortal && Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
+        if (playerInPortal && PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
         {
             StartCoroutine(PortalCorute(playerObj));
         }

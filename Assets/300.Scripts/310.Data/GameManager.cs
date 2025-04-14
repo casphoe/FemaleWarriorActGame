@@ -29,7 +29,7 @@ public class GameManagerData
     public float bgmSoundValue;
     public float effectSoundValue;
 
-    public Dictionary<CustomKeyCode, KeyCode> keyMappings = new Dictionary<CustomKeyCode, KeyCode>();
+    public Dictionary<CustomKeyCode, KeyMapping> keyMappings = new Dictionary<CustomKeyCode, KeyMapping>();
 
     public string KeyMappingDataSavePath = Environment.CurrentDirectory + "/keyMappings.json";
     public string systemSavePath = Environment.CurrentDirectory + "/systemData.json";
@@ -55,7 +55,7 @@ public enum Day
 [SerializeField]
 public enum CustomKeyCode
 {
-    Left,Right,Jump,Attack,Evasion, Equipment,PlayerInfo, Skill, Inventory,BlockKey, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey
+    Left,Right,Jump,Attack,Evasion, Equipment,PlayerInfo, Skill, Inventory,BlockKey, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey,Canel
 }
 
 [SerializeField]
@@ -193,7 +193,8 @@ public class GameManager
 public class KeyMapping
 {
     public CustomKeyCode customKeyCode;
-    public KeyCode keyCode;
+    public KeyCode keyCode;            // 키보드용
+    public string gamepadButton;       // 게임패드용
 }
 
 [Serializable]

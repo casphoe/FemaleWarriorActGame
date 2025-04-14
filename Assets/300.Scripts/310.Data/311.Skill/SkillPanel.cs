@@ -60,7 +60,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (PlayerManager.instance.IsDead == false && PlayerManager.instance.isStun == false)
         {
-            if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.Skill]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Skill))
             {
                 PlayerManager.instance.isSkillPage = !PlayerManager.instance.isSkillPage;
                 if(PlayerManager.instance.isSkillPage == true)
@@ -78,7 +78,7 @@ public class SkillPanel : MonoBehaviour
             {
                 if (isSkillPageSelect[0] == false && isSkillPageSelect[1] == false)
                 {
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))
                     {
                         if (skillPageSelect > 0)
                         {
@@ -87,7 +87,7 @@ public class SkillPanel : MonoBehaviour
                         }
                     }
 
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Right))
                     {
                         if (skillPageSelect < btnSkill.Length - 1)
                         {
@@ -96,7 +96,7 @@ public class SkillPanel : MonoBehaviour
                         }
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Z))
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                     {
                         StopAllBinking(btnSkill, 0);
                         isSkillPageSelect[skillPageSelect] = true;
@@ -116,9 +116,9 @@ public class SkillPanel : MonoBehaviour
                         }
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.X))
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Canel))
                 {
-                    if (isSkillSelect.All(value => !value)) // 모든 값이 false인지 확인
+                    if (isSkillSelect != null && isSkillSelect.All(value => !value)) // 모든 값이 false인지 확인
                     {
                         if (isSkillPageSelect[0] == true || isSkillPageSelect[1] == true)
                         {

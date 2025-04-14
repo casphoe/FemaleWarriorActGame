@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem; // Gamepad, InputSystem
+using UnityEngine.InputSystem.Controls; // ButtonControl 
 
 public class GameCanvas : MonoBehaviour
 {
@@ -82,13 +84,7 @@ public class GameCanvas : MonoBehaviour
         LevelAndExpSetting();
         PotionSetting();
         selectPanel = 0;
-        txtSlotKey[0].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey1].ToString();
-        txtSlotKey[1].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey2].ToString();
-        txtSlotKey[2].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3].ToString();
-        txtSlotKey[3].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4].ToString();
-        txtSlotKey[4].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5].ToString();
-        txtSlotKey[5].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6].ToString();
-        txtSlotKey[6].text = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7].ToString();
+        
 
         btnOption.onClick.AddListener(() => OnPauseClick());
         Utils.OnOff(pausePanel, false);
@@ -129,12 +125,13 @@ public class GameCanvas : MonoBehaviour
 
         btnItemSelect[0].onClick.AddListener(() => OnItemSelectClickEvent(0));
         btnItemSelect[1].onClick.AddListener(() => OnItemSelectClickEvent(1));
-        btnItemSelect[2].onClick.AddListener(() => OnItemSelectClickEvent(2));    
+        btnItemSelect[2].onClick.AddListener(() => OnItemSelectClickEvent(2));
+        SlotKeyTextChange();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.PauseKey]))
+        if(PlayerManager.GetCustomKeyDown(CustomKeyCode.PauseKey))
         {
             OnPauseClick();
         }
@@ -159,6 +156,24 @@ public class GameCanvas : MonoBehaviour
                     break;
                 case 2: //불러오기
                     break;
+            }
+        }
+    }
+
+    public void SlotKeyTextChange()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            CustomKeyCode key = CustomKeyCode.ShortcutKey1 + i; // ShortcutKey1 ~ ShortcutKey7
+            var map = GameManager.data.keyMappings[key];
+
+            if (Gamepad.current != null && !string.IsNullOrEmpty(map.gamepadButton))
+            {
+                txtSlotKey[i].text = map.gamepadButton;
+            }
+            else
+            {
+                txtSlotKey[i].text = map.keyCode.ToString();
             }
         }
     }

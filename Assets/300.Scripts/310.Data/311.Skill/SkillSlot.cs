@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class SkillSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -60,10 +62,10 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                 switch (index)
                 {
                     case 2:
-                        var key = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3];
+                        var key = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3].customKeyCode;
 
                         // DOWN - 스킬 시작 조건 체크
-                        if (Input.GetKeyDown(key) && !isCharging)
+                        if (PlayerManager.GetCustomKeyDown(key) && !isCharging)
                         {
                             if (Time.time >= skillCoolTime + downAttack.coolTime &&
                                 Player.instance.currentStamina >= downAttack.StaminaConsumption &&
@@ -81,14 +83,14 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
 
                         // HOLD - 마우스 위치로 라인 이동
-                        if (isCharging && Input.GetKey(key))
+                        if (isCharging && PlayerManager.GetCustomKey(key))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
                         // UP - 스킬 발동
-                        if (isCharging && Input.GetKeyUp(key))
+                        if (isCharging && PlayerManager.GetCustomKeyUp(key))
                         {
                             isCharging = false;
                             PlayerManager.instance.isAiming = false;
@@ -101,10 +103,10 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
                         break;
                     case 3:
-                        var key2 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4];
+                        var key2 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4].customKeyCode;
 
                         // DOWN - 스킬 시작 조건 체크
-                        if (Input.GetKeyDown(key2) && !isCharging)
+                        if (PlayerManager.GetCustomKeyDown(key2) && !isCharging)
                         {
                             if (Time.time >= skillCoolTime + downAttack.coolTime &&
                                 Player.instance.currentStamina >= downAttack.StaminaConsumption &&
@@ -122,14 +124,14 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
 
                         // HOLD - 마우스 위치로 라인 이동
-                        if (isCharging && Input.GetKey(key2))
+                        if (isCharging && PlayerManager.GetCustomKey(key2))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
                         // UP - 스킬 발동
-                        if (isCharging && Input.GetKeyUp(key2))
+                        if (isCharging && PlayerManager.GetCustomKeyUp(key2))
                         {
                             isCharging = false;
                             PlayerManager.instance.isAiming = false;
@@ -142,10 +144,10 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
                         break;
                     case 4:
-                        var key3 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5];
+                        var key3 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5].customKeyCode;
 
                         // DOWN - 스킬 시작 조건 체크
-                        if (Input.GetKeyDown(key3) && !isCharging)
+                        if (PlayerManager.GetCustomKeyDown(key3) && !isCharging)
                         {
                             if (Time.time >= skillCoolTime + downAttack.coolTime &&
                                 Player.instance.currentStamina >= downAttack.StaminaConsumption &&
@@ -163,14 +165,14 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
 
                         // HOLD - 마우스 위치로 라인 이동
-                        if (isCharging && Input.GetKey(key3))
+                        if (isCharging && PlayerManager.GetCustomKey(key3))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
                         // UP - 스킬 발동
-                        if (isCharging && Input.GetKeyUp(key3))
+                        if (isCharging && PlayerManager.GetCustomKeyUp(key3))
                         {
                             isCharging = false;
                             PlayerManager.instance.isAiming = false;
@@ -183,10 +185,10 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
                         break;
                     case 5:
-                        var key4 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6];
+                        var key4 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6].customKeyCode;
 
                         // DOWN - 스킬 시작 조건 체크
-                        if (Input.GetKeyDown(key4) && !isCharging)
+                        if (PlayerManager.GetCustomKeyDown(key4) && !isCharging)
                         {
                             if (Time.time >= skillCoolTime + downAttack.coolTime &&
                                 Player.instance.currentStamina >= downAttack.StaminaConsumption &&
@@ -204,14 +206,14 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
 
                         // HOLD - 마우스 위치로 라인 이동
-                        if (isCharging && Input.GetKey(key4))
+                        if (isCharging && PlayerManager.GetCustomKey(key4))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
                         // UP - 스킬 발동
-                        if (isCharging && Input.GetKeyUp(key4))
+                        if (isCharging && PlayerManager.GetCustomKeyUp(key4))
                         {
                             isCharging = false;
                             PlayerManager.instance.isAiming = false;
@@ -224,10 +226,10 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
                         break;
                     case 6:
-                        var key5 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7];
+                        var key5 = GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7].customKeyCode;
 
                         // DOWN - 스킬 시작 조건 체크
-                        if (Input.GetKeyDown(key5) && !isCharging)
+                        if (PlayerManager.GetCustomKeyDown(key5) && !isCharging)
                         {
                             if (Time.time >= skillCoolTime + downAttack.coolTime &&
                                 Player.instance.currentStamina >= downAttack.StaminaConsumption &&
@@ -245,14 +247,14 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                         }
 
                         // HOLD - 마우스 위치로 라인 이동
-                        if (isCharging && Input.GetKey(key5))
+                        if (isCharging && PlayerManager.GetCustomKey(key5))
                         {
                             PlayerManager.instance.isAiming = true;
                             Player.instance.downAttackTrajectory.MoveTrajectory();
                         }
 
                         // UP - 스킬 발동
-                        if (isCharging && Input.GetKeyUp(key5))
+                        if (isCharging && PlayerManager.GetCustomKeyUp(key5))
                         {
                             isCharging = false;
                             PlayerManager.instance.isAiming = false;
@@ -271,31 +273,31 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
                 switch (index)
                 {
                     case 2:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey3]))
+                        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey3))
                         {
 
                         }
                         break;
                     case 3:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey4]))
+                        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey4))
                         {
 
                         }
                         break;
                     case 4:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey5]))
+                        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey5))
                         {
 
                         }
                         break;
                     case 5:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey6]))
+                        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey6))
                         {
 
                         }
                         break;
                     case 6:
-                        if (Input.GetKeyDown(GameManager.data.keyMappings[CustomKeyCode.ShortcutKey7]))
+                        if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ShortcutKey7))
                         {
 
                         }

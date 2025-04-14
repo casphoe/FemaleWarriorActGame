@@ -26,7 +26,7 @@ public class Bless : MonoBehaviour
                 Utils.OnOff(panel.rectBlessCanvas.gameObject, true);
             }
 
-            if (Input.GetKey(GameManager.data.keyMappings[CustomKeyCode.ActionKey]))
+            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
             {
                 PlayerManager.instance.isState = true;
                 Utils.OnOff(GameCanvas.instance.blessPanel, true);
