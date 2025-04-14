@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem;
 
 public class SceneManger : MonoBehaviour
 {
@@ -223,6 +225,18 @@ public class SceneManger : MonoBehaviour
         else
         {
             Utils.OnOff(optionObj, false);            
+        }
+    }
+
+    private void Update()
+    {
+        if (Gamepad.current != null)
+        {
+            Utils.OnOff(btnOption[3].gameObject, true);
+        }
+        else
+        {
+            Utils.OnOff(btnOption[3].gameObject, false);
         }
     }
 }
