@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem; // 꼭 필요!
 
 public class DownAttackTrajectory : MonoBehaviour
 {
@@ -75,7 +76,13 @@ public class DownAttackTrajectory : MonoBehaviour
     {
         if(PlayerManager.instance.isAiming)
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //old InputSystem 
+            //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // 수정 후
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane));
+
             mouseWorldPos.z = 0f;
 
             Vector3 playerPos = player.transform.position;

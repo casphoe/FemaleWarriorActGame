@@ -226,12 +226,12 @@ public class KeyManager : MonoBehaviour
         Set(CustomKeyCode.BlockKey, "buttonNorth");
         Set(CustomKeyCode.ShortcutKey1, "dpad/left");
         Set(CustomKeyCode.ShortcutKey2, "dpad/right");
-        Set(CustomKeyCode.ShortcutKey3, "buttonWest+buttonEast");
-        Set(CustomKeyCode.ShortcutKey4, "buttonSouth+buttonWest");
+        Set(CustomKeyCode.ShortcutKey3, "leftStick/down");
+        Set(CustomKeyCode.ShortcutKey4, "dpad/down");
         Set(CustomKeyCode.ShortcutKey5, "buttonEast+buttonSouth");
         Set(CustomKeyCode.ShortcutKey6, "buttonNorth+buttonSouth");
         Set(CustomKeyCode.ShortcutKey7, "buttonNorth+buttonEast");
-        Set(CustomKeyCode.ActionKey, "rightStickClick");
+        Set(CustomKeyCode.ActionKey, "leftStick/up");
         Set(CustomKeyCode.PauseKey, "start");
         Set(CustomKeyCode.Canel, "select");
 

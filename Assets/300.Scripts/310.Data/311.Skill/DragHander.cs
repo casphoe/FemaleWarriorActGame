@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem; // 추가 필요
 
 public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -31,7 +32,12 @@ public class DragHander : MonoBehaviour, IDragHandler, IEndDragHandler
         //현재 가져운 마우스 위치를 월드 좌표로 변환 하는 작업
         //마우스 위치가 픽셀 단위 이기 때문에 UI 오브젝트는 월드 좌표를 사용하기 때문에 월드 좌표로 변환하기 위해서 사용
         //canvas.planeDistance : 카메라로 부터 UI 캔버스 까지의 거리를 z값으로 사용해서 2d ui를 정확한 월드 좌표로 변환
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, canvas.planeDistance));
+        //Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, canvas.planeDistance));
+
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(
+            new Vector3(mousePos.x, mousePos.y, canvas.planeDistance));
+
         offset = skillRectTransform.position - mouseWorldPosition;
         setSkillName = _name;
         _slotOption = _slot;

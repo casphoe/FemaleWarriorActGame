@@ -63,12 +63,12 @@
         {
             "customKeyCode": 12,
             "keyCode": 51,
-            "gamepadButton": "buttonWest+buttonEast"
+            "gamepadButton": "leftStick/down"
         },
         {
             "customKeyCode": 13,
             "keyCode": 52,
-            "gamepadButton": "buttonSouth+buttonWest"
+            "gamepadButton": "dpad/down"
         },
         {
             "customKeyCode": 14,
@@ -88,7 +88,7 @@
         {
             "customKeyCode": 17,
             "keyCode": 273,
-            "gamepadButton": "rightStickClick"
+            "gamepadButton": "leftStick/up"
         },
         {
             "customKeyCode": 18,

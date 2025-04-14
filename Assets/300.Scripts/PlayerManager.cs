@@ -151,7 +151,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     var control = Gamepad.current[btnName];
                     //해당 컨트롤 버튼 타입인지 확인
-                    if (control is ButtonControl button)
+                    if (Gamepad.current.TryGetChildControl<ButtonControl>(btnName) is ButtonControl button)
                     {
                         if (!button.wasPressedThisFrame)
                         {
@@ -168,8 +168,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                var control = Gamepad.current[map.gamepadButton];
-                if (control is ButtonControl button)
+                if (Gamepad.current.TryGetChildControl<ButtonControl>(map.gamepadButton) is ButtonControl button)
                     gamepadPressed = button.wasPressedThisFrame;
             }
         }
