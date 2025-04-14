@@ -40,8 +40,6 @@ public class ConfusionQuestionMark : MonoBehaviour
         Vector3 newPos = startPos + new Vector3(0, offset, 0);
         transform.position = newPos;
 
-        Debug.Log(startPos);
-
         // 깜빡임 (알파 값이 0~1 사이에서 주기적으로 변화하게 함) 
         float alpha = Mathf.Abs(Mathf.Sin(Time.time * alphaSpeed));
         if (sr != null)

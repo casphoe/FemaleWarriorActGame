@@ -122,6 +122,7 @@ public class Enemy : MonoBehaviour
         guardValue = data.guardValue;
         guardRecoverycoolTime = data.guardRecoverycoolTime;
         guardRecoveryValue = data.guardRecoveryValue;
+        currentHp = hp;
         EnemyDifficuitySetting();
         ApplyTimeMultiplier();
     }
@@ -152,13 +153,12 @@ public class Enemy : MonoBehaviour
         float timeMultiplier = (GameManager.data.day == Day.Night) ? 1.5f : 1f;
         float reveaseTimeMultiplier = (GameManager.data.day == Day.Night) ? 0.5f : 1f;
 
+        float oldMaxHp = maxHp; // 기존 maxHp 백업 먼저!
+
         maxHp = hp * baseMultiplier * timeMultiplier;
 
-        float oldMaxHp = maxHp;
         float hpRatio = (oldMaxHp > 0f) ? currentHp / oldMaxHp : 1f;
-
-        // 능력치 재계산
-        currentHp = maxHp * hpRatio; //  비율 그대로 반영
+        currentHp = maxHp * hpRatio;
 
         // 원본 * 난이도 * 시간
         currentAttack = attack * baseMultiplier * timeMultiplier;
