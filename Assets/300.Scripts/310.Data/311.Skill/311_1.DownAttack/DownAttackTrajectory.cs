@@ -80,7 +80,10 @@ public class DownAttackTrajectory : MonoBehaviour
             //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // 수정 후
+            // Mouse.current.position.ReadValue() : 현재 마우스 위치(픽셀 단위 화면 좌표) 예: (1340.0, 450.0) → 화면 해상도 기준 위치
             Vector2 mousePos = Mouse.current.position.ReadValue();
+            //Camera.main.nearClipPlane z축으로 넣는 이유 : Unity는 ScreenToWorldPoint를 쓸 때 z축 위치가 없으면 2D 평면으로 해석을 못 함
+            // 일반적으로 마우스 커서의 위치는 카메라 앞면(near clip) 에 있다고 가정하니까, nearClipPlane을 넣음.
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane));
 
             mouseWorldPos.z = 0f;
