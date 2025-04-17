@@ -32,9 +32,10 @@ https://github.com/nhn/gpm.unity 에셋을 통해 Infinite Scroll 을 통해서 
   18. 몬스터 원거리 공격 기능 구현
   19. 가드 게이지 UI 기능 및 가드 게이지 UI 0 이 되면 혼란 기능 추가
   20. InputSystem을 통한 컨트롤러 및 키보드 설정 (패키지 매니저에서 InputSystem 을 설치 후 ProjectSetting에서 Player -> OtherSetting -> Active Input Handing -> Input System Package(New) 을 선택하고 진행하면 됩니다.
+  21. 막기 기능
  
 - 제작 해야하는 기능
-  1. 막기 기능
+  1. 보스 배치 및 AI 구현
   2. 플레이어 창
   3. 몬스터 배치
   4. 맵 구현 작업
