@@ -719,6 +719,8 @@ public class GameCanvas : MonoBehaviour
                 break;
                 //텔레포트
             case 1:
+                GoddessStatueManager.instance.MapOpenSet(true);
+
                 break;
             case 2:
                 PlayerManager.instance.isState = false;

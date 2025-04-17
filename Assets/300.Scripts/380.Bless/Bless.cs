@@ -7,6 +7,7 @@ public class Bless : MonoBehaviour
     public GameObject blessCanvas;
     BlessPanel panel;
     bool isPlayerNear = false;
+    public bool isRegistered = false; //석상이 등록되었는지 확인하기 위한 여부
 
     private void Start()
     {
@@ -28,6 +29,10 @@ public class Bless : MonoBehaviour
 
             if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
             {
+                if(!isRegistered)
+                {
+                    isRegistered = true;
+                }
                 PlayerManager.instance.isState = true;
                 Utils.OnOff(GameCanvas.instance.blessPanel, true);
             }
