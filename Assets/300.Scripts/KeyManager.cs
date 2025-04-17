@@ -51,11 +51,14 @@ public class KeyManager : MonoBehaviour
     {
         txtKey[num].text = "Press any key...";
 
-        //  Input System 키보드 기준 대기 (아무 키가 눌릴 때 까지 기달림)
+        //  Input System 키보드 기준 대기 (아무 키가 눌릴 때 까지 기달림) , or 마우스 입력 대기
         yield return new WaitUntil(() =>
         {
             //wasPressedThisFrame 이번 프레임에 눌렸는가를 의미하는 기능
-            return Keyboard.current.anyKey.wasPressedThisFrame;
+            return Keyboard.current.anyKey.wasPressedThisFrame ||
+            Mouse.current.leftButton.wasPressedThisFrame ||
+               Mouse.current.rightButton.wasPressedThisFrame ||
+               Mouse.current.middleButton.wasPressedThisFrame;
         });
 
         //  눌린 키 찾기
@@ -67,9 +70,28 @@ public class KeyManager : MonoBehaviour
                 KeyCode unityKey = PlayerManager.ConvertKeyControlToKeyCode(key);
                 txtKey[num].text = unityKey.ToString();
                 SetKeyBinding((CustomKeyCode)num, unityKey);
-                break;
+                yield break;
             }
         }
+
+        // 마우스 버튼도 확인
+        //마우스 왼쪽 버튼을 이번 프레임에 눌렸는지 확인 눌렸다면 UI 업데이트 해당 키를 CustomKeyCode 에 등록
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            txtKey[num].text = KeyCode.Mouse0.ToString();
+            SetKeyBinding((CustomKeyCode)num, KeyCode.Mouse0);
+        }
+        else if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            txtKey[num].text = KeyCode.Mouse1.ToString();
+            SetKeyBinding((CustomKeyCode)num, KeyCode.Mouse1);
+        }
+        else if (Mouse.current.middleButton.wasPressedThisFrame)
+        {
+            txtKey[num].text = KeyCode.Mouse2.ToString();
+            SetKeyBinding((CustomKeyCode)num, KeyCode.Mouse2);
+        }
+
     }
     //키 중복 방지, 기존 키와 스왑 처리 수행하는 기능
     private void SetKeyBinding(CustomKeyCode customKey, KeyCode newKey)

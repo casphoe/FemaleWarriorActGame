@@ -123,17 +123,41 @@ public class PlayerManager : MonoBehaviour
         //유저가 커스텀으로 지정한 키값의 매핑 정보를 불려옴
         var map = GameManager.data.keyMappings[key];
 
-        //  키보드 입력 처리
+        // --- 키보드 & 마우스 입력 ---
         bool keyboardPressed = false;
         //현재 키보드 디바이스가 존재하는 지 여부 확인 &&  CustomKeyCode에 키보드 키를 설정했는지 확인
-        if (map.keyCode != KeyCode.None && Keyboard.current != null)
+        if (map.keyCode != KeyCode.None)
         {
-            // keycode -> keyControl로 변환하는 기능 (ex : KeyCode.Space → Keyboard.current.spaceKey)
-            var unityKey = ConvertKeyCode(map.keyCode);
-            if (unityKey != null)
+            if (Keyboard.current != null)
             {
-                //현재 프레임에서 처음으로 눌린 경우 true를 반환 지속적으로 누르고 있는중이거나 이전 프레임에 눌렷던 키는 false
-                keyboardPressed = unityKey.wasPressedThisFrame;
+                // keycode -> keyControl로 변환하는 기능 (ex : KeyCode.Space → Keyboard.current.spaceKey)
+                var unityKey = ConvertKeyCode(map.keyCode);
+                if (unityKey != null)
+                {
+                    //현재 프레임에서 처음으로 눌린 경우 true를 반환 지속적으로 누르고 있는중이거나 이전 프레임에 눌렷던 키는 false
+                    keyboardPressed = unityKey.wasPressedThisFrame;
+                }
+            }
+
+            // 마우스 입력 처리
+            // 마우스가 현재 연결되어 있는지 확인
+            if (Mouse.current != null)
+            {
+                switch (map.keyCode)
+                {
+                    //마우스 왼쪽 버튼 이번 프레임에서 처음 눌렸는지 확인 , true 지금 막 눌름, false 안 눌렸거나 이미 누르고 있는 상태
+                    case KeyCode.Mouse0:
+                        keyboardPressed = Mouse.current.leftButton.wasPressedThisFrame;
+                        break;
+                        // 마우스 오른쪽 버튼 클릭 감지
+                    case KeyCode.Mouse1:
+                        keyboardPressed = Mouse.current.rightButton.wasPressedThisFrame;
+                        break;
+                        //마우스 휠 버튼 클릭 감지
+                    case KeyCode.Mouse2:
+                        keyboardPressed = Mouse.current.middleButton.wasPressedThisFrame;
+                        break;
+                }
             }
         }
 

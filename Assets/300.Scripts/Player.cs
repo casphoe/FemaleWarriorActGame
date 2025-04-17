@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
 
     PlayerAttack playerAttack;
     PlayerInvincibility Invincibility;
+    PlayerBlock block;
 
     public float moveDirection = 0f;
 
@@ -82,6 +83,7 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isGround = true;
         playerAttack = GetComponent<PlayerAttack>();
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
+        block = GetComponent<PlayerBlock>();
         Invincibility = GetComponent<PlayerInvincibility>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
         shadowRender = transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -174,85 +176,92 @@ public class Player : MonoBehaviour
         //죽거나 ,무적상태가 아닐때 데미지가 들어가야함
         if (PlayerManager.instance.IsDead || PlayerManager.instance.isInvincibility) return;
 
-
-        float defense = PlayerManager.instance.player.defense;
-
-        int rand = UnityEngine.Random.Range(1, 101); // 1 ~ 100 포함
-
-        bool isCritical = false;
-
-        PlayerManager.instance.player.currentGuardValue -= damage;
-        PlayerManager.instance.player.currentGuardValue = Mathf.Clamp(PlayerManager.instance.player.currentGuardValue, 0, PlayerManager.instance.player.maxGuardValue);
-
-        float guardRatio = PlayerManager.instance.player.currentGuardValue / PlayerManager.instance.player.maxGuardValue;
-        playerGuardShrinkSlider.SetValue(guardRatio);
-
-        if(PlayerManager.instance.player.currentGuardValue <= 0f && PlayerManager.instance.isStun == false)
+        if(block.isBlocking == true)
         {
-            isCritical = true;
-            ApplyStun(guradRecoveryCoolTime);
+            block.OnBlocked();
+            SoundManager.Instance.PlaySFX("Block");
         }
         else
         {
-            isCritical = rand <= critcleRate;
-        }
+            float defense = PlayerManager.instance.player.defense;
 
-        // 데미지 감소율을 방어력으로부터 계산 (최대 85% 제한)
-        // 방어력이 높을 수록 데미지를 퍼센트로 감소 시키기 위해 사용
-        /*
-         * 방어력 상승으로 게임 밸런스를 막기 위해서 최대 85퍼센트 데미지만 들어가게 설정
-         */
-        float maxDamageReduction = 0.85f; // 최대 80% 데미지 감소
+            int rand = UnityEngine.Random.Range(1, 101); // 1 ~ 100 포함
 
-        float damageReductionPercent = Mathf.Min(defense / 100f, maxDamageReduction);
+            bool isCritical = false;
 
-        float finalDamage = damage * (1 - damageReductionPercent);
+            PlayerManager.instance.player.currentGuardValue -= damage;
+            PlayerManager.instance.player.currentGuardValue = Mathf.Clamp(PlayerManager.instance.player.currentGuardValue, 0, PlayerManager.instance.player.maxGuardValue);
 
-        if (isCritical)
-        {
-            finalDamage *= critcleDmg;
-        }
+            float guardRatio = PlayerManager.instance.player.currentGuardValue / PlayerManager.instance.player.maxGuardValue;
+            playerGuardShrinkSlider.SetValue(guardRatio);
 
-        currentHp -= finalDamage;
-        currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록 처리
+            if (PlayerManager.instance.player.currentGuardValue <= 0f && PlayerManager.instance.isStun == false)
+            {
+                isCritical = true;
+                ApplyStun(guradRecoveryCoolTime);
+            }
+            else
+            {
+                isCritical = rand <= critcleRate;
+            }
 
-        // UI 체력바 갱신
-        GameCanvas.instance.SliderChange(0, 1, finalDamage); // (체력, 감소, 양)
+            // 데미지 감소율을 방어력으로부터 계산 (최대 85% 제한)
+            // 방어력이 높을 수록 데미지를 퍼센트로 감소 시키기 위해 사용
+            /*
+             * 방어력 상승으로 게임 밸런스를 막기 위해서 최대 85퍼센트 데미지만 들어가게 설정
+             */
+            float maxDamageReduction = 0.85f; // 최대 80% 데미지 감소
 
-        switch(num)
-        {
-            //함정
-            case 0:
-                ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
-                break;
-                //몬스터
-            case 1:
-                if(isCritical) //크리티컬 히트
-                {
-                    ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
-                }
-                else
-                {
+            float damageReductionPercent = Mathf.Min(defense / 100f, maxDamageReduction);
+
+            float finalDamage = damage * (1 - damageReductionPercent);
+
+            if (isCritical)
+            {
+                finalDamage *= critcleDmg;
+            }
+
+            currentHp -= finalDamage;
+            currentHp = Mathf.Max(0, currentHp); // 체력 0 이하로 떨어지지 않도록 처리
+
+            // UI 체력바 갱신
+            GameCanvas.instance.SliderChange(0, 1, finalDamage); // (체력, 감소, 양)
+
+            switch (num)
+            {
+                //함정
+                case 0:
                     ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
-                }
-                break;
-        }
+                    break;
+                //몬스터
+                case 1:
+                    if (isCritical) //크리티컬 히트
+                    {
+                        ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
+                    }
+                    else
+                    {
+                        ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+                    }
+                    break;
+            }
 
-        if (currentHp <= 0)
-        {
-            anim.SetBool("Death", true); //  Animator에 Death 상태 전이 발생        
-            PlayerManager.instance.IsDead = true;
-        }
-        else
-        {
-            anim.SetBool("Hurt", true); //  Animator에 Hurt 상태 전이 발생     
-            
-            //무적효과
-            Invincibility.TriggerInvincibility();
-        }
+            if (currentHp <= 0)
+            {
+                anim.SetBool("Death", true); //  Animator에 Death 상태 전이 발생        
+                PlayerManager.instance.IsDead = true;
+            }
+            else
+            {
+                anim.SetBool("Hurt", true); //  Animator에 Hurt 상태 전이 발생     
 
-        guardRecoverTimer = 0;
-        canRecoverGuard = false;
+                //무적효과
+                Invincibility.TriggerInvincibility();
+            }
+
+            guardRecoverTimer = 0;
+            canRecoverGuard = false;
+        }      
     }
 
     public void HurtEnd()
