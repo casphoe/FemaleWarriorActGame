@@ -82,6 +82,9 @@ public class GoddessStatueManager : MonoBehaviour
         {
             if (blinkRoutine == null)
                 blinkRoutine = StartCoroutine(BlinkArrows());
+
+            //커서 초기화 코류틴 실행
+            StartCoroutine(InitCursorAfterLayout());
         }
         else
         {
@@ -144,7 +147,7 @@ public class GoddessStatueManager : MonoBehaviour
     private Vector2 currentCursorPos = Vector2.zero;
 
     [Header("속도 설정")]
-    [SerializeField] private float moveSpeed = 3f; // 커서 이동 속도
+    [SerializeField] private float moveSpeed = 500f; // 커서 이동 속도
 
     public void AddMap(string id, string name, MapType type, Vector2 uiPosition)
     {
@@ -160,21 +163,32 @@ public class GoddessStatueManager : MonoBehaviour
         }
     }
 
+    private IEnumerator InitCursorAfterLayout()
+    {
+        yield return null; // 한 프레임 대기해서 Layout 확정
+
+        float centerX = contentTransform.rect.width * 0.5f;
+        float centerY = -contentTransform.rect.height * 0.5f;
+
+        currentCursorPos = new Vector2(centerX, centerY);
+        ClampToContent(); // 위치 제한 걸기
+        MoveCursor();     // 커서 + 스크롤 위치 적용
+    }
+
     private void ClampToContent()
     {
-        // Content와 커서의 절반 크기 계산
-        float contentHalfWidth = contentTransform.rect.width * 0.5f;
-        float contentHalfHeight = contentTransform.rect.height * 0.5f;
+        float contentWidth = contentTransform.rect.width;
+        float contentHeight = contentTransform.rect.height;
 
-        float cursorHalfWidth = cursorTransform.rect.width * 0.5f;
-        float cursorHalfHeight = cursorTransform.rect.height * 0.5f;
+        float cursorHalfW = cursorTransform.sizeDelta.x * 0.5f;
+        float cursorHalfH = cursorTransform.sizeDelta.y * 0.5f;
 
-        // 커서가 Content 범위를 벗어나지 않도록 Clamp
-        float minX = -contentHalfWidth + cursorHalfWidth;
-        float maxX = contentHalfWidth - cursorHalfWidth;
+        // Content의 좌상단 기준
+        float minX = 0 + cursorHalfW;
+        float maxX = contentWidth - cursorHalfW;
 
-        float minY = -contentHalfHeight + cursorHalfHeight;
-        float maxY = contentHalfHeight - cursorHalfHeight;
+        float minY = -contentHeight + cursorHalfH;
+        float maxY = 0 - cursorHalfH;
 
         currentCursorPos.x = Mathf.Clamp(currentCursorPos.x, minX, maxX);
         currentCursorPos.y = Mathf.Clamp(currentCursorPos.y, minY, maxY);
@@ -182,22 +196,19 @@ public class GoddessStatueManager : MonoBehaviour
 
     private void MoveCursor()
     {
-        // 커서 위치 이동
-        cursorTransform.anchoredPosition = currentCursorPos;
+        // localPosition으로 이동 (중요!)
+        cursorTransform.localPosition = currentCursorPos;
 
-        // Viewport와 Content 기준값 계산
-        float contentHalfWidth = contentTransform.rect.width * 0.5f;
-        float viewportWidth = scrollRect.viewport.rect.width;
+        float viewWidth = scrollRect.viewport.rect.width;
+        float contentWidth = contentTransform.rect.width;
 
-        // 커서의 Content 내 실제 위치 (0,0 기준 → content 왼쪽 기준으로 보정)
-        float targetX = currentCursorPos.x + contentHalfWidth - (viewportWidth * 0.5f);
+        float targetX = currentCursorPos.x - (viewWidth * 0.5f);
 
-        // 스크롤 가능 범위
         float minScrollX = 0f;
-        float maxScrollX = contentTransform.rect.width - viewportWidth;
+        float maxScrollX = contentWidth - viewWidth;
 
-        // Clamp 및 반영
         targetX = Mathf.Clamp(targetX, minScrollX, maxScrollX);
+
         scrollRect.content.anchoredPosition = new Vector2(-targetX, scrollRect.content.anchoredPosition.y);
     }
 
