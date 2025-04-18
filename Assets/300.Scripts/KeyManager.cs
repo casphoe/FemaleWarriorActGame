@@ -142,9 +142,11 @@ public class KeyManager : MonoBehaviour
         Set(CustomKeyCode.ShortcutKey5, KeyCode.Alpha5);
         Set(CustomKeyCode.ShortcutKey6, KeyCode.Alpha6);
         Set(CustomKeyCode.ShortcutKey7, KeyCode.Alpha7);
-        Set(CustomKeyCode.ActionKey, KeyCode.UpArrow);
+        Set(CustomKeyCode.ActionKey, KeyCode.C);
         Set(CustomKeyCode.PauseKey, KeyCode.Escape);
         Set(CustomKeyCode.Canel, KeyCode.X);
+        Set(CustomKeyCode.Up, KeyCode.UpArrow);
+        Set(CustomKeyCode.Down, KeyCode.DownArrow);
 
         // Ui 텍스트 값도 기존에 설정된 키보드 값으로 가져옴
         for (int i = 0; i < btnKey.Length; i++)
@@ -248,14 +250,16 @@ public class KeyManager : MonoBehaviour
         Set(CustomKeyCode.BlockKey, "buttonNorth");
         Set(CustomKeyCode.ShortcutKey1, "dpad/left");
         Set(CustomKeyCode.ShortcutKey2, "dpad/right");
-        Set(CustomKeyCode.ShortcutKey3, "leftStick/down");
-        Set(CustomKeyCode.ShortcutKey4, "dpad/down");
-        Set(CustomKeyCode.ShortcutKey5, "buttonEast+buttonSouth");
+        Set(CustomKeyCode.ShortcutKey3, "rightStick/down");
+        Set(CustomKeyCode.ShortcutKey4, "rightStick/left");
+        Set(CustomKeyCode.ShortcutKey5, "rightStick/right");
         Set(CustomKeyCode.ShortcutKey6, "buttonNorth+buttonSouth");
         Set(CustomKeyCode.ShortcutKey7, "buttonNorth+buttonEast");
-        Set(CustomKeyCode.ActionKey, "leftStick/up");
+        Set(CustomKeyCode.ActionKey, "rightStick/up");
         Set(CustomKeyCode.PauseKey, "start");
         Set(CustomKeyCode.Canel, "select");
+        Set(CustomKeyCode.Up, "leftStick/up");
+        Set(CustomKeyCode.Down, "leftStick/down");
 
         for (int i = 0; i < btnKey.Length; i++)
         {

@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bless : MonoBehaviour
 {
+    public string statueID; // ì—¬ì‹ ìƒ ê³ ìœ  ID
     public GameObject blessCanvas;
     BlessPanel panel;
     bool isPlayerNear = false;
-    public bool isRegistered = false; //¼®»óÀÌ µî·ÏµÇ¾ú´ÂÁö È®ÀÎÇÏ±â À§ÇÑ ¿©ºÎ
 
     private void Start()
     {
@@ -29,9 +29,9 @@ public class Bless : MonoBehaviour
 
             if (PlayerManager.GetCustomKeyDown(CustomKeyCode.ActionKey))
             {
-                if(!isRegistered)
+                if (!GoddessStatueManager.instance.IsStatueDiscovered(statueID))
                 {
-                    isRegistered = true;
+                    GoddessStatueManager.instance.RegisterStatue(statueID);
                 }
                 PlayerManager.instance.isState = true;
                 Utils.OnOff(GameCanvas.instance.blessPanel, true);

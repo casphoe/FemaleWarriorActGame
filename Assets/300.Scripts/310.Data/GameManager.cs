@@ -55,7 +55,7 @@ public enum Day
 [SerializeField]
 public enum CustomKeyCode
 {
-    Left,Right,Jump,Attack,Evasion, Equipment,PlayerInfo, Skill, Inventory,BlockKey, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey,Canel
+    Left,Right,Jump,Attack,Evasion, Equipment,PlayerInfo, Skill, Inventory,BlockKey, ShortcutKey1, ShortcutKey2, ShortcutKey3, ShortcutKey4, ShortcutKey5, ShortcutKey6, ShortcutKey7, ActionKey, PauseKey,Canel, Up, Down
 }
 
 [SerializeField]

@@ -8,6 +8,7 @@ public class Portal : MonoBehaviour
 
     public int portalIndex;
     public int nextPortalIndex;
+    public string targetMapID;
     private bool playerInPortal = false;
     private GameObject playerObj;
 
@@ -54,31 +55,25 @@ public class Portal : MonoBehaviour
             {
                 Player.instance.transform.position = portal.transform.position;
 
-                // 맵 번호 변경
+                // 맵 번호 변경 및 등록 처리
+                int mapNum = -1;
+
                 switch (nextPortalIndex)
                 {
-                    case 0:
-                        Player.instance.currentMapNum = 0;
-                        break;
-                    case 1:
-                        Player.instance.currentMapNum = 1;
-                        break;
-                    case 2:
-                        Player.instance.currentMapNum = 1;
-                        break;
-                    case 3:
-                        Player.instance.currentMapNum = 2;
-                        break;
-                    case 4:
-                        Player.instance.currentMapNum = 2;
-                        break;
-                    case 5:
-                        Player.instance.currentMapNum = 3;
-                        break;
-                    // 더 추가 가능
-                    default:
-                       
-                        break;
+                    case 0: mapNum = 0; break;
+                    case 1: mapNum = 1; break;
+                    case 2: mapNum = 1; break;
+                    case 3: mapNum = 2; break;
+                    case 4: mapNum = 2; break;
+                    case 5: mapNum = 3; break;
+                    default: break;
+                }
+
+                if (mapNum != -1)
+                {
+                    Player.instance.currentMapNum = mapNum;
+
+                    //맵 방문 처리
                 }
 
                 break;

@@ -191,6 +191,14 @@
     "ENG": "Shortcut key 7 : ",
     "KOR": "단축키 7 : "
   },
+  "위쪽 키 : ": {
+    "ENG": "Up Key : ",
+    "KOR": "위쪽 키 : "
+  },
+  "아래쪽 키 : ": {
+    "ENG": "Down Key : ",
+    "KOR": "아래쪽 키 : "
+  },
   "currentExp :": {
     "ENG": "currentExp :",
     "KOR": "현재 경험치 :"
