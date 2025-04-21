@@ -32,6 +32,11 @@ public class GoddessStatueManager : MonoBehaviour
     {
         instance = this;
         MapOpenSet(false);
+        // 미리 contentTransform 자식에서 아이콘 찾아 등록
+        mapIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true).ToList();
+
+        AddMap("Vilage_0", "마을", "Vilage", MapType.Village);
+        AddMap("GoddesSatute_0", "마을여신상", "VilageGoddessSatute", MapType.GoddessStatue);
     }
 
     private void Update()
@@ -149,10 +154,26 @@ public class GoddessStatueManager : MonoBehaviour
     [Header("속도 설정")]
     [SerializeField] private float moveSpeed = 500f; // 커서 이동 속도
 
-    public void AddMap(string id, string name, MapType type, Vector2 uiPosition)
+    public void AddMap(string id, string nameKor,string nameEng, MapType type)
     {
-        if (!allMaps.ContainsKey(id))
-            allMaps[id] = new MapData(id, name, type, uiPosition);
+        if (allMaps.ContainsKey(id)) return;
+
+        // MapData 등록
+        allMaps[id] = new MapData(id, nameKor,nameEng, type);
+
+        // 아이콘 찾아서 설정 및 활성화
+        GoddessStatuesMapIcon icon = mapIcons.FirstOrDefault(x => string.IsNullOrEmpty(x.statueID));
+
+        if (icon != null)
+        {
+            icon.Setup(id, nameKor,nameEng, type); // 아이콘에 ID, 이름 설정
+            Utils.OnOff(icon.gameObject, true); // 아이콘 켜주기
+            //리스트에 없으면 추가
+            if (!mapIcons.Contains(icon))
+            {
+                mapIcons.Add(icon);
+            }
+        }
     }
 
     public void OnEnterNewMap(string mapID)
@@ -210,6 +231,63 @@ public class GoddessStatueManager : MonoBehaviour
         targetX = Mathf.Clamp(targetX, minScrollX, maxScrollX);
 
         scrollRect.content.anchoredPosition = new Vector2(-targetX, scrollRect.content.anchoredPosition.y);
+
+        //커서가 아이콘 위에 있는지 확인
+        CheckCursorOverIcons();
+    }
+
+    private void CheckCursorOverIcons()
+    {
+        foreach (var icon in mapIcons)
+        {
+            if (icon == null) continue;
+
+            RectTransform iconRect = icon.GetComponent<RectTransform>();
+            if (iconRect == null) continue;
+
+            bool isOver = IsCursorOver(iconRect);
+           
+            // mapData 가져오기
+            allMaps.TryGetValue(icon.statueID, out var mapData);
+            bool isGoddessStatue = (mapData != null && mapData.type == MapType.GoddessStatue);
+
+            // 기본 텍스트 처리 (모든 아이콘)
+            var tmp = icon.GetComponentInChildren<TMPro.TextMeshProUGUI>(true);
+            if (tmp != null)
+                Utils.OnOff(tmp.gameObject, isOver);
+
+            // 여신상일 경우 1번째 자식도 같이 처리
+            if (isGoddessStatue && icon.transform.childCount > 1)
+            {
+                Transform secondChild = icon.transform.GetChild(1);
+                Utils.OnOff(secondChild.gameObject, isOver);
+            }
+            else if (!isOver && isGoddessStatue && icon.transform.childCount > 1)
+            {
+                // 여신상인데 커서가 벗어난 경우 -> 텍스트 + 1번째 자식 꺼줌
+                Transform secondChild = icon.transform.GetChild(1);
+                Utils.OnOff(secondChild.gameObject, false);
+            }
+        }
+    }
+
+    private bool IsCursorOver(RectTransform target)
+    {
+        Rect cursorRect = new Rect(
+            cursorTransform.localPosition.x - cursorTransform.rect.width * 0.5f,
+            cursorTransform.localPosition.y - cursorTransform.rect.height * 0.5f,
+            cursorTransform.rect.width,
+            cursorTransform.rect.height
+        );
+
+        Rect targetRect = new Rect(
+            target.localPosition.x - target.rect.width * 0.5f,
+            target.localPosition.y - target.rect.height * 0.5f,
+            target.rect.width,
+            target.rect.height
+        );
+
+        return cursorRect.Overlaps(targetRect);
     }
 
     #endregion
@@ -219,6 +297,7 @@ public enum MapType
 {
     Village,
     Cave,
+    GoddessStatue,
     Forest,
     Dungeon,
     Unknown
@@ -228,17 +307,17 @@ public enum MapType
 public class MapData
 {
     public string mapID;
-    public string mapName;
+    public string mapNameKor;
+    public string mapNameEng;
     public MapType type;
     public bool isVisited;
-    public Vector2 mapPosition; // UI 좌표
 
-    public MapData(string id, string name, MapType type, Vector2 pos)
+    public MapData(string id, string nameKor, string nameEng, MapType type)
     {
         this.mapID = id;
-        this.mapName = name;
+        this.mapNameKor = nameKor;
+        this.mapNameEng = nameEng;
         this.type = type;
-        this.mapPosition = pos;
         this.isVisited = false;
     }
 }

@@ -193,20 +193,78 @@ public class KeyManager : MonoBehaviour
     {
         txtKeyGamepad[num].text = "Press gamepad...";
         //게임 패드가 연결되어 있고 어떤 버튼이라도 이번 프레임에 눌렸는지 기다림 두가지 조건이 만족할 때 까지 코루틴 대기
-        yield return new WaitUntil(() => Gamepad.current != null &&
-            Gamepad.current.allControls.Any(c => c is ButtonControl b && b.wasPressedThisFrame));
+        // 기다림 조건: 일반 버튼 또는 방향 입력이 눌릴 때까지
+        yield return new WaitUntil(() =>
+            Gamepad.current != null &&
+            (
+                Gamepad.current.allControls.Any(c => c is ButtonControl b && b.wasPressedThisFrame) ||
+                Gamepad.current.dpad.up.wasPressedThisFrame ||
+                Gamepad.current.dpad.down.wasPressedThisFrame ||
+                Gamepad.current.dpad.left.wasPressedThisFrame ||
+                Gamepad.current.dpad.right.wasPressedThisFrame ||
+                Gamepad.current.leftStick.up.wasPressedThisFrame ||
+                Gamepad.current.leftStick.down.wasPressedThisFrame ||
+                Gamepad.current.leftStick.left.wasPressedThisFrame ||
+                Gamepad.current.leftStick.right.wasPressedThisFrame
+            )
+        );
 
-        //모든 컨트롤 중에 눌린 버튼을 탐색
+        //방향 입력 우선 처리
+        //Gamepad.current.dpad.up.wasPressedThisFrame : DPad  방향키 입력이 들어왔는지 확인 후 우선 처리함.
+        if (Gamepad.current.dpad.up.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "dpad/up");
+            yield break;
+        }
+        if (Gamepad.current.dpad.down.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "dpad/down");
+            yield break;
+        }
+        if (Gamepad.current.dpad.left.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "dpad/left");
+            yield break;
+        }
+        if (Gamepad.current.dpad.right.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "dpad/right");
+            yield break;
+        }
+        if (Gamepad.current.leftStick.up.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "leftStick/up");
+            yield break;
+        }
+        if (Gamepad.current.leftStick.down.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "leftStick/down");
+            yield break;
+        }
+        if (Gamepad.current.leftStick.left.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "leftStick/left");
+            yield break;
+        }
+        if (Gamepad.current.leftStick.right.wasPressedThisFrame)
+        {
+            SetGamepadBinding((CustomKeyCode)num, "leftStick/right");
+            yield break;
+        }
+
+        //그 외 일반 버튼 처리
         foreach (var ctrl in Gamepad.current.allControls)
         {
             if (ctrl is ButtonControl btn && btn.wasPressedThisFrame)
             {
-                GameManager.data.keyMappings[(CustomKeyCode)num].gamepadButton = ctrl.name;
-                txtKeyGamepad[num].text = ctrl.name;
+                /*GameManager.data.keyMappings[(CustomKeyCode)num].gamepadButton = ctrl.name;
+                txtKeyGamepad[num].text = ctrl.name;*/
+                SetGamepadBinding((CustomKeyCode)num, ctrl.name); // 이걸로 중복 스왑 처리까지 수행
                 yield break;
             }
         }
     }
+
     //게임 패드 버튼을 설정하지만 이미 같은 버튼이 다른 키에 등록되 있다면 스왑 처리
     private void SetGamepadBinding(CustomKeyCode customKey, string newPadButton)
     {
