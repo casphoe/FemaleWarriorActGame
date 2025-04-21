@@ -17,8 +17,10 @@ public class GoddessStatueManager : MonoBehaviour
      * 3) 순서 없음 : 입력한 순서대로 저장되지 않음
      */
     public HashSet<string> registeredStatues = new HashSet<string>();
-
+    [Header("맵 아이콘 및 변수")]
     public List<GoddessStatuesMapIcon> mapIcons = new List<GoddessStatuesMapIcon>();
+    //텔레포트 좌표(여신상)
+    public List<Vector2> goddlesStatuePosition = new List<Vector2>();
 
     public bool isMapOpen = false;
 
@@ -26,6 +28,9 @@ public class GoddessStatueManager : MonoBehaviour
     [SerializeField] Image[] imgArrow;
 
     [SerializeField] float blinkSpeed = 1.5f; // 깜빡임 주기 (초당 몇 번)
+
+    [SerializeField] GoddessStatuesMapIcon currentHoveredGoddessStatue = null;
+
     private Coroutine blinkRoutine;
 
     private void Awake()
@@ -33,10 +38,16 @@ public class GoddessStatueManager : MonoBehaviour
         instance = this;
         MapOpenSet(false);
         // 미리 contentTransform 자식에서 아이콘 찾아 등록
-        mapIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true).ToList();
+        var allIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true);
+        foreach (var icon in allIcons)
+        {
+            Utils.OnOff(icon.gameObject, false);
+            mapIcons.Add(icon);
+        }
 
         AddMap("Vilage_0", "마을", "Vilage", MapType.Village);
         AddMap("GoddesSatute_0", "마을여신상", "VilageGoddessSatute", MapType.GoddessStatue);
+        MoveCharacterToStatue("Vilage_0");
     }
 
     private void Update()
@@ -62,6 +73,18 @@ public class GoddessStatueManager : MonoBehaviour
             ClampToContent();
             MoveCursor();
         }
+
+        if(currentHoveredGoddessStatue != null)
+        {
+            if(PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
+            {
+                TeleportPlayerToStatue(currentHoveredGoddessStatue.statueID);
+                MapOpenSet(false);
+                PlayerManager.instance.isState = false;
+                Utils.OnOff(GameCanvas.instance.blessPanel, false);
+                MoveCharacterToStatue(currentHoveredGoddessStatue.statueID);
+            }
+        }
     }
 
     public void RegisterStatue(string id)
@@ -78,7 +101,7 @@ public class GoddessStatueManager : MonoBehaviour
     {
         return registeredStatues.Contains(id);
     }
-
+    #region 맵 Ui 켜졌다가 꺼졌다가 하는 기능
     public void MapOpenSet(bool open)
     {
         isMapOpen = open;
@@ -101,8 +124,9 @@ public class GoddessStatueManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region 여신상 화살표 깜빡이게 하는 기능
     private IEnumerator BlinkArrows()
     {
         float t = 0f;
@@ -138,10 +162,33 @@ public class GoddessStatueManager : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region 텔레포트 기능
+    public void TeleportPlayerToStatue(string statueID)
+    {
+        // "GoddesSatute_0" -> 숫자만 추출 (뒤에 인덱스)
+        string indexStr = new string(statueID.Where(char.IsDigit).ToArray());
+
+        if (int.TryParse(indexStr, out int index))
+        {
+            if (index >= 0 && index < goddlesStatuePosition.Count)
+            {
+                Vector2 targetPosition = goddlesStatuePosition[index];
+
+                Player.instance.transform.position = targetPosition;
+
+                CM.instance.SnapToTarget();
+            }
+        }
+    }
+    #endregion
 
     #region 맵
+    [Header("Map")]
+    [SerializeField] private RectTransform cursorTransform; // 커서 오브젝트 위치
 
-    [SerializeField] private RectTransform cursorTransform; // 커서 오브젝트
+    [SerializeField] private RectTransform charcterUiTransform; // 캐릭터 위치 이미지
 
     public Dictionary<string, MapData> allMaps = new Dictionary<string, MapData>();
 
@@ -238,6 +285,8 @@ public class GoddessStatueManager : MonoBehaviour
 
     private void CheckCursorOverIcons()
     {
+        currentHoveredGoddessStatue = null; // 기본은 null로 시작
+
         foreach (var icon in mapIcons)
         {
             if (icon == null) continue;
@@ -249,7 +298,13 @@ public class GoddessStatueManager : MonoBehaviour
            
             // mapData 가져오기
             allMaps.TryGetValue(icon.statueID, out var mapData);
-            bool isGoddessStatue = (mapData != null && mapData.type == MapType.GoddessStatue);
+            bool isGoddess = (mapData != null && mapData.type == MapType.GoddessStatue);
+
+            //커서가 여신상 위에 있을 경우에만 저장
+            if (isOver && isGoddess)
+            {
+                currentHoveredGoddessStatue = icon;
+            }
 
             // 기본 텍스트 처리 (모든 아이콘)
             var tmp = icon.GetComponentInChildren<TMPro.TextMeshProUGUI>(true);
@@ -257,12 +312,12 @@ public class GoddessStatueManager : MonoBehaviour
                 Utils.OnOff(tmp.gameObject, isOver);
 
             // 여신상일 경우 1번째 자식도 같이 처리
-            if (isGoddessStatue && icon.transform.childCount > 1)
+            if (isGoddess && icon.transform.childCount > 1)
             {
                 Transform secondChild = icon.transform.GetChild(1);
                 Utils.OnOff(secondChild.gameObject, isOver);
             }
-            else if (!isOver && isGoddessStatue && icon.transform.childCount > 1)
+            else if (!isOver && isGoddess && icon.transform.childCount > 1)
             {
                 // 여신상인데 커서가 벗어난 경우 -> 텍스트 + 1번째 자식 꺼줌
                 Transform secondChild = icon.transform.GetChild(1);
@@ -289,6 +344,15 @@ public class GoddessStatueManager : MonoBehaviour
 
         return cursorRect.Overlaps(targetRect);
     }
+    //캐릭터 UI 위치 이동
+    public void MoveCharacterToStatue(string statueID)
+    {
+        var icon = mapIcons.FirstOrDefault(x => x.statueID == statueID);
+        if (icon != null)
+        {
+            charcterUiTransform.localPosition = icon.iconTransform.localPosition;
+        }
+    }
 
     #endregion
 }
@@ -300,6 +364,7 @@ public enum MapType
     GoddessStatue,
     Forest,
     Dungeon,
+    Road,
     Unknown
 }
 

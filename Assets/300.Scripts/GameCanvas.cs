@@ -719,9 +719,7 @@ public class GameCanvas : MonoBehaviour
                 break;
                 //텔레포트
             case 1:
-                GoddessStatueManager.instance.MapOpenSet(true);
-                GoddessStatueManager.instance.AddMap("Vilage_0", "마을", "Vilage", MapType.Village);
-                GoddessStatueManager.instance.AddMap("GoddesSatute_0", "마을여신상", "VilageGoddessSatute", MapType.GoddessStatue);
+                GoddessStatueManager.instance.MapOpenSet(true);               
                 break;
             case 2:
                 PlayerManager.instance.isState = false;

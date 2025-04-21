@@ -64,4 +64,16 @@ public class CM : MonoBehaviour
         shakeDuration = duration;
         shakeMagnitude = magnitude;
     }
+
+    public void SnapToTarget()
+    {
+        if (target == null) return;
+
+        Vector3 snapPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+
+        snapPosition.x = Mathf.Clamp(snapPosition.x, minMapLimitPoistion[Player.instance.currentMapNum].x, maxMapLimitPoistion[Player.instance.currentMapNum].x);
+        snapPosition.y = Mathf.Clamp(snapPosition.y, minMapLimitPoistion[Player.instance.currentMapNum].y, maxMapLimitPoistion[Player.instance.currentMapNum].y);
+
+        transform.position = snapPosition;
+    }
 }
