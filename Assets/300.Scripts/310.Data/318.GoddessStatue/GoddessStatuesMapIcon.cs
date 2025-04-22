@@ -1,9 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem; // Gamepad, InputSystem
-using UnityEngine.InputSystem.Controls; // ButtonControl
 
 public class GoddessStatuesMapIcon : MonoBehaviour
 {
@@ -12,16 +11,18 @@ public class GoddessStatuesMapIcon : MonoBehaviour
     public TextMeshProUGUI moveText;
     public RectTransform iconTransform;
     public MapType mapType;
+    public int currentMapNum;
 
     string korStr;
     string engStr;
     string moveKorStr;
     string moveEngStr;
 
-    public void Setup(string id, string displayNameKor, string displayNameEng, MapType type)
+    public void Setup(string id, string displayNameKor, string displayNameEng, MapType type, int mapNum)
     {
         statueID = id;
         this.mapType = type;
+        currentMapNum = mapNum;
 
         var keyMapping = GameManager.data.keyMappings[CustomKeyCode.Attack];
         string keyText = "";
@@ -34,11 +35,11 @@ public class GoddessStatuesMapIcon : MonoBehaviour
                 nameText.text = korStr;
                 if (Gamepad.current != null)
                 {
-                    moveKorStr = "ÅÚ·¹Æ÷Æ® : " + keyMapping.gamepadButton;
+                    moveKorStr = "í…”ë ˆí¬íŠ¸ : " + keyMapping.gamepadButton;
                 }
                 else
                 {
-                    moveKorStr = "ÅÚ·¹Æ÷Æ® : " + keyText;
+                    moveKorStr = "í…”ë ˆí¬íŠ¸ : " + keyText;
                 }
 
                 switch (type)

@@ -8,9 +8,15 @@ public class Portal : MonoBehaviour
 
     public int portalIndex;
     public int nextPortalIndex;
-    public string targetMapID;
     private bool playerInPortal = false;
     private GameObject playerObj;
+
+    [Header("맵 이동의 관련된 변수들")]
+    public string targetMapID;
+    public string targetMapNameKor;
+    public string targetMapNameEng;
+    public MapType mapType;
+    public int iconIndex;
 
     private void Awake()
     {
@@ -74,6 +80,9 @@ public class Portal : MonoBehaviour
                     Player.instance.currentMapNum = mapNum;
 
                     //맵 방문 처리
+                    GoddessStatueManager.instance.AddMap(targetMapID, targetMapNameKor, targetMapNameEng, mapType, mapNum, iconIndex);
+                    GoddessStatueManager.instance.OnEnterNewMap(targetMapID);
+                    GoddessStatueManager.instance.MoveCharacterToStatue(targetMapID);
                 }
 
                 break;

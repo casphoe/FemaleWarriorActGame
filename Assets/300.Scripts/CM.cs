@@ -65,12 +65,16 @@ public class CM : MonoBehaviour
         shakeMagnitude = magnitude;
     }
 
-    public void SnapToTarget()
+    public void SnapToTarget(int currentMapNum)
     {
         if (target == null) return;
 
+        //카메라가 따라갈 기본 위치 계산
         Vector3 snapPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
 
+        Player.instance.currentMapNum = currentMapNum;
+
+        //맵 경계 제한 적용
         snapPosition.x = Mathf.Clamp(snapPosition.x, minMapLimitPoistion[Player.instance.currentMapNum].x, maxMapLimitPoistion[Player.instance.currentMapNum].x);
         snapPosition.y = Mathf.Clamp(snapPosition.y, minMapLimitPoistion[Player.instance.currentMapNum].y, maxMapLimitPoistion[Player.instance.currentMapNum].y);
 

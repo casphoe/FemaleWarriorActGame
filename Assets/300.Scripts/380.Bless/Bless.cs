@@ -5,6 +5,11 @@ using UnityEngine;
 public class Bless : MonoBehaviour
 {
     public string statueID; // 여신상 고유 ID
+    public string nameKor;
+    public string nameEng;
+    public int mapNum;
+    public int iconIndex;
+
     public GameObject blessCanvas;
     BlessPanel panel;
     bool isPlayerNear = false;
@@ -31,7 +36,7 @@ public class Bless : MonoBehaviour
             {
                 if (!GoddessStatueManager.instance.IsStatueDiscovered(statueID))
                 {
-                    GoddessStatueManager.instance.RegisterStatue(statueID);
+                    GoddessStatueManager.instance.RegisterStatue(statueID, nameKor, nameEng, mapNum, iconIndex);
                 }
                 PlayerManager.instance.isState = true;
                 Utils.OnOff(GameCanvas.instance.blessPanel, true);
