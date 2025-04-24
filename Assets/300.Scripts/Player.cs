@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public float currentStamina;
     public float currentHp;
     public Rigidbody2D rb;
+    public Animator anim;
 
     public DownAttackTrajectory downAttackTrajectory;
     public int currentMapNum;
@@ -39,8 +40,6 @@ public class Player : MonoBehaviour
 
     //대시 공격 여부
     private bool isDashAttacking = false;
-
-    private Animator anim;
 
     private Vector2 originalColliderOffset;
 
@@ -69,6 +68,27 @@ public class Player : MonoBehaviour
 
     public float moveDirection = 0f;
 
+    #region 낙하 변수
+    [Header("낙하 변수")]
+    [SerializeField] float fallDamageVelocityThreshold = -15f;  // 이 속도보다 빠르게 떨어지면 데미지
+    private float fallDamageMultiplier = 5f;           // 데미지 배율
+    [SerializeField] bool wasFalling = false;                   // 이전 프레임 낙하 여부
+    [SerializeField] float maxFallSpeed = 0f;
+    #endregion
+
+    #region 사다리 관련 변수
+    [Header("Ladder 변수")]
+    [SerializeField] private LayerMask ladderLayer;
+    private bool isOnLadder = false;
+    private bool isNearLadder = false;
+    private float ladderCheckRadius = 0.2f;
+
+    private float ladderTopY;
+    private float ladderBottomY;
+    private Collider2D currentLadder;
+    [SerializeField] private float ladderExitBuffer = 0.2f; // 사다리 탈출 감지용 오차
+    #endregion
+
     #endregion
 
 
@@ -87,6 +107,7 @@ public class Player : MonoBehaviour
         Invincibility = GetComponent<PlayerInvincibility>();
         currentMapNum = PlayerManager.instance.player.currentMapNum;
         shadowRender = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        maxFallSpeed = 0;
     }
 
     private void Start()
@@ -119,6 +140,17 @@ public class Player : MonoBehaviour
             Move();
             Dash();
             UpdateGuardSlider();
+            CheckLadder();
+            HandleLadderMovement();
+            //플레이어 공중에 있고 아래로 떨어지고 있을 때 실행
+            if (!PlayerManager.instance.isGround && rb.velocity.y < 0)
+            {
+                wasFalling = true;
+                //가장 빠른 낙하 속도를 지속적으로 기록
+                // 점프 후 위로 올라가면 velocity.y 양수가 됨
+                // 따라서 낙하하면서 velocity.y 는 음수로 작아지기 때문에 기존 값들 중 제일 작은 값을 찾기 위해서 Mathf.Min 을 사용
+                maxFallSpeed = Mathf.Min(maxFallSpeed, rb.velocity.y); // 음수이므로 Min 사용
+            }
         }
 
         if(PlayerManager.instance.IsDead == false)
@@ -474,12 +506,12 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(rb.velocity.y < 0 && !PlayerManager.instance.isGround)
+        if (rb.velocity.y < 0 && !PlayerManager.instance.isGround && !PlayerManager.instance.isPlayerOnLadder)
         {
             anim.SetBool("IsFalling", true);  // 하강 애니메이션 활성화
-        }    
+        }
 
-        if(PlayerManager.instance.isGround)
+        if (PlayerManager.instance.isGround)
         {
             anim.SetBool("Jump", false);  // 점프 애니메이션 비활성화
             anim.SetBool("IsFalling", false);  // 하강 애니메이션 비활성화
@@ -492,6 +524,22 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Map"))
         {
+            //직전에 낙하 중이었으면 true
+            if (wasFalling)
+            {
+                //기록된 낙하 최고 속도가 설정한 fallDamageVelocityThreshold 값보다 낮은 음수 값이면 데미지를 입힘
+                if (maxFallSpeed < fallDamageVelocityThreshold)
+                {
+                    //데미지 값 적용
+                    //ex ) maxFallSpeed  = -15, fallDamageVelocityThreshold = -10 이면 damage = |(-15 + 10)| * fallDamageMultiplier => 5 * fallDamageMultiplier
+                    float damage = Mathf.Abs(maxFallSpeed + Mathf.Abs(fallDamageVelocityThreshold)) * fallDamageMultiplier;
+                    TakeFallDamage(damage);
+                }
+
+                wasFalling = false;
+                maxFallSpeed = 0f;
+            }
+
             PlayerManager.instance.isGround = true;
         }
     }
@@ -623,6 +671,103 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isStun = false;
         PlayerManager.instance.player.currentGuardValue = PlayerManager.instance.player.maxGuardValue;
         playerGuardShrinkSlider.SetValue(1);
+    }
+    #endregion
+
+    #region 낙하
+    private void TakeFallDamage(float damage)
+    {
+        TakeDamage(damage, 0, 0, 0); // critRate=0, critDmg=1, num=0(함정으로 처리)
+    }
+    #endregion
+
+    #region 사다리 처리
+    //사다리 근처에 있는지 감지 + 사다리 탈출 판단
+    void CheckLadder()
+    {
+        //플레이어 중심보다 아래쪽 (-0.1f) 기준으로 가로 0.6, 세로 1.2 크기의 박스 영역안에 사다리가 존재하는 감지
+        Collider2D hit = Physics2D.OverlapBox(transform.position + new Vector3(0, -0.1f), new Vector2(0.6f, 1.2f), 0f, ladderLayer);
+        //사다리가 감지 되면 true, 안 되면 false
+        isNearLadder = hit != null;
+
+        if (isOnLadder && (!isNearLadder || transform.position.y > ladderTopY + ladderExitBuffer || transform.position.y < ladderBottomY - ladderExitBuffer))
+        {
+            ExitLadder();
+        }
+    }
+    //사다리 타기 상태에서 입력 처리 및 이동
+    void HandleLadderMovement()
+    {
+        //사다리와 닿기만 해도 자동 진입
+        if (isNearLadder && !isOnLadder)
+        {
+            EnterLadder();
+        }
+
+        if (isOnLadder)
+        {
+            float vertical = 0f;
+
+            if (PlayerManager.GetCustomKey(CustomKeyCode.Up))
+                vertical = 1f;
+            else if (PlayerManager.GetCustomKey(CustomKeyCode.Down))
+                vertical = -1f;
+            //아무 입력 없을 경우 낙하 방지
+            float yVelocity = vertical != 0 ? vertical * moveSpeed : 0f;
+
+            //좌우 이동은 허용하되 위 아래 입력 없으면 y속도는 고정
+            rb.velocity = new Vector2(moveDirection * moveSpeed, vertical * moveSpeed);
+
+            // 애니메이션 처리
+            anim.SetBool("Ladder", true);
+            anim.SetBool("Move", false);
+            anim.SetBool("Jump", false);
+            anim.SetBool("IsFalling", false);
+        }
+    }
+    //사다리 상태로 진입(중력 제거, 위치 정보 기억)
+    void EnterLadder()
+    {
+        //사다리 타는 상태로 전환
+        isOnLadder = true;
+
+        //중력 제거
+        rb.gravityScale = 0f;
+
+        //현재 속도 초기화 (불필요한 이동 제거)
+        rb.velocity = Vector2.zero;
+
+        PlayerManager.instance.isPlayerOnLadder = true;
+
+        //땅 위에 있지 않음 (착지 관련 로직 분리)
+        PlayerManager.instance.isGround = false;
+
+        currentLadder = Physics2D.OverlapBox(transform.position + new Vector3(0, -0.1f), new Vector2(0.6f, 1.2f), 0f, ladderLayer);
+        if (currentLadder != null)
+        {
+            Bounds bounds = currentLadder.bounds;
+            //사다리 가장 윗 좌표 저장
+            ladderTopY = bounds.max.y;
+            //사다리 가장 아래 좌표 저장
+            ladderBottomY = bounds.min.y;
+        }
+
+        anim.SetBool("Ladder", true);
+    }
+    //사다리 상태 해제
+    void ExitLadder()
+    {
+        isOnLadder = false;
+        rb.gravityScale = 1f;
+
+        PlayerManager.instance.isPlayerOnLadder = false;
+        anim.SetBool("Ladder", false);
+
+        // 낙하 시 하강 애니메이션 적용
+        if (rb.velocity.y < 0)
+        {
+            anim.SetBool("IsFalling", true);
+        }
     }
     #endregion
 }

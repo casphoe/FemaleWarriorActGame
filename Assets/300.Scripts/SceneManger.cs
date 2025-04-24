@@ -169,7 +169,7 @@ public class SceneManger : MonoBehaviour
                 case 0: //새로시작 슬롯 있으면 삭제하고 다시 작성
                     GameManager.data.totalPlayTime = 0;
                     PM.playerData.money = 40000;
-                    PM.playerData.currentMapNum = 1;                  
+                    PM.playerData.currentMapNum = 3;                  
                     PM.playerData.expUp = 0;
                     PM.playerData.moneyUp = 0;
                     for(int i = 0; i < 4; i++)

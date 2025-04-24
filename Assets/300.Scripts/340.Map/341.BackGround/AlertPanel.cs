@@ -9,13 +9,19 @@ public class AlertPanel : MonoBehaviour
 
     public RectTransform rectBlessCanvas;
 
-    public float height = 2;
+    public float height = 1.6f;
 
     public Camera uiCamera;
+    public string parentName;
 
-    private void Start()
+    public AlertText alertText;
+
+    private void Awake()
     {
+        parentName = this.gameObject.transform.parent.name;
         rectBlessCanvas = Instantiate(createPanel, canvas.transform).GetComponent<RectTransform>();
+        alertText = rectBlessCanvas.transform.GetChild(0).GetComponent<AlertText>();
+        alertText.createParentName = parentName;
     }
 
     private void Update()

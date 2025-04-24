@@ -20,7 +20,7 @@
       "currentGuardValue": 100.0,
       "rewardNumList": [],
       "rewardClearList": [],
-      "currentMapNum": 1,
+      "currentMapNum": 3,
       "mapDatax": 0.0,
       "mapDatay": 0.0,
       "hpPotionSelectnum": 0,
@@ -46,9 +46,9 @@
         "inventoryDataList": [
           {
             "slotNum": 1,
-            "slotDateTime": "2025-04-11 13:40:30",
+            "slotDateTime": "2025-04-24 14:28:29",
             "item": {
-              "id": "25406462-08e2-4538-9d07-99c09d18b6cf",
+              "id": "b1defeeb-a324-4d37-8160-5223b850f8b2",
               "db": 3,
               "equip": 0,
               "dataDb": 9,
@@ -80,9 +80,9 @@
           },
           {
             "slotNum": 2,
-            "slotDateTime": "2025-04-11 13:40:30",
+            "slotDateTime": "2025-04-24 14:28:29",
             "item": {
-              "id": "326ae27b-34fd-4e78-8ade-7248856cb3a6",
+              "id": "b86af026-7b02-4069-b04d-2be4fa41377b",
               "db": 4,
               "equip": 0,
               "dataDb": 9,
