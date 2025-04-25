@@ -224,7 +224,7 @@ public class Enemy : MonoBehaviour
         bool playerInSight = IsPlayerInSight();
 
 
-        Attack();
+        Attack(id);
         UpdateGuard();
 
         // Attack 상태면 이동하지 않고 즉시 리턴
@@ -471,6 +471,10 @@ public class Enemy : MonoBehaviour
             case 1:
                 anim.SetTrigger("Hurt");
                 break;
+            case 2:
+                anim.SetTrigger("Hurt");
+                SoundManager.Instance.PlaySFX("rat_pain");
+                break;
         }
 
         if (currentHp <= 0)
@@ -478,6 +482,12 @@ public class Enemy : MonoBehaviour
             currentHp = 0;
             enemyState = State.Death;
             anim.SetTrigger("Death");
+            switch(id)
+            {
+                case 2:
+                    SoundManager.Instance.PlaySFX("rat_death");
+                    break;
+            }
             PlayerManager.instance.AddExp(addExp);
             PlayerManager.instance.AddMoney(addMoney);
         }
@@ -579,7 +589,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Attack()
+    void Attack(int id)
     {
         if (enemyState != State.Death && enemyState != State.Stun &&
      (attackPattern == "long" || isNearPlayer))
@@ -624,6 +634,16 @@ public class Enemy : MonoBehaviour
                         anim.SetBool("Attack", true); // Animator에 "Attack" 트리거 있어야 함
                         anim.SetBool("isMoving", false);
                         Player.instance.TakeDamage(attack, critcleRate, critcleDmg, 1);
+
+                        switch(id)
+                        {
+                            case 0:
+                                break;
+                            case 2:
+                                SoundManager.Instance.PlaySFX("rat_attack");
+                                break;
+                        }
+
                         attackTimer = 0f;
                     }
                 }

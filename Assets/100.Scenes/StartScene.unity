@@ -18140,6 +18140,7 @@ MonoBehaviour:
   isAiming: 0
   isStun: 0
   isGuarding: 0
+  isPlayerOnLadder: 0
   isInvincibility: 0
   selectShop: -1
   shopNum: -1
@@ -18182,6 +18183,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: fc8322734818d43438a2a692e25a683b, type: 3}
   - name: Block
     clip: {fileID: 8300000, guid: 64229a06fb85bcb48ba3b134088407cc, type: 3}
+  - name: rat_attack
+    clip: {fileID: 8300000, guid: 9bb9d14d274f3094f97d13bc82b25768, type: 3}
+  - name: rat_death
+    clip: {fileID: 8300000, guid: d907f2ad3d0b6d44d8fc4b456a6e4719, type: 3}
+  - name: rat_pain
+    clip: {fileID: 8300000, guid: 3e1fab0ecfeea5443a3156fb71287d38, type: 3}
 --- !u!1 &1583810551
 GameObject:
   m_ObjectHideFlags: 0
