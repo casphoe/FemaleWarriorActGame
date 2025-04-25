@@ -532,7 +532,7 @@ public class Player : MonoBehaviour
                 {
                     //데미지 값 적용
                     //ex ) maxFallSpeed  = -15, fallDamageVelocityThreshold = -10 이면 damage = |(-15 + 10)| * fallDamageMultiplier => 5 * fallDamageMultiplier
-                    float damage = Mathf.Abs(maxFallSpeed + Mathf.Abs(fallDamageVelocityThreshold)) * fallDamageMultiplier;
+                    float damage = Mathf.Abs(maxFallSpeed + Mathf.Abs(fallDamageVelocityThreshold)) * FallDamageMutiplyer();
                     TakeFallDamage(damage);
                 }
 
@@ -678,6 +678,24 @@ public class Player : MonoBehaviour
     private void TakeFallDamage(float damage)
     {
         TakeDamage(damage, 0, 0, 0); // critRate=0, critDmg=1, num=0(함정으로 처리)
+    }
+
+    float FallDamageMutiplyer()
+    {
+        float currentFallDamage = 1;
+        switch (GameManager.data.diffucity)
+        {
+            case Diffucity.Easy:
+                currentFallDamage = fallDamageMultiplier * 1;
+                break;
+            case Diffucity.Normal:
+                currentFallDamage = fallDamageMultiplier * 1.2f;
+                break;
+            case Diffucity.Hard:
+                currentFallDamage = fallDamageMultiplier * 1.5f;
+                break;
+        }
+        return currentFallDamage;
     }
     #endregion
 

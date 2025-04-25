@@ -72,9 +72,6 @@ public class Enemy : MonoBehaviour
     private bool isChasingPlayer = false;
     private Vector2 lastKnownPlayerPos;
 
-    float chasePersistTime = 2f;
-    float chaseTimer = 0f;
-
     public bool gotHit = false;
 
     public int currentMapNum = 0;
@@ -249,8 +246,9 @@ public class Enemy : MonoBehaviour
                 //시야에 있는 동안 마지막 위치 갱신
                 if (playerInSight)
                 {
-                    lastKnownPlayerPos = player.position;
-                }
+                    lastKnownPlayerPos = player.position;                  
+                }             
+
                 //시야에 없을 경우 마지막 위치에 도달 한 후 그 이후 시야에 없으면 순찰로 복귀
                 if (!playerInSight && Mathf.Abs(transform.position.x - lastKnownPlayerPos.x) < 0.1f)
                 {                  
@@ -359,8 +357,8 @@ public class Enemy : MonoBehaviour
     //지정된 추적 범위 안에 플레이어가 있는지 확인하는 함수
     bool IsWithinChaseRange(Vector2 pos)
     {
-        float minX = Mathf.Min(chasePoints[0].x, chasePoints[1].x);
-        float maxX = Mathf.Max(chasePoints[0].x, chasePoints[1].x);
+        float minX = Mathf.Min(chasePoints[0].x, chasePoints[1].x) - 1f;
+        float maxX = Mathf.Max(chasePoints[0].x, chasePoints[1].x) + 1f;
 
         return pos.x >= minX && pos.x <= maxX;
     }
@@ -470,6 +468,7 @@ public class Enemy : MonoBehaviour
                 break;
             case 1:
                 anim.SetTrigger("Hurt");
+                SoundManager.Instance.PlaySFX("bat_hurt");
                 break;
             case 2:
                 anim.SetTrigger("Hurt");
@@ -591,8 +590,7 @@ public class Enemy : MonoBehaviour
 
     void Attack(int id)
     {
-        if (enemyState != State.Death && enemyState != State.Stun &&
-     (attackPattern == "long" || isNearPlayer))
+        if (enemyState != State.Death && enemyState != State.Stun)
         {        
             //원거리 공격
             if(attackPattern == "long")
@@ -615,7 +613,12 @@ public class Enemy : MonoBehaviour
                         // 바라보는 방향으로 발사(투사체가 날아가는 방향)
                         Vector2 dir = isFacingRight ? Vector2.right : Vector2.left;
                         ObjectPool.instance.SetSlash(shockWaveAttackTrans.position, currentAttack, currentCritcleRate, currentCritcleDmg, 3, 3, dir, 0.3f, SlashState.Enemy);
-
+                        switch(id)
+                        {
+                            case 1:
+                                SoundManager.Instance.PlaySFX("bat_attack");
+                                break;
+                        }
                         attackTimer = 0f;
                     }
                 }
@@ -623,7 +626,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 //근접 공격
-                if(isNearPlayer)
+                if (isNearPlayer)
                 {
                     attackTimer += Time.deltaTime;
 
@@ -672,21 +675,20 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if (!isNearPlayer)
+            float xDistance = Mathf.Abs(player.position.x - transform.position.x);
+
+            if (xDistance <= currentAttackRange * 0.8f && IsPlayerInSight()) // 약간의 여유값 주기
             {
-                if (IsPlayerInSight())
-                {
-                    lastKnownPlayerPos = player.position;
-                    enemyState = State.Chase;
-                }
-                else
-                {
-                    enemyState = State.Patrol;
-                }
+                enemyState = State.Attack;
+            }
+            else if (IsPlayerInSight())
+            {
+                lastKnownPlayerPos = player.position;
+                enemyState = State.Chase;
             }
             else
             {
-                enemyState = State.Attack;
+                enemyState = State.Patrol;
             }
         }
     }
