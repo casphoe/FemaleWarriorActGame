@@ -18193,6 +18193,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 57bbc54d99dee724aacedbc897636d82, type: 3}
   - name: bat_hurt
     clip: {fileID: 8300000, guid: ea69d4cc2e6dbf64388506b9c7a97641, type: 3}
+  - name: Slime_Attack
+    clip: {fileID: 8300000, guid: ddef3df4e417e6848a29cbb44f14925e, type: 3}
+  - name: Slime_death
+    clip: {fileID: 8300000, guid: f7a12df8e174953429534dae494c0ec4, type: 3}
+  - name: Goblin_Death
+    clip: {fileID: 8300000, guid: bb77c722952dde84a826dfc604a76035, type: 3}
+  - name: Goblin_Attack
+    clip: {fileID: 8300000, guid: 5b8e22a8b5ae8494e9dc93ede8763bae, type: 3}
+  - name: goblin_hurt
+    clip: {fileID: 8300000, guid: 5d5d3019a2a30fc49b09e27de145e709, type: 3}
 --- !u!1 &1583810551
 GameObject:
   m_ObjectHideFlags: 0

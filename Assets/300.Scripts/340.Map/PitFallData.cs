@@ -11,9 +11,10 @@ public class PitFallData
     // 이름별 기본 데미지 테이블
     private static Dictionary<string, float> trapBaseDamages = new Dictionary<string, float>()
     {
-        { "spiketrap", 10 },
-        { "deephole", 15 },
-        { "firepit", 20 }
+        { "spiketrap", 8 },
+        { "deephole", 12 },
+        { "firepit", 16 },
+        {"RockTrap", 20 }
     };
 
     public float difficultyMultiplier = 1;

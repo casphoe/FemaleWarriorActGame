@@ -263,15 +263,7 @@ public class Enemy : MonoBehaviour
                     enemyState = State.Patrol;
                     gotHit = false;
                     return;
-                }
-
-                switch (id)
-                {
-                    case 1:
-                        //플레이어랑 적이 근처에 있을 때 실행 되어야함
-                        SoundManager.Instance.PlaySFX("batMove");
-                        break;
-                }
+                }             
 
                 MoveToPosition(lastKnownPlayerPos);
                 break;
@@ -474,6 +466,12 @@ public class Enemy : MonoBehaviour
                 anim.SetTrigger("Hurt");
                 SoundManager.Instance.PlaySFX("rat_pain");
                 break;
+            case 3:
+                anim.SetTrigger("Hurt");
+                break;
+            case 6:
+                SoundManager.Instance.PlaySFX("goblin_hurt");
+                break;
         }
 
         if (currentHp <= 0)
@@ -481,10 +479,20 @@ public class Enemy : MonoBehaviour
             currentHp = 0;
             enemyState = State.Death;
             anim.SetTrigger("Death");
-            switch(id)
+            switch (id)
             {
+                case 0:
+                    SoundManager.Instance.PlaySFX("Slime_death");
+                    break;
+                case 1:
+                    break;
                 case 2:
                     SoundManager.Instance.PlaySFX("rat_death");
+                    break;
+                case 3:
+                    break;
+                case 6:
+                    SoundManager.Instance.PlaySFX("Goblin_Death");
                     break;
             }
             PlayerManager.instance.AddExp(addExp);
@@ -641,9 +649,13 @@ public class Enemy : MonoBehaviour
                         switch(id)
                         {
                             case 0:
+                                SoundManager.Instance.PlaySFX("Slime_Attack");
                                 break;
                             case 2:
                                 SoundManager.Instance.PlaySFX("rat_attack");
+                                break;
+                            case 6:
+                                SoundManager.Instance.PlaySFX("Goblin_Attack");
                                 break;
                         }
 
@@ -770,6 +782,34 @@ public class Enemy : MonoBehaviour
         //스턴이 끝나면 다시 기절 안되게 가드 게이지 최대치로 맞춤
         currentGuardValue = currentMaxGuardValue;
         guardSlider.SetValue(1);
+    }
+    #endregion
+
+    #region 바위 포물선 함정에 당했을 때 실행되는 함수
+    public void RockTrapHit()
+    {
+        currentHp = 0;
+        hpSlider.value = 0;
+        enemyState = State.Death;
+        switch (id)
+        {
+            case 0:
+                SoundManager.Instance.PlaySFX("Slime_death");
+                break;
+            case 1:
+                break;
+            case 2:
+                SoundManager.Instance.PlaySFX("rat_death");
+                break;
+            case 3:
+                break;
+            case 6:
+                SoundManager.Instance.PlaySFX("Goblin_Death");
+                break;
+        }
+        anim.SetTrigger("Death");
+        PlayerManager.instance.AddExp(addExp);
+        PlayerManager.instance.AddMoney(addMoney);
     }
     #endregion
 }
