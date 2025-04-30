@@ -32,7 +32,7 @@ public class PlayerFallDamage : MonoBehaviour
 
             if (player != null)
             {
-                player.TakeDamage(damage,0,0,0);
+                player.TakeDamage(damage,0,1.1f,0);
             }
 
             hasStoredForce = false;

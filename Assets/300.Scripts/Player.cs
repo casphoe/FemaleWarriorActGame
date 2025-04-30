@@ -89,6 +89,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float ladderExitBuffer = 0.2f; // 사다리 탈출 감지용 오차
     #endregion
 
+    #region 튕김 변수
+    [Header("함정 튕김 변수")]
+    public bool isKnockback = false;
+    #endregion
+
     #endregion
 
 
@@ -135,8 +140,6 @@ public class Player : MonoBehaviour
             Attack();
             HpPotionEat();
             StaminaPotionEat();
-            GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
-            GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
             Move();
             Dash();
             UpdateGuardSlider();
@@ -156,9 +159,11 @@ public class Player : MonoBehaviour
         if(PlayerManager.instance.IsDead == false)
         {
             SkyManager.instance.HandleShadowVisibility(shadowRender.transform.gameObject, shadowRender, 5);
-            HpTextChange(currentHp, PlayerManager.instance.player.hp);
-            StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
         }
+        GameCanvas.instance.HpPotionUiSetting(lastHpPotionUseTime, shortKeyCoolTime[0]);
+        GameCanvas.instance.StaminaPotionUiSetting(lastStaminaPotionUseTime, shortKeyCoolTime[1]);
+        StaminaTextChange(currentStamina, PlayerManager.instance.player.stamina);
+        HpTextChange(currentHp, PlayerManager.instance.player.hp);
     }
 
     public void HpOrStaminaCoolTime(int num)
@@ -227,10 +232,13 @@ public class Player : MonoBehaviour
             float guardRatio = PlayerManager.instance.player.currentGuardValue / PlayerManager.instance.player.maxGuardValue;
             playerGuardShrinkSlider.SetValue(guardRatio);
 
-            if (PlayerManager.instance.player.currentGuardValue <= 0f && PlayerManager.instance.isStun == false)
+            if (PlayerManager.instance.player.currentGuardValue <= 0f)
             {
                 isCritical = true;
-                ApplyStun(guradRecoveryCoolTime);
+                if(PlayerManager.instance.isStun == false)
+                {
+                    ApplyStun(guradRecoveryCoolTime);
+                }             
             }
             else
             {
@@ -263,7 +271,14 @@ public class Player : MonoBehaviour
             {
                 //함정
                 case 0:
-                    ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+                    if (isCritical) //크리티컬 히트
+                    {
+                        ObjectPool.instance.SetDamageText(transform.position, 1, finalDamage);
+                    }
+                    else
+                    {
+                        ObjectPool.instance.SetDamageText(transform.position, 0, finalDamage);
+                    }
                     break;
                 //몬스터
                 case 1:
@@ -344,6 +359,8 @@ public class Player : MonoBehaviour
     #region 이동 함수
     void Move()
     {
+        if (isKnockback) return; // 튕김 상태면 이동 금지
+
         moveDirection = 0;
 
         if (PlayerManager.GetCustomKey(CustomKeyCode.Left))
@@ -567,14 +584,17 @@ public class Player : MonoBehaviour
                         case 0:
                             PlayerManager.instance.player.inventory.RemoveItemByName("체력포션", 1);
                             currentHp = currentHp + PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("체력포션");
+                            GameCanvas.instance.SliderChange(0, 0, PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("체력포션"));
                             break;
                         case 1:
                             PlayerManager.instance.player.inventory.RemoveItemByName("중간체력포션", 1);
                             currentHp = currentHp + PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("중간체력포션");
+                            GameCanvas.instance.SliderChange(0, 0, PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("중간체력포션"));
                             break;
                         case 2:
                             PlayerManager.instance.player.inventory.RemoveItemByName("상급체력포션", 1);
                             currentHp = currentHp + PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("상급체력포션");
+                            GameCanvas.instance.SliderChange(0, 0, PlayerManager.instance.player.hp * PlayerManager.instance.player.inventory.EatHpPotion("상급체력포션"));
                             break;
                     }
                     if(currentHp > PlayerManager.instance.player.hp)
@@ -582,8 +602,7 @@ public class Player : MonoBehaviour
                         currentHp = PlayerManager.instance.player.hp;
                     }
                     lastHpPotionUseTime = Time.time;
-                    GameCanvas.instance.PotionSetting();
-                    GameCanvas.instance.SliderChange(0, 0, 30);
+                    GameCanvas.instance.PotionSetting();               
                 }
             }
         }
@@ -603,14 +622,17 @@ public class Player : MonoBehaviour
                         case 0:
                             PlayerManager.instance.player.inventory.RemoveItemByName("스태미나포션", 1);
                             currentStamina = currentStamina + PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("스태미나포션");
+                            GameCanvas.instance.SliderChange(1, 0, PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("스태미나포션"));
                             break;
                         case 1:
                             PlayerManager.instance.player.inventory.RemoveItemByName("중간스태미나포션", 1);
                             currentStamina = currentStamina + PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("중간스태미나포션");
+                            GameCanvas.instance.SliderChange(1, 0, PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("중간스태미나포션"));
                             break;
                         case 2:
                             PlayerManager.instance.player.inventory.RemoveItemByName("상급스태미나포션", 1);
                             currentStamina = currentStamina + PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("상급스태미나포션");
+                            GameCanvas.instance.SliderChange(1, 0, PlayerManager.instance.player.stamina * PlayerManager.instance.player.inventory.EatStaminaPotion("상급스태미나포션"));
                             break;
                     }
                     if(currentStamina > PlayerManager.instance.player.stamina)
@@ -619,7 +641,6 @@ public class Player : MonoBehaviour
                     }
                     lastStaminaPotionUseTime = Time.time;
                     GameCanvas.instance.PotionSetting();
-                    GameCanvas.instance.SliderChange(1, 0, 15);
                 }
             }
         }
@@ -654,7 +675,8 @@ public class Player : MonoBehaviour
     void ApplyStun(float duration)
     {
         ObjectPool.instance.SetConfusion(transform.position, guradRecoveryCoolTime);
-        if (PlayerManager.instance.IsDead == false)
+        // 플레이어가 죽어있으면 스턴할 필요 없음
+        if (PlayerManager.instance.IsDead)
             return;
         PlayerManager.instance.isStun = true;
         anim.SetBool("Dash", false);
@@ -677,7 +699,7 @@ public class Player : MonoBehaviour
     #region 낙하
     private void TakeFallDamage(float damage)
     {
-        TakeDamage(damage, 0, 0, 0); // critRate=0, critDmg=1, num=0(함정으로 처리)
+        TakeDamage(damage, 0, 1.1f, 0); // critRate=0, critDmg=1, num=0(함정으로 처리)
     }
 
     float FallDamageMutiplyer()
@@ -786,6 +808,14 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("IsFalling", true);
         }
+    }
+    #endregion
+
+    #region 바위 함정에 부딪 혔을 경우 튕겨 나가게 하고 튕김을 해제하는 기능
+    public IEnumerator EndKnockback(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isKnockback = false;
     }
     #endregion
 }

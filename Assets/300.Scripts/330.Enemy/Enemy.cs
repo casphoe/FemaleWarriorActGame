@@ -62,6 +62,9 @@ public class Enemy : MonoBehaviour
     [Header("Chase Path")]
     public List<Vector2> chasePoints; //위 범위 안에서만 추적 가능합니다 
 
+    [Header("함정에 부딪혔는지 판단하는 변수")]
+    public bool wasHitByTrap = false;
+
     private int currentPatrolIndex = 0;
     public float patrolWaitTime = 2f;
 
@@ -193,6 +196,7 @@ public class Enemy : MonoBehaviour
         hpSliderParent = hpSlider.transform.parent;
         guardSlider = hpSliderParent.transform.GetChild(1).GetChild(0).GetComponent<GuardShrinkSlider>();
         canRecoverGuard = false;
+        wasHitByTrap = false;
     }
 
     private void Start()
@@ -205,6 +209,14 @@ public class Enemy : MonoBehaviour
         lastCheckedDay = GameManager.data.day;
         patrolTarget = patrolPoints.Count > 0 ? patrolPoints[0] : transform.localPosition;
         moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
+    }
+
+    private void OnEnable()
+    {
+        isNearPlayer = false;
+        canRecoverGuard = false;
+        wasHitByTrap = false;
+        ApplyTimeMultiplier();
     }
 
     private void Update()
@@ -643,9 +655,7 @@ public class Enemy : MonoBehaviour
 
                         enemyState = State.Attack;
                         anim.SetBool("Attack", true); // Animator에 "Attack" 트리거 있어야 함
-                        anim.SetBool("isMoving", false);
-                        Player.instance.TakeDamage(attack, critcleRate, critcleDmg, 1);
-
+                        anim.SetBool("isMoving", false);                        
                         switch(id)
                         {
                             case 0:
@@ -704,6 +714,26 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    #region 근거리 적 공격
+
+    public void EnemyAttackHit()
+    {
+        Vector2 attackCenter = (Vector2)transform.position + new Vector2(isFacingRight ? 0.5f : -0.5f, 0f);
+        float radius = 0.8f; // 공격 범위
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, radius, LayerMask.GetMask("Player")); // "Player" 레이어가 필요
+
+        foreach (var hit in hits)
+        {
+            if (hit.TryGetComponent(out Player player))
+            {
+                player.TakeDamage(currentAttack, currentCritcleRate, currentCritcleDmg, 1);
+            }
+        }
+    }
+
+    #endregion
     #endregion
 
     #region 기절 효과

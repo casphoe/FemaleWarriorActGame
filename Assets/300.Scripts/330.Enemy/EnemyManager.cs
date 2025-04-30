@@ -6,6 +6,16 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private EnemyDataReader enemyDataReader;
 
+    [Header("스테이지 별 적 그룹")]
+    public GameObject[] enemyGroups; // 0: Stage1, 1: Stage2, 2: Stage3 등
+
+    public static EnemyManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         ApplyEnemyDataToAll();
@@ -55,5 +65,27 @@ public class EnemyManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void ActivateEnemies(int mapNum)
+    {
+        int stageIndex = GetStageIndexFromMapNum(mapNum);
+
+        for (int i = 0; i < enemyGroups.Length; i++)
+        {
+            if (enemyGroups[i] != null)
+                enemyGroups[i].SetActive(i == stageIndex);
+        }
+    }
+
+    private int GetStageIndexFromMapNum(int mapNum)
+    {
+        switch (mapNum)
+        {
+            case 2: return 0; // Stage_1
+            case 3: return 1; // Stage_2
+            case 4: return 2; // Stage_3
+            default: return -1; // 알 수 없는 맵번호
+        }
     }
 }

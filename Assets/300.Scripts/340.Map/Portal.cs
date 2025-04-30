@@ -72,6 +72,7 @@ public class Portal : MonoBehaviour
                     case 3: mapNum = 2; break;
                     case 4: mapNum = 2; break;
                     case 5: mapNum = 3; break;
+                    case 6: mapNum = 4; break;
                     default: break;
                 }
 
@@ -83,6 +84,9 @@ public class Portal : MonoBehaviour
                     GoddessStatueManager.instance.AddMap(targetMapID, targetMapNameKor, targetMapNameEng, mapType, mapNum, iconIndex);
                     GoddessStatueManager.instance.OnEnterNewMap(targetMapID);
                     GoddessStatueManager.instance.MoveCharacterToStatue(targetMapID);
+
+                    //스테이지에 맞는 적들을 켜주기
+                    EnemyManager.instance.ActivateEnemies(mapNum);
                 }
 
                 break;

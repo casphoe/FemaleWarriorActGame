@@ -84,6 +84,7 @@ public class GoddessStatueManager : MonoBehaviour
                 PlayerManager.instance.isState = false;
                 Utils.OnOff(GameCanvas.instance.blessPanel, false);
                 MoveCharacterToStatue(currentHoveredGoddessStatue.statueID);
+                EnemyManager.instance.ActivateEnemies(currentHoveredGoddessStatue.currentMapNum);
             }
         }
     }
