@@ -35,6 +35,15 @@ public class TreasureChest : MonoBehaviour
         anim = this.transform.parent.GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        if (PM.playerData.openedChestIds.Contains(id))
+        {
+            isOpened = true;
+            anim.SetBool("IsOpen", true);
+        }
+    }
+
     private void Update()
     {
         if (isOpened || !isPlayerNear)
@@ -52,6 +61,11 @@ public class TreasureChest : MonoBehaviour
         anim.SetBool("IsOpen", true);
         PlayerManager.instance.AddExp(exp);
         PlayerManager.instance.AddMoney(gold);
+
+        if (!PM.playerData.openedChestIds.Contains(id))
+        {
+            PM.playerData.openedChestIds.Add(id);
+        }
     }
 
 

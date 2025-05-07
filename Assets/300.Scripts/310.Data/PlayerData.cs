@@ -48,6 +48,24 @@ public class PlayerData
     public Inventory inventory = new Inventory();
     public Skill skill = new Skill();
 
+    public HashSet<int> openedChestIds = new HashSet<int>(); // 연 보물상자 ID 목록
+
+    #region 플레이어 위치 저장
+    public float positionX = 0f;
+    public float positionY = 0f;
+
+    public Vector2 GetPosition() => new Vector2(positionX, positionY);
+    public void SetPosition(Vector2 pos)
+    {
+        positionX = pos.x;
+        positionY = pos.y;
+    }
+    #endregion
+
+    #region 장비 장착 아이템 이름
+    public string[] equippedItemNames = new string[9]; // 각 부위별 장착된 아이템 이름
+    #endregion
+
     void LevelDb(int _level)
     {
         level = _level;

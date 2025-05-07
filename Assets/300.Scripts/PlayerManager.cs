@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
 
     public void LevelUp()
     {
-        if(player.currentExp >= player.levelUpExp)
+        if (player.currentExp >= player.levelUpExp)
         {
             player.currentExp = player.levelUpExp - player.currentExp;
             player.level += 1;
@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
                 player.critcleDmg += crictleDmgUp;
                 player.hpAutoRestoration = hpRestoration;
                 player.staminaAutoRestoration += StaminaRestoration;
-                break;        
+                break;
         }
         GameCanvas.instance.SliderEquipChange();
     }
@@ -118,7 +118,7 @@ public class PlayerManager : MonoBehaviour
     #region 키보드 & 게임패드 입력 시 실행 함수
     public static bool GetCustomKeyDown(CustomKeyCode key)
     {
-       
+
         if (!GameManager.data.keyMappings.ContainsKey(key))
             return false;
         //유저가 커스텀으로 지정한 키값의 매핑 정보를 불려옴
@@ -150,11 +150,11 @@ public class PlayerManager : MonoBehaviour
                     case KeyCode.Mouse0:
                         keyboardPressed = Mouse.current.leftButton.wasPressedThisFrame;
                         break;
-                        // 마우스 오른쪽 버튼 클릭 감지
+                    // 마우스 오른쪽 버튼 클릭 감지
                     case KeyCode.Mouse1:
                         keyboardPressed = Mouse.current.rightButton.wasPressedThisFrame;
                         break;
-                        //마우스 휠 버튼 클릭 감지
+                    //마우스 휠 버튼 클릭 감지
                     case KeyCode.Mouse2:
                         keyboardPressed = Mouse.current.middleButton.wasPressedThisFrame;
                         break;

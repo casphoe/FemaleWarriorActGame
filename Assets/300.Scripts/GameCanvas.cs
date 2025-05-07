@@ -241,13 +241,13 @@ public class GameCanvas : MonoBehaviour
                             txtSlot0[2].text = PM.playerList[i].hp.ToString();
                             txtSlot0[3].text = PM.playerList[i].attack.ToString();
                             txtSlot0[4].text = PM.playerList[i].defense.ToString();
-                            txtSlot0[5].text = PM.playerList[i].luk.ToString();
-                            txtSlot0[6].text = PM.playerList[i].critcleRate.ToString();
-                            txtSlot0[7].text = PM.playerList[i].stamina.ToString();
-                            txtSlot0[8].text = PM.playerList[i].money.ToString();
-                            txtSlot0[9].text = PM.playerList[i].skillCount.ToString();
-                            txtSlot0[10].text = PM.playerList[i].currentExp.ToString();
-                            
+                            txtSlot0[5].text = PM.playerList[i].stamina.ToString();
+                            txtSlot0[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot0[7].text = PM.playerList[i].critcleRate.ToString();
+                            txtSlot0[8].text = PM.playerList[i].critcleDmg.ToString();
+                            txtSlot0[9].text = PM.playerList[i].money.ToString();
+                            txtSlot0[10].text = PM.playerList[i].skillCount.ToString();
+                            txtSlot0[11].text = PM.playerList[i].currentExp.ToString();
                             break;
                         case 1:
                             txtSlot1[0].text = PM.playerList[i].name;
@@ -255,13 +255,13 @@ public class GameCanvas : MonoBehaviour
                             txtSlot1[2].text = PM.playerList[i].hp.ToString();
                             txtSlot1[3].text = PM.playerList[i].attack.ToString();
                             txtSlot1[4].text = PM.playerList[i].defense.ToString();
-                            txtSlot1[5].text = PM.playerList[i].luk.ToString();
-                            txtSlot1[6].text = PM.playerList[i].critcleRate.ToString();
-                            txtSlot1[7].text = PM.playerList[i].stamina.ToString();
-                            txtSlot1[8].text = PM.playerList[i].money.ToString();
-                            txtSlot1[9].text = PM.playerList[i].skillCount.ToString();
-                            txtSlot1[10].text = PM.playerList[i].currentExp.ToString();
-                            
+                            txtSlot1[5].text = PM.playerList[i].stamina.ToString();
+                            txtSlot1[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot1[7].text = PM.playerList[i].critcleRate.ToString();
+                            txtSlot1[8].text = PM.playerList[i].critcleDmg.ToString();
+                            txtSlot1[9].text = PM.playerList[i].money.ToString();
+                            txtSlot1[10].text = PM.playerList[i].skillCount.ToString();
+                            txtSlot1[11].text = PM.playerList[i].currentExp.ToString();
                             break;
                         case 2:
                             txtSlot2[0].text = PM.playerList[i].name;
@@ -269,13 +269,13 @@ public class GameCanvas : MonoBehaviour
                             txtSlot2[2].text = PM.playerList[i].hp.ToString();
                             txtSlot2[3].text = PM.playerList[i].attack.ToString();
                             txtSlot2[4].text = PM.playerList[i].defense.ToString();
-                            txtSlot2[5].text = PM.playerList[i].luk.ToString();
-                            txtSlot2[6].text = PM.playerList[i].critcleRate.ToString();
-                            txtSlot2[7].text = PM.playerList[i].stamina.ToString();
-                            txtSlot2[8].text = PM.playerList[i].money.ToString();
-                            txtSlot2[9].text = PM.playerList[i].skillCount.ToString();
-                            txtSlot2[10].text = PM.playerList[i].currentExp.ToString();
-                            
+                            txtSlot2[5].text = PM.playerList[i].stamina.ToString();
+                            txtSlot2[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot2[7].text = PM.playerList[i].critcleRate.ToString();
+                            txtSlot2[8].text = PM.playerList[i].critcleDmg.ToString();
+                            txtSlot2[9].text = PM.playerList[i].money.ToString();
+                            txtSlot2[10].text = PM.playerList[i].skillCount.ToString();
+                            txtSlot2[11].text = PM.playerList[i].currentExp.ToString();
                             break;
                     }
                 }

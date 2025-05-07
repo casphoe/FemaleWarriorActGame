@@ -35,11 +35,11 @@ public class EquipmentPanel : MonoBehaviour
     public bool[] isSelectTwo;
     public int[] selectTwoIndex;
 
+    public string[] equipStr;
+
     public List<ItemData> equipItemList = new List<ItemData>();
 
     private string nameStr = string.Empty;
-
-    [SerializeField] string[] equipStr;
 
     private Sprite itemSpr;
 
@@ -70,6 +70,11 @@ public class EquipmentPanel : MonoBehaviour
 
         btnEquip[0].onClick.AddListener(() => OnEquipBtnClickEvent(0));
         btnEquip[1].onClick.AddListener(() => OnEquipBtnClickEvent(1));
+    }
+
+    private void Start()
+    {
+        LoadEquippedItemsFromData();
     }
 
     private void Update()
@@ -143,7 +148,7 @@ public class EquipmentPanel : MonoBehaviour
             {
                 if (isSelectOne[0] == true)
                 {
-                    if (Keyboard.current != null && Keyboard.current.upArrowKey.wasPressedThisFrame)
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Up))
                     {
                         if (selectEquipIndex > 0)
                         {
@@ -152,7 +157,7 @@ public class EquipmentPanel : MonoBehaviour
                         }
                     }
 
-                    if (Keyboard.current != null && Keyboard.current.downArrowKey.wasPressedThisFrame)
+                    if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Down))
                     {
                         if (selectEquipIndex < btnSelectPanel.Length - 1)
                         {
@@ -167,52 +172,13 @@ public class EquipmentPanel : MonoBehaviour
             {
                 StopAllBinking(btnSelectPanel, 1);
                 isSelectTwo[selectEquipIndex] = true;
-                if (isSelectTwo[0] == true && selectTwoIndex[0] == 0) //머리에 맞는 아이템을 가지고 와야함 리스트에
+                if (selectTwoIndex[selectEquipIndex] == 0)
                 {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 0);
-                    selectTwoIndex[0] = 1;
-                }
-                else if (isSelectTwo[1] == true && selectTwoIndex[1] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 1);
-                    selectTwoIndex[1] = 1;
-                }
-                else if (isSelectTwo[2] == true && selectTwoIndex[2] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 2);
-                    selectTwoIndex[2] = 1;
-                }
-                else if (isSelectTwo[3] == true && selectTwoIndex[3] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 3);
-                    selectTwoIndex[3] = 1;
-                }
-                else if (isSelectTwo[4] == true && selectTwoIndex[4] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 4);
-                    selectTwoIndex[4] = 1;
-                }
-                else if (isSelectTwo[5] == true && selectTwoIndex[5] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 5);
-                    selectTwoIndex[5] = 1;
-                }
-                else if (isSelectTwo[6] == true && selectTwoIndex[6] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 6);
-                    selectTwoIndex[6] = 1;
-                }
-                else if (isSelectTwo[7] == true && selectTwoIndex[7] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 7);
-                    selectTwoIndex[7] = 1;
-                }
-                else if (isSelectTwo[8] == true && selectTwoIndex[8] == 0)
-                {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, 8);
-                    selectTwoIndex[8] = 1;
+                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
+                    selectTwoIndex[selectEquipIndex] = 1;               
                 }
                 Equipment.instance.OnEquipData();
+                return;
             }
 
             if (selectTwoIndex[0] == 1 || selectTwoIndex[1] == 1 || selectTwoIndex[2] == 1 || selectTwoIndex[3] == 1 || selectTwoIndex[4] == 1 || selectTwoIndex[5] == 1 || selectTwoIndex[6] == 1 || selectTwoIndex[7] == 1 || selectTwoIndex[8] == 1)
@@ -259,7 +225,7 @@ public class EquipmentPanel : MonoBehaviour
                             AddEquip();
                             PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
                             Equipment.instance.OnEquipData();
-                            SelectEquipUiChange(0);
+                            SelectEquipUiChange(0);                         
                         }
                     }
                     else
@@ -270,7 +236,7 @@ public class EquipmentPanel : MonoBehaviour
                             RemoveEquip();
                             PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
                             Equipment.instance.OnEquipData();
-                            SelectEquipUiChange(0);
+                            SelectEquipUiChange(0);                          
                         }
                         else
                         {
@@ -279,7 +245,7 @@ public class EquipmentPanel : MonoBehaviour
                             AddEquip();
                             PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
                             Equipment.instance.OnEquipData();
-                            SelectEquipUiChange(0);
+                            SelectEquipUiChange(0);                         
                         }
                     }
                 }
@@ -327,6 +293,7 @@ public class EquipmentPanel : MonoBehaviour
         imgEquip[selectEquipIndex].sprite = null;      
         PlayerManager.instance.player.inventory.RemoveEquipItem(equipStr[selectEquipIndex]);
         equipStr[selectEquipIndex] = string.Empty;
+        PM.playerData.equippedItemNames[selectEquipIndex] = string.Empty;
     }
 
     //선택된 장비 아이템 장착
@@ -334,6 +301,7 @@ public class EquipmentPanel : MonoBehaviour
     {
         nameStr = GetBaseName(equipItemList[selectEquip].nameKor);
         equipStr[selectEquipIndex] = equipItemList[selectEquip].nameKor;
+        PM.playerData.equippedItemNames[selectEquipIndex] = equipItemList[selectEquip].nameKor;
         Utils.OnOff(imgEquip[selectEquipIndex].gameObject, true);
         imgEquip[selectEquipIndex].sprite = GetItemSpriteBasedOnName(nameStr);
         imgEquip[selectEquipIndex].preserveAspect = true;
@@ -997,4 +965,30 @@ public class EquipmentPanel : MonoBehaviour
         Color originalColor = buttonImage.color;
         buttonImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1);
     }
+
+    #region 장비 장착 불러오는 기능
+    public void LoadEquippedItemsFromData()
+    {
+        for (int i = 0; i < PlayerManager.instance.player.equippedItemNames.Length; i++)
+        {
+            string itemName = PlayerManager.instance.player.equippedItemNames[i];
+            Debug.Log(itemName);
+            if (!string.IsNullOrEmpty(itemName))
+            {
+                ItemData item = PlayerManager.instance.player.inventory.InventoryItemStat(itemName);
+                if (item != null)
+                {
+                    equipStr[i] = itemName;
+                    nameStr = itemName;
+                    imgEquip[i].sprite = GetItemSpriteBasedOnName(itemName);
+                    imgEquip[i].preserveAspect = true;
+                    Utils.OnOff(imgEquip[i].gameObject, true);
+
+                                     
+                    PlayerManager.instance.player.inventory.InventoryEquipItem(itemName);               
+                }
+            }
+        }
+    }
+    #endregion
 }
