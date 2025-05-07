@@ -19,7 +19,8 @@ public class QuestManager : MonoBehaviour
             questId = originalQuest.questId,
             descriptionKor = originalQuest.descriptionKor,
             descriptionEng = originalQuest.descriptionEng,
-            clearCondition = originalQuest.clearCondition,
+            titleEng = originalQuest.titleEng,
+            titleKor = originalQuest.titleKor,
             requiredAmount = originalQuest.requiredAmount,
             rewardExp = originalQuest.rewardExp,
             rewardMoney = originalQuest.rewardMoney,
@@ -46,7 +47,7 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteQuest(PlayerData playerData, int questId)
     {
-        QuestData quest = playerData.questList.Find(q => q.questId == questId && quest.isCleared && !quest.isComplete);
+        QuestData quest = playerData.questList.Find(q => q.questId == questId && q.isCleared && !q.isComplete);
         if (quest != null)
         {
             quest.isComplete = true;
@@ -61,6 +62,10 @@ public class QuestManager : MonoBehaviour
             Debug.Log("클리어할 수 없는 퀘스트거나 아직 완료 조건이 안 됨.");
         }
     }
+
+    #region UI
+
+    #endregion
 }
 
 [Serializable]
