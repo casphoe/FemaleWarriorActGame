@@ -151,6 +151,7 @@ public class GameCanvas : MonoBehaviour
             {
                 case 1: //저장
                     int currentIndex = num;
+                    PlayerManager.instance.player.SetPosition(Player.instance.transform.localPosition);
                     PM.RegisterNewPlayer(PlayerManager.instance.player, currentIndex);
                     SlotUiSetting();
                     break;

@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
         staminaCost[0] = 5;
         staminaCost[1] = 3;
         canRecoverGuard = false;
+        transform.localPosition = PlayerManager.instance.player.GetPosition();
     }
 
     private void Update()
