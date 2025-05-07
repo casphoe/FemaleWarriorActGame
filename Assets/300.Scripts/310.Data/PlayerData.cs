@@ -50,6 +50,8 @@ public class PlayerData
 
     public HashSet<int> openedChestIds = new HashSet<int>(); // 연 보물상자 ID 목록
 
+    public List<QuestData> questList = new List<QuestData>(); // 수락된 퀘스트
+
     #region 플레이어 위치 저장
     public float positionX = 0f;
     public float positionY = 0f;
