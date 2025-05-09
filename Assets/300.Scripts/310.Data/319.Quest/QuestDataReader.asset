@@ -18,16 +18,17 @@ MonoBehaviour:
   END_ROW_LENGTH: 2
   QuestDataList:
   - questId: 0
-    titleKor: "\uB9C8\uC744\uC744 \uC704\uD5D9\uD558\uB294 \uC2AC\uB77C\uC784\uC744
-      \uCC98\uCE58\uD574\uC8FC\uC138\uC694"
-    titleEng: Please defeat the slime that threatens the village.
+    titleKor: "[\uBC18\uBCF5 \uD018\uC2A4\uD2B8] \uB9C8\uC744\uC744 \uC704\uD5D9\uD558\uB294
+      \uC2AC\uB77C\uC784\uC744 \uCC98\uCE58\uD574\uC8FC\uC138\uC694"
+    titleEng: '[Repet Quest] Please defeat the slime that threatens the village.'
     descriptionKor: "\uB9C8\uC744 \uC8FC\uBCC0\uC5D0 \uB3CC\uC544\uB2E4\uB2C8\uB294
       \uC2AC\uB77C\uC784\uC744 \uCD1D 10\uB9C8\uB9AC \uD1F4\uCE58\uD574\uC8FC\uC138\uC694"
     descriptionEng: Please eliminate a total of 10 slimes wandering around the village.
-    rewardExp: 50
-    rewardMoney: 100
+    rewardExp: 15
+    rewardMoney: 30
     requiredAmount: 10
     currentAmount: 0
     isAccepted: 0
     isComplete: 0
     isCleared: 0
+    isRepeat: 1

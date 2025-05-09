@@ -25,10 +25,11 @@ public class QuestData
     public bool isAccepted;           // 수락 여부
     public bool isComplete;            // 클리어 버튼 눌러 완료된 여부 (수동)
     public bool isCleared;               // 클리어 여부
+    public bool isRepeat;
 
     public bool IsConditionMet => currentAmount >= requiredAmount;
 
-    public QuestData(int questId, string titleKor, string titleEng, string descriptionKor, string descriptionEng, int rewardExp, int rewardMoney, int requiredAmount, int currentAmount, bool isAccepted, bool isComplete, bool isCleared)
+    public QuestData(int questId, string titleKor, string titleEng, string descriptionKor, string descriptionEng, int rewardExp, int rewardMoney, int requiredAmount, int currentAmount, bool isAccepted, bool isComplete, bool isCleared, bool isRepeat)
     {
         this.questId = questId;
         this.titleKor = titleKor;
@@ -42,6 +43,7 @@ public class QuestData
         this.isAccepted = isAccepted;
         this.isComplete = isComplete;
         this.isCleared = isCleared;
+        this.isRepeat = isRepeat;
     }
 }
 [CreateAssetMenu(fileName = "Reader", menuName = "Scriptable Object/QuestDataReader", order = int.MaxValue)]
@@ -54,7 +56,7 @@ public class QuestDataReader : DataReaderBase
     {
         int questId = 0, rewardExp = 0,  rewardMoney = 0, requiredAmount = 0, currentAmount = 0;
         string titleKor = null, titleEng = null, descriptionKor = null, descriptionEng = null;
-        bool isAccepted = false, isComplete = false, isCleared = false;
+        bool isAccepted = false, isComplete = false, isCleared = false, isRepeat = false;
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -121,9 +123,14 @@ public class QuestDataReader : DataReaderBase
                         bool.TryParse(list[i].value, out isCleared);
                         break;
                     }
+                case "isRepeat":
+                    {
+                        bool.TryParse(list[i].value, out isRepeat);
+                        break;
+                    }
             }
         }
-        QuestDataList.Add(new QuestData(questId, titleKor, titleEng, descriptionKor, descriptionEng, rewardExp, rewardMoney, requiredAmount, currentAmount, isAccepted, isComplete, isCleared));
+        QuestDataList.Add(new QuestData(questId, titleKor, titleEng, descriptionKor, descriptionEng, rewardExp, rewardMoney, requiredAmount, currentAmount, isAccepted, isComplete, isCleared, isRepeat));
     }
 }
 

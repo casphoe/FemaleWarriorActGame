@@ -9,6 +9,8 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField] QuestDataReader dataReader;
 
+    [SerializeField] GameObject qusetPanel;
+
     private void Awake()
     {
         instance = this;
@@ -16,22 +18,22 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        ApplyQuestDataToAll();
+        Utils.OnOff(qusetPanel, false);
     }
-
-    #region 구글 스프레트 시트
-    void ApplyQuestDataToAll()
-    {
-        foreach (QuestData quest in dataReader.QuestDataList)
-        {
-            //UI에 퀘스트를 등록하는 코드
-        }
-    }
-    #endregion
 
     #region 수락, 제거, 완료
     public void AcceptQuest(PlayerData playerData, QuestData originalQuest)
     {
+        // 이미 같은 퀘스트를 수락 중인지 확인
+        var existingQuest = playerData.questList.Find(q => q.questId == originalQuest.questId);
+
+        // 반복 퀘스트가 아니고, 이미 완료했다면 다시 수락 불가
+        if (existingQuest != null && !originalQuest.isRepeat)
+        {
+            Debug.Log($"퀘스트 {originalQuest.questId}는 이미 수락되었거나 완료되어 재수락 불가.");
+            return;
+        }
+
         QuestData newQuest = new QuestData(
         originalQuest.questId,
         originalQuest.titleKor,
@@ -44,7 +46,8 @@ public class QuestManager : MonoBehaviour
         0,                      // currentAmount는 새 퀘스트이므로 0부터 시작
         true,                  // 수락 상태
         false,                 // 완료 버튼 누르기 전
-        false                  // 클리어 전
+        false,                  // 클리어 전
+        originalQuest.isRepeat
     );
         playerData.questList.Add(newQuest);
         Debug.Log($"퀘스트 {newQuest.questId} 수락됨 (새로 생성)");
@@ -71,6 +74,13 @@ public class QuestManager : MonoBehaviour
             playerData.money += quest.rewardMoney;
 
             Debug.Log($"퀘스트 {quest.questId} 클리어됨! 보상: EXP {quest.rewardExp}, Money {quest.rewardMoney}");
+
+            // 반복 퀘스트면 완료 후 제거 (재수락 가능)
+            if (quest.isRepeat)
+            {
+                playerData.questList.Remove(quest);
+                Debug.Log($"반복 퀘스트 {quest.questId} 완료 후 제거되어 재수락 가능함.");
+            }
         }
         else
         {

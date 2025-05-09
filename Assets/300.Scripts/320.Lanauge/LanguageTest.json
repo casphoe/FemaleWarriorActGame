@@ -374,5 +374,17 @@
   "패시브 스킬": {
     "ENG": "Passive Skill",
     "KOR": "패시브 스킬"
+  },
+  "Quest Accept": {
+    "ENG": "Quest Accept",
+    "KOR": "퀘스트 수락"
+  },
+  "Quest Finish": {
+    "ENG": "Quest Finish",
+    "KOR": "퀘스트 완료"
+  },
+  "Quest Remove": {
+    "ENG": "Quest Remove",
+    "KOR": "퀘스트 제거"
   }
 }
