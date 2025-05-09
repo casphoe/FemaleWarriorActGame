@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            PM.LoadPlayerData();
+            PM.LoadPlayerData();          
             DontDestroyOnLoad(this); // Keep this object between scene loads
         }
         else if (instance != this)

@@ -79,7 +79,7 @@ public class Portal : MonoBehaviour
                 if (mapNum != -1)
                 {
                     Player.instance.currentMapNum = mapNum;
-
+                    PlayerManager.instance.player.currentMapNum = Player.instance.currentMapNum;
                     //맵 방문 처리
                     GoddessStatueManager.instance.AddMap(targetMapID, targetMapNameKor, targetMapNameEng, mapType, mapNum, iconIndex);
                     GoddessStatueManager.instance.OnEnterNewMap(targetMapID);

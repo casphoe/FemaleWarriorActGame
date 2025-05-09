@@ -188,6 +188,7 @@ public class SceneManger : MonoBehaviour
                     PM.playerData.rewardClearList.Clear();
                     PM.playerData.rewardNumList.Clear();
                     PM.playerData.skillCount = 1000;
+                    PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
                     PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);                  
                     //UI 변경
                     OnPlayerSlotUIDb();

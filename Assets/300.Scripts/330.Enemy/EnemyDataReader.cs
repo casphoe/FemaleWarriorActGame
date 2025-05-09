@@ -178,8 +178,7 @@ public class EnemyDataReaderEditor : Editor
 
         EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();          // 디스크 저장
-        AssetDatabase.Refresh();             // 갱신
-        Debug.Log("보물상자 데이터 저장 완료");
+        AssetDatabase.Refresh();             // 갱신     
     }
 }
 #endif

@@ -48,6 +48,8 @@ public class TreasureChasetDataReader : DataReaderBase
         float addhp = 0, addstamina = 0;
         for (int i = 0; i < list.Count; i++)
         {
+            Debug.Log($"Processing column: {list[i].columnId}");  // Debug line
+
             switch (list[i].columnId)
             {
                 case "id":
@@ -75,14 +77,14 @@ public class TreasureChasetDataReader : DataReaderBase
                         exp = int.Parse(list[i].value);
                         break;
                     }
-                case "addHp":
+                case "addhp":
                     {
-                        addhp = int.Parse(list[i].value);
+                        addhp = float.Parse(list[i].value);
                         break;
                     }
                 case "addstamina":
                     {
-                        addstamina = int.Parse(list[i].value);
+                        addstamina = float.Parse(list[i].value);
                         break;
                     }
             }
@@ -96,11 +98,11 @@ public class TreasureChasetDataReader : DataReaderBase
 [CustomEditor(typeof(TreasureChasetDataReader))]
 public class TreasureChasetDataReaderEditor : Editor
 {
-    TreasureChasetDataReader data;
+    TreasureChasetDataReader chestdata;
 
     private void OnEnable()
     {
-        data = (TreasureChasetDataReader)target;
+        chestdata = (TreasureChasetDataReader)target;
     }
 
     public override void OnInspectorGUI()
@@ -111,24 +113,28 @@ public class TreasureChasetDataReaderEditor : Editor
 
         if (GUILayout.Button("데이터 읽기(API 호출)"))
         {
+            chestdata.CheastList.Clear();
             UpdateStats(UpdateMethodOne);
-            data.CheastList.Clear();
         }
     }
 
     void UpdateStats(UnityAction<GstuSpreadSheet> callback, bool mergedCells = false)
     {
-        SpreadsheetManager.Read(new GSTU_Search(data.associatedSheet, data.associatedWorksheet), callback, mergedCells);
+        SpreadsheetManager.Read(new GSTU_Search(chestdata.associatedSheet, chestdata.associatedWorksheet), callback, mergedCells);
     }
 
     void UpdateMethodOne(GstuSpreadSheet ss)
     {
-        for (int i = data.START_ROW_LENGTH; i <= data.END_ROW_LENGTH; ++i)
+        for (int i = chestdata.START_ROW_LENGTH; i <= chestdata.END_ROW_LENGTH; ++i)
         {
-            data.UpdateStats(ss.rows[i], i);
+            chestdata.UpdateStats(ss.rows[i], i);
         }
 
+
         EditorUtility.SetDirty(target);
+        AssetDatabase.SaveAssets();          // 디스크 저장
+        AssetDatabase.Refresh();             // 갱신
+        Debug.Log("보물상자 데이터 저장 완료");
     }
 }
 #endif

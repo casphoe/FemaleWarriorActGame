@@ -6,13 +6,14 @@ using UnityEngine;
 public class TreasureChest : MonoBehaviour
 {
     private Animator anim;
-
-    private bool isOpened = false;
-    private bool isPlayerNear = false;
+    [Header("상자 열렸는지 또는 플레이어가 근처에 있는지 확인하는 변수")]
+    public bool isOpened = false;
+    public bool isPlayerNear = false;
 
 
     [Header("구글 스프레트 시트")]
     public int id;
+    public int chestId;
     public string skill;
     public float addHp;
     public float addStamina;
@@ -37,7 +38,7 @@ public class TreasureChest : MonoBehaviour
 
     private void Start()
     {
-        if (PM.playerData.openedChestIds.Contains(id))
+        if (PlayerManager.instance.player.openedChestIds.Contains(chestId))
         {
             isOpened = true;
             anim.SetBool("IsOpen", true);
@@ -62,9 +63,9 @@ public class TreasureChest : MonoBehaviour
         PlayerManager.instance.AddExp(exp);
         PlayerManager.instance.AddMoney(gold);
 
-        if (!PM.playerData.openedChestIds.Contains(id))
+        if (!PlayerManager.instance.player.openedChestIds.Contains(chestId))
         {
-            PM.playerData.openedChestIds.Add(id);
+            PlayerManager.instance.player.openedChestIds.Add(chestId);
         }
     }
 

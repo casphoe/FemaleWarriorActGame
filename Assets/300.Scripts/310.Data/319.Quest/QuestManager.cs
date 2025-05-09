@@ -7,30 +7,45 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
 
+    [SerializeField] QuestDataReader dataReader;
+
     private void Awake()
     {
         instance = this;
     }
 
+    private void Start()
+    {
+        ApplyQuestDataToAll();
+    }
+
+    #region 구글 스프레트 시트
+    void ApplyQuestDataToAll()
+    {
+        foreach (QuestData quest in dataReader.QuestDataList)
+        {
+            //UI에 퀘스트를 등록하는 코드
+        }
+    }
+    #endregion
+
+    #region 수락, 제거, 완료
     public void AcceptQuest(PlayerData playerData, QuestData originalQuest)
     {
-        QuestData newQuest = new QuestData
-        {
-            questId = originalQuest.questId,
-            descriptionKor = originalQuest.descriptionKor,
-            descriptionEng = originalQuest.descriptionEng,
-            titleEng = originalQuest.titleEng,
-            titleKor = originalQuest.titleKor,
-            requiredAmount = originalQuest.requiredAmount,
-            rewardExp = originalQuest.rewardExp,
-            rewardMoney = originalQuest.rewardMoney,
-
-            currentAmount = 0,
-            isAccepted = true,
-            isCleared = false,
-            isComplete = false
-        };
-
+        QuestData newQuest = new QuestData(
+        originalQuest.questId,
+        originalQuest.titleKor,
+        originalQuest.titleEng,
+        originalQuest.descriptionKor,
+        originalQuest.descriptionEng,
+        originalQuest.rewardExp,
+        originalQuest.rewardMoney,
+        originalQuest.requiredAmount,
+        0,                      // currentAmount는 새 퀘스트이므로 0부터 시작
+        true,                  // 수락 상태
+        false,                 // 완료 버튼 누르기 전
+        false                  // 클리어 전
+    );
         playerData.questList.Add(newQuest);
         Debug.Log($"퀘스트 {newQuest.questId} 수락됨 (새로 생성)");
     }
@@ -62,29 +77,9 @@ public class QuestManager : MonoBehaviour
             Debug.Log("클리어할 수 없는 퀘스트거나 아직 완료 조건이 안 됨.");
         }
     }
+    #endregion
 
     #region UI
 
     #endregion
-}
-
-[Serializable]
-public class QuestData
-{
-    public int questId;                   // 퀘스트 고유 ID
-    public string titleKor;             // 퀘스트 제목(한국어)
-    public string titleEng;             // 퀘스트 제목 (영어)
-    public string descriptionKor;        // 퀘스트 내용 (한국어)
-    public string descriptionEng;        // 퀘스트 내용 (영어)
-    public int rewardExp;                // 클리어 시 얻는 경험치
-    public int rewardMoney;              // 클리어 시 얻는 돈
-
-    public int requiredAmount;             // 클리어를 위해 필요한 수치 (예: 5마리)
-    public int currentAmount;              // 현재까지 진행된 수치 (예: 3마리)
-
-    public bool isAccepted = false;            // 수락 여부
-    public bool isComplete = false;            // 클리어 버튼 눌러 완료된 여부 (수동)
-    public bool isCleared;               // 클리어 여부
-
-    public bool IsConditionMet => currentAmount >= requiredAmount;
 }
