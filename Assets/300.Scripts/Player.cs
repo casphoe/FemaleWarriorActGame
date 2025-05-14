@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
         PlayerManager.instance.isState = false;
         PlayerManager.instance.isStun = false;
         PlayerManager.instance.isGuarding = false;
+        PlayerManager.instance.isQuest = false;
         HpOrStaminaCoolTime(0);
         HpOrStaminaCoolTime(1);
         staminaCost[0] = 5;
@@ -133,7 +134,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false && PlayerManager.instance.isStun == false)
+        if(PlayerManager.instance.IsDead == false && PlayerManager.instance.isBuy == false && PlayerManager.instance.isPause == false && PlayerManager.instance.isState == false && PlayerManager.instance.isInventroy == false && PlayerManager.instance.isEquipment == false && PlayerManager.instance.isSkillPage == false && PlayerManager.instance.isDownAttacking == false && PlayerManager.instance.isStun == false && PlayerManager.instance.isQuest == false)
         {
             StaminaCostRestoration();
             AutoHpRestoration();

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -79,7 +80,7 @@ public class InventoryPanel : MonoBehaviour
 
             if (PlayerManager.instance.isInventroy == true)
             {
-                if (isSelect[0] == false && isSelect[1] == false && isSelect[2] == false && isSelect[3] == false)
+                if (isSelect.All(select => select == false)) // 또는 !isSelect.Any(select => select)
                 {
                     // 왼쪽 화살표 키로 이전 버튼 선택
                     if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Left))

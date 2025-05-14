@@ -375,8 +375,8 @@
     "ENG": "Passive Skill",
     "KOR": "패시브 스킬"
   },
-  "Quest Accept": {
-    "ENG": "Quest Accept",
+  "Accept Quest": {
+    "ENG": "Accept Quest",
     "KOR": "퀘스트 수락"
   },
   "Quest Finish": {
@@ -386,5 +386,13 @@
   "Quest Remove": {
     "ENG": "Quest Remove",
     "KOR": "퀘스트 제거"
+  },
+  "Ongoing Quest": {
+    "ENG": "Ongoing Quest",
+    "KOR": "진행중인 퀘스트"
+  },
+  "Quest": {
+    "ENG": "Quest",
+    "KOR": "퀘스트"
   }
 }

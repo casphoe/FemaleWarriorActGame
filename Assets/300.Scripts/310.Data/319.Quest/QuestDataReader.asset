@@ -15,7 +15,7 @@ MonoBehaviour:
   associatedSheet: 1FH0pRBat0Kr6jKV_6VRABg9JU_MrW8i4Zexk1I8ApCU
   associatedWorksheet: Sheet1
   START_ROW_LENGTH: 2
-  END_ROW_LENGTH: 2
+  END_ROW_LENGTH: 5
   QuestDataList:
   - questId: 0
     titleKor: "[\uBC18\uBCF5 \uD018\uC2A4\uD2B8] \uB9C8\uC744\uC744 \uC704\uD5D9\uD558\uB294
@@ -32,3 +32,48 @@ MonoBehaviour:
     isComplete: 0
     isCleared: 0
     isRepeat: 1
+  - questId: 1
+    titleKor: "\uBAAC\uC2A4\uD130 50\uB9C8\uB9AC\uB97C \uD1F4\uCE58\uD574\uC8FC\uC138\uC694"
+    titleEng: Defeat 50 monsters.
+    descriptionKor: "\uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC11C \uC11C\uC2DD \uC911\uC778
+      \uBAAC\uC2A4\uD130 50\uB9C8\uB9AC\uB97C \uD1F4\uCE58\uD574\uC8FC\uC138\uC694"
+    descriptionEng: Defeat 50 monsters living around the village.
+    rewardExp: 100
+    rewardMoney: 200
+    requiredAmount: 50
+    currentAmount: 0
+    isAccepted: 0
+    isComplete: 0
+    isCleared: 0
+    isRepeat: 0
+  - questId: 2
+    titleKor: "[\uBC18\uBCF5 \uD018\uC2A4\uD2B8] \uB3D9\uAD74\uC5D0 \uC11C\uC2DD\uC911\uC778
+      \uACE0\uBE14\uB9B0\uC744 \uCC98\uCE58\uD574\uC8FC\uC138\uC694"
+    titleEng: '[Repet Quest] Kill the goblins living in the cave.'
+    descriptionKor: "\uC8FC\uAE30\uC801\uC73C\uB85C \uB9C8\uC744\uC5D0 \uCC3E\uC544\uC640
+      \uC57D\uD0C8\uD558\uB294 \uACE0\uBE14\uB9B0\uC744 \uCD1D 6\uB9C8\uB9AC \uD1F4\uCE58\uD574\uC8FC\uC138\uC694"
+    descriptionEng: Defeat a total of 6 goblins that periodically visit the village
+      and pillage it.
+    rewardExp: 50
+    rewardMoney: 100
+    requiredAmount: 6
+    currentAmount: 0
+    isAccepted: 0
+    isComplete: 0
+    isCleared: 0
+    isRepeat: 1
+  - questId: 3
+    titleKor: "\uB3D9\uAD74\uC5D0 \uC11C\uC2DD\uC911\uC778 \uACE0\uBE14\uB9B0 \uD0B9\uC744
+      \uCC98\uCE58\uD574\uC8FC\uC138\uC694"
+    titleEng: Kill the Goblin King living in the cave.
+    descriptionKor: "\uACE0\uBE14\uB9B0\uC744 \uC9C0\uD718\uD558\uB294 \uACE0\uBE14\uB9B0
+      \uD0B9\uC744 \uD1F4\uCE58\uD574\uC8FC\uC138\uC694"
+    descriptionEng: Defeat the Goblin King who commands the goblins.
+    rewardExp: 300
+    rewardMoney: 600
+    requiredAmount: 1
+    currentAmount: 0
+    isAccepted: 0
+    isComplete: 0
+    isCleared: 0
+    isRepeat: 0
