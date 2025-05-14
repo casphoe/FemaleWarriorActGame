@@ -39,6 +39,8 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField] QuestAcceptList accpetDataList;
 
+    [SerializeField] QuestOngoingList currentDataList;
+
     [SerializeField] Text[] txtQuestUiSet;
 
     bool[] isQuestPanelSelect = new bool[4];
@@ -152,7 +154,7 @@ public class QuestManager : MonoBehaviour
 
                     if(PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                     {
-                        Utils.OnOff(uiSetObject, true);
+                        OnOffUiSetObject(true);
                         OnUiSetTextSetting(questNum);
                     }
                 }
@@ -183,7 +185,7 @@ public class QuestManager : MonoBehaviour
                             isQuestSelect[i] = false;
                         }
                         OnQuestPanelImageChange(selectQuestNum);
-                        Utils.OnOff(uiSetObject, false);
+                        OnOffUiSetObject(false);
                     }
                 }
             }
@@ -284,7 +286,7 @@ public class QuestManager : MonoBehaviour
         ).ToList();
     }
 
-    List<QuestData> GetOngoingQuests(List<QuestData> questList)
+    public List<QuestData> GetOngoingQuests(List<QuestData> questList)
     {
         return questList.Where(q =>
             q.isAccepted &&               // 수락된 상태이며
@@ -302,10 +304,51 @@ public class QuestManager : MonoBehaviour
     }
     #endregion
 
+    #region 적이 죽었을 때 퀘스트 값 변화
+    public void EnemyDeathQuestChange(int num)
+    {     
+        if(num == 0)
+        {
+            foreach (QuestData quest in ongoingQuest)
+            {
+                if (quest.questId == 0 || quest.questId == 1)
+                {
+                    quest.currentAmount += 1;
+                }
+            }
+        }
+        else if(num == 6)
+        {
+            foreach (QuestData quest in ongoingQuest)
+            {
+                if (quest.questId == 1 || quest.questId == 2)
+                {
+                    quest.currentAmount += 1;
+                }
+            }
+        }
+        else
+        {
+            foreach (QuestData quest in ongoingQuest)
+            {
+                if (quest.questId == 0)
+                {
+                    quest.currentAmount += 1;
+                }
+            }
+        }
+    }
+    #endregion
+
     #region UI
     public void OnOffQuestUI(bool isActive)
     {
         Utils.OnOff(qusetPanel, isActive);
+    }
+
+    public void OnOffUiSetObject(bool isActive)
+    {
+        Utils.OnOff(uiSetObject, isActive);
     }
 
     void OnQuestBtnClickEvent(int num)
@@ -375,6 +418,13 @@ public class QuestManager : MonoBehaviour
                 }
                 break;
             case 1:
+                if(btnQuestSetting.Length != 0)
+                {
+                    StopAllBinking(btnQuestSetting);
+                }             
+                //배열 초기화 현재 진행중인 퀘스트는 클릭 되는것이 없고 어디까지 진행 중인 상태만 확인하기 위해서 보는 용도
+                btnQuestSetting = null;
+                isQuestSelect = null;
                 break;
             case 2:
                 break;
@@ -398,6 +448,7 @@ public class QuestManager : MonoBehaviour
                 OnQuestPanelImageChange(selectQuestNum);
                 break;
             case 1:
+                currentDataList.CurrentQuestLoadList();
                 break;
             case 2:
                 break;
@@ -571,12 +622,12 @@ public class QuestManager : MonoBehaviour
                 switch(num)
                 {
                     case 0: //퀘스트 수락
-                        Utils.OnOff(uiSetObject, false);
+                        OnOffUiSetObject(false);
                         AcceptQuest(PlayerManager.instance.player, acceptQuest[selectQuestNum]);
                         OnQuestPanelBtnClickEvent(0);
                         break;
                     case 1:
-                        Utils.OnOff(uiSetObject, false);
+                        OnOffUiSetObject(false);
                         break;
                 }
                 break;
@@ -586,7 +637,7 @@ public class QuestManager : MonoBehaviour
                     case 0:
                         break;
                     case 1:
-                        Utils.OnOff(uiSetObject, false);
+                        OnOffUiSetObject(false);
                         break;
                 }
                 break;
@@ -596,7 +647,7 @@ public class QuestManager : MonoBehaviour
                     case 0:
                         break;
                     case 1:
-                        Utils.OnOff(uiSetObject, false);
+                        OnOffUiSetObject(false);
                         break;
                 }
                 break;

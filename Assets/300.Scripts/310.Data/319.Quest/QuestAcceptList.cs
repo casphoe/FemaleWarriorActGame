@@ -19,11 +19,12 @@ public class QuestAcceptList : MonoBehaviour
         {
             QuestManager.instance.selectQuestNum = ((QuestPrefabData)data).index;
             selectIndex = QuestManager.instance.selectQuestNum;
+            QuestManager.instance.OnOffUiSetObject(true);
             QuestManager.instance.OnUiSetTextSetting(0);
         });
     }
 
-    void itemListClear()
+    void QuestAccpetListClear()
     {
         dataList.Clear();
         questAcceptScrollList.ClearData();
@@ -44,7 +45,7 @@ public class QuestAcceptList : MonoBehaviour
 
     public void AcceptLoadList()
     {
-        itemListClear();
+        QuestAccpetListClear();
         if (dataList.Count != QuestManager.instance.acceptQuest.Count)
         {
             int difference = Mathf.Abs(dataList.Count - QuestManager.instance.acceptQuest.Count);

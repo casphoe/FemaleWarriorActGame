@@ -63,6 +63,26 @@ public class QuestPrefab : InfiniteScrollItem
                 }
                 break;
             case 1:
+                titleKor = QuestManager.instance.ongoingQuest[listIndex].titleKor;
+                titleEng = QuestManager.instance.ongoingQuest[listIndex].titleEng;
+
+                switch (GameManager.data.lanauge)
+                {
+                    case LANGUAGE.KOR:                    
+                        txt[0].text = titleKor;
+                        txt[1].text = "클리어 조건 : " + QuestManager.instance.ongoingQuest[listIndex].requiredAmount.ToString();
+                        txt[2].text = "현재 상태 : " + QuestManager.instance.ongoingQuest[listIndex].currentAmount.ToString();
+                        txt[3].text = "획득 경험치 : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[4].text = "획득 재화 : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                    case LANGUAGE.ENG:                  
+                        txt[0].text = titleEng;
+                        txt[1].text = "Clear conditions : " + QuestManager.instance.ongoingQuest[listIndex].requiredAmount.ToString();
+                        txt[2].text = "Current status : " + QuestManager.instance.ongoingQuest[listIndex].currentAmount.ToString();
+                        txt[3].text = "Gain Exp : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[4].text = "Gain Money : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                }
                 break;
             case 2:
                 break;

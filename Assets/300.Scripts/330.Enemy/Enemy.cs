@@ -96,6 +96,7 @@ public class Enemy : MonoBehaviour
     private Transform hpSliderParent;
     private GuardShrinkSlider guardSlider;
     private float guardRecoverTimer;
+    private float attackCoolTime = 0;
 
     private Day lastCheckedDay;
 
@@ -197,6 +198,7 @@ public class Enemy : MonoBehaviour
         guardSlider = hpSliderParent.transform.GetChild(1).GetChild(0).GetComponent<GuardShrinkSlider>();
         canRecoverGuard = false;
         wasHitByTrap = false;
+        attackCoolTime = 1.5f;
     }
 
     private void Start()
@@ -216,6 +218,7 @@ public class Enemy : MonoBehaviour
         isNearPlayer = false;
         canRecoverGuard = false;
         wasHitByTrap = false;
+        attackCoolTime = 1.5f;
         ApplyTimeMultiplier();
     }
 
@@ -409,6 +412,9 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage , float critcleRate, float critcleDmg, int num)
     {
 
+        if (enemyState == State.Death)
+            return;
+
         //크리티컬 판정
         int rand = Random.Range(1, 101); // 1~100 포함
         bool isCritical = false;
@@ -489,8 +495,8 @@ public class Enemy : MonoBehaviour
         if (currentHp <= 0)
         {
             currentHp = 0;
-            enemyState = State.Death;
-            anim.SetTrigger("Death");
+            attackTimer = 0;
+            attackCoolTime = 1000;
             switch (id)
             {
                 case 0:
@@ -509,6 +515,9 @@ public class Enemy : MonoBehaviour
             }
             PlayerManager.instance.AddExp(addExp);
             PlayerManager.instance.AddMoney(addMoney);
+            QuestManager.instance.EnemyDeathQuestChange(id);
+            enemyState = State.Death;
+            anim.SetTrigger("Death");
         }
         UpdateHpBar();
         guardRecoverTimer = 0f;
@@ -623,7 +632,7 @@ public class Enemy : MonoBehaviour
                 if (enemyState == State.Chase || isPlayerInRange)
                 {
                     attackTimer += Time.deltaTime;
-                    if(attackTimer >= 1.5f)
+                    if(attackTimer >= attackCoolTime)
                     {
                         enemyState = State.Attack;
                         anim.SetBool("Attack", true);
@@ -650,7 +659,7 @@ public class Enemy : MonoBehaviour
                 {
                     attackTimer += Time.deltaTime;
 
-                    if (attackTimer >= 1.5f) // 공격 주기 조절 (1.5초 등)
+                    if (attackTimer >= attackCoolTime) // 공격 주기 조절 (1.5초 등)
                     {
 
                         enemyState = State.Attack;
