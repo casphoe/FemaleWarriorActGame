@@ -41,6 +41,10 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField] QuestOngoingList currentDataList;
 
+    [SerializeField] QuestFinsishList finishDataList;
+
+    [SerializeField] QuestRemoveList removeDataList;
+
     [SerializeField] Text[] txtQuestUiSet;
 
     bool[] isQuestPanelSelect = new bool[4];
@@ -427,8 +431,28 @@ public class QuestManager : MonoBehaviour
                 isQuestSelect = null;
                 break;
             case 2:
+                foreach (var quest in ongoingQuest)
+                {
+                    quest.CheckClearStatus();
+                    if(quest.isCleared)
+                    {
+                        completeQuest.Add(quest);
+                    }
+                }
+                btnQuestSetting = new Button[completeQuest.Count];
+                isQuestSelect = new bool[completeQuest.Count];
+                for (int i = 0; i < isQuestSelect.Length; i++)
+                {
+                    isQuestSelect[i] = false;
+                }
                 break;
             case 3:
+                btnQuestSetting = new Button[ongoingQuest.Count];
+                isQuestSelect = new bool[ongoingQuest.Count];
+                for (int i = 0; i < isQuestSelect.Length; i++)
+                {
+                    isQuestSelect[i] = false;
+                }
                 break;
         }
         StartCoroutine(QuestLoadList(num));
@@ -451,8 +475,20 @@ public class QuestManager : MonoBehaviour
                 currentDataList.CurrentQuestLoadList();
                 break;
             case 2:
+                finishDataList.CompeteLoadList();
+                for (int i = 0; i < questPrefabList.Count; i++)
+                {
+                    btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
+                }
+                OnQuestPanelImageChange(selectQuestNum);
                 break;
             case 3:
+                removeDataList.RemoveLoadList();
+                for (int i = 0; i < questPrefabList.Count; i++)
+                {
+                    btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
+                }
+                OnQuestPanelImageChange(selectQuestNum);
                 break;
         }
     }
@@ -608,8 +644,30 @@ public class QuestManager : MonoBehaviour
                 }
                 break; 
             case 2:
+                switch (GameManager.data.lanauge)
+                {
+                    case LANGUAGE.KOR:
+                        txtQuestUiSet[0].text = completeQuest[selectQuestNum].titleKor;
+                        txtQuestUiSet[1].text = completeQuest[selectQuestNum].descriptionKor + "\n퀘스트를 완료하시겠습니까?";
+                        break;
+                    case LANGUAGE.ENG:
+                        txtQuestUiSet[0].text = completeQuest[selectQuestNum].titleEng;
+                        txtQuestUiSet[1].text = completeQuest[selectQuestNum].descriptionKor + "\nWould you like to complete the quest?";
+                        break;
+                }
                 break;
             case 3:
+                switch (GameManager.data.lanauge)
+                {
+                    case LANGUAGE.KOR:
+                        txtQuestUiSet[0].text = ongoingQuest[selectQuestNum].titleKor;
+                        txtQuestUiSet[1].text = ongoingQuest[selectQuestNum].descriptionKor + "\n수락한 퀘스트를 제거하시겠습니까?\n현재 진행중인 퀘스트 데이터가 초기화 됩니다.";
+                        break;
+                    case LANGUAGE.ENG:
+                        txtQuestUiSet[0].text = ongoingQuest[selectQuestNum].titleEng;
+                        txtQuestUiSet[1].text = ongoingQuest[selectQuestNum].descriptionKor + "\nAre you sure you want to remove the accepted quest?\n\r\nThe quest data currently in progress will be reset.";
+                        break;
+                }
                 break;
         }
     }
@@ -634,6 +692,7 @@ public class QuestManager : MonoBehaviour
             case 2:
                 switch (num)
                 {
+                    //퀘스트 완료
                     case 0:
                         break;
                     case 1:
@@ -644,6 +703,7 @@ public class QuestManager : MonoBehaviour
             case 3:
                 switch (num)
                 {
+                    //퀘스트 제거
                     case 0:
                         break;
                     case 1:

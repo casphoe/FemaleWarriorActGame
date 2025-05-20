@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gpm.Ui;
@@ -35,7 +35,7 @@ public class QuestAcceptList : MonoBehaviour
     void InfinteScrollReboot()
     {
         int count = dataList.Count;
-        for (int i = 0; i < count; i++) // ÀÌ ºÎºÐ È®ÀÎÇÒ °Í
+        for (int i = 0; i < count; i++)  // ì´ ë¶€ë¶„ í™•ì¸í•  ê²ƒ
         {
             QuestPrefabData data = dataList[i];
             data.index = i;

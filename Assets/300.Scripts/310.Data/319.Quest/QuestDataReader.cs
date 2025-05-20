@@ -27,6 +27,18 @@ public class QuestData
     public bool isCleared;               // 클리어 여부
     public bool isRepeat;
 
+    public void CheckClearStatus()
+    {
+        if (currentAmount >= requiredAmount)
+        {
+            isCleared = true;
+        }
+        else
+        {
+            isCleared = false;
+        }
+    }
+
     public bool IsConditionMet => currentAmount >= requiredAmount;
 
     public QuestData(int questId, string titleKor, string titleEng, string descriptionKor, string descriptionEng, int rewardExp, int rewardMoney, int requiredAmount, int currentAmount, bool isAccepted, bool isComplete, bool isCleared, bool isRepeat)

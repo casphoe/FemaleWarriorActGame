@@ -26,6 +26,8 @@ public class QuestPrefab : InfiniteScrollItem
 
     public int listIndex = 0;
 
+    public bool isCompelete = false;
+
     public override void UpdateData(InfiniteScrollData scrollData)
     {
         base.UpdateData(scrollData);
@@ -85,8 +87,76 @@ public class QuestPrefab : InfiniteScrollItem
                 }
                 break;
             case 2:
+                titleKor = QuestManager.instance.completeQuest[listIndex].titleKor;
+                titleEng = QuestManager.instance.completeQuest[listIndex].titleEng;
+
+                descKor = QuestManager.instance.completeQuest[listIndex].descriptionKor;
+                descEng = QuestManager.instance.completeQuest[listIndex].descriptionEng;
+
+                isCompelete = QuestManager.instance.completeQuest[listIndex].isComplete;
+
+                if(isCompelete == true)
+                {
+                    GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    GetComponent<Button>().interactable = true;
+                }
+
+                switch (GameManager.data.lanauge)
+                {
+                    case LANGUAGE.KOR:
+                        if(isCompelete == true)
+                        {
+                            txt[0].text = "퀘스트 완료";
+                        }
+                        else
+                        {
+                            txt[0].text = "퀘스트 완료 가능";
+                        }
+                        txt[1].text = titleKor;
+                        txt[2].text = "획득 경험치 : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[3].text = "획득 재화 : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                    case LANGUAGE.ENG:
+                        if (isCompelete == true)
+                        {
+                            txt[0].text = "Quest completed";
+                        }
+                        else
+                        {
+                            txt[0].text = "Quest can be completed";
+                        }
+                        txt[1].text = titleEng;
+                        txt[2].text = "Gain Exp : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[3].text = "Gain Money : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                }
                 break;
             case 3:
+                titleKor = QuestManager.instance.ongoingQuest[listIndex].titleKor;
+                titleEng = QuestManager.instance.ongoingQuest[listIndex].titleEng;
+                descKor = QuestManager.instance.ongoingQuest[listIndex].descriptionKor;
+                descEng = QuestManager.instance.ongoingQuest[listIndex].descriptionEng;
+
+                switch (GameManager.data.lanauge)
+                {
+                    case LANGUAGE.KOR:
+                        txt[0].text = titleKor;
+                        txt[1].text = "클리어 조건 : " + QuestManager.instance.ongoingQuest[listIndex].requiredAmount.ToString();
+                        txt[2].text = "현재 상태 : " + QuestManager.instance.ongoingQuest[listIndex].currentAmount.ToString();
+                        txt[3].text = "획득 경험치 : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[4].text = "획득 재화 : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                    case LANGUAGE.ENG:
+                        txt[0].text = titleEng;
+                        txt[1].text = "Clear conditions : " + QuestManager.instance.ongoingQuest[listIndex].requiredAmount.ToString();
+                        txt[2].text = "Current status : " + QuestManager.instance.ongoingQuest[listIndex].currentAmount.ToString();
+                        txt[3].text = "Gain Exp : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
+                        txt[4].text = "Gain Money : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        break;
+                }
                 break;
         }
     }

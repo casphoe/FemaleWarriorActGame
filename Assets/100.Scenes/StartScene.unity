@@ -18126,6 +18126,19 @@ MonoBehaviour:
     - 0
     moneyUp: 0
     expUp: 0
+    questList: []
+    positionX: 0
+    positionY: 0
+    equippedItemNames:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
   isInvisble: 0
   isJump: 0
   isGround: 0
@@ -18141,6 +18154,7 @@ MonoBehaviour:
   isStun: 0
   isGuarding: 0
   isPlayerOnLadder: 0
+  isQuest: 0
   isInvincibility: 0
   selectShop: -1
   shopNum: -1
