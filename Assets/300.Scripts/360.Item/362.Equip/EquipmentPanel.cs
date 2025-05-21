@@ -11,7 +11,7 @@ public class EquipmentPanel : MonoBehaviour
     //0 : 장착,  모두 해제
     [SerializeField] Button[] btnEquip;
     //장비 장착 이미지
-    [SerializeField] Image[] imgEquip;
+    public Image[] imgEquip;
     [SerializeField] Button[] btnEquipSelect;
 
     [SerializeField] GameObject panel;
@@ -327,7 +327,7 @@ public class EquipmentPanel : MonoBehaviour
         return parenIndex > -1 ? itemName.Substring(0, parenIndex) : itemName;
     }
 
-    private Sprite GetItemSpriteBasedOnName(string itemName)
+    public Sprite GetItemSpriteBasedOnName(string itemName)
     {
         switch (nameStr)
         {
@@ -972,7 +972,6 @@ public class EquipmentPanel : MonoBehaviour
         for (int i = 0; i < PlayerManager.instance.player.equippedItemNames.Length; i++)
         {
             string itemName = PlayerManager.instance.player.equippedItemNames[i];
-            Debug.Log(itemName);
             if (!string.IsNullOrEmpty(itemName))
             {
                 ItemData item = PlayerManager.instance.player.inventory.InventoryItemStat(itemName);

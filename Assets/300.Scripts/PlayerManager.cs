@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
     public bool isGuarding = false;
     public bool isPlayerOnLadder = false;
     public bool isQuest = false;
+    public bool isPlayerInfo = false;
 
     public bool isInvincibility = false;
 

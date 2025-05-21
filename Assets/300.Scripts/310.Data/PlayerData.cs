@@ -22,6 +22,7 @@ public class PlayerData
     public int slotNum;
     public string name = string.Empty;
     public int currentExp = 0;
+    public int statPoint = 0; //스텟을 찍을 수 있는 스텟 포인트
 
     public float maxGuardValue;
     public float currentGuardValue;
@@ -86,31 +87,14 @@ public class PlayerData
             levelUpExp = 200;
             maxGuardValue = 100;
             currentGuardValue = 100;
+            statPoint = 0;
         }
         else
         {
-            if (level == 2)
-            {
-                hp = Mathf.Round(100 * 1.2f);
-                attack = Mathf.Round(6 * 1.2f);
-                defense = Mathf.Round(4 * 1.2f);
-                luk = Mathf.RoundToInt(5 * 1.2f);
-                critcleRate = Mathf.Round(5 * 1.2f);
-                stamina = Mathf.Round(50 * 1.2f);
-                staminaAutoRestoration = Mathf.Round(2f * 1.2f);
-                levelUpExp = Mathf.RoundToInt(200 * 2.5f);               
-            }
-            else
-            {
-                hp = Mathf.Round(100 * Mathf.Pow(1.2f, (_level - 1)));
-                attack = Mathf.Round(6 * Mathf.Pow(1.2f, (_level - 1)));
-                defense = Mathf.Round(4 * Mathf.Pow(1.2f, (_level - 1)));
-                luk = Mathf.RoundToInt(5 * Mathf.Pow(1.2f, (_level - 1)));
-                critcleRate = Mathf.Round(5 * Mathf.Pow(1.2f, (_level - 1)));
-                stamina = Mathf.Round(50 * Mathf.Pow(1.2f, (_level - 1)));
-                staminaAutoRestoration = Mathf.Round(2 * Mathf.Pow(1.2f, (_level - 1)));
-                levelUpExp = Mathf.RoundToInt(200 * Mathf.Pow(2.5f, (_level - 1)));               
-            }           
+            statPoint += 7;
+            skillCount += 5;
+            levelUpExp = Mathf.RoundToInt(200 * Mathf.Pow(2.5f, (_level - 1)));
+            currentExp = 0;
         }
     }
 
@@ -130,6 +114,9 @@ public class PlayerData
         PM.playerData.levelUpExp = levelUpExp;
         PM.playerData.maxGuardValue = maxGuardValue;
         PM.playerData.currentGuardValue = currentGuardValue;
+        PM.playerData.statPoint = statPoint;
+        PM.playerData.currentExp = currentExp;
+        PM.playerData.levelUpExp = levelUpExp;
     }
 }
 
