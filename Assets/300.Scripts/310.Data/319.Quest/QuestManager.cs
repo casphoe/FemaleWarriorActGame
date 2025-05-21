@@ -125,47 +125,59 @@ public class QuestManager : MonoBehaviour
                 {
                     if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Up))
                     {
-                        if(selectQuestNum > 0)
+                        if (questNum != 1)
                         {
-                            selectQuestNum -= 1;
-                            OnQuestPanelImageChange(selectQuestNum);
+                            if (selectQuestNum > 0)
+                            {
+                                selectQuestNum -= 1;
+                                OnQuestPanelImageChange(selectQuestNum);
+                            }
                         }
                     }
 
                     if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Down))
                     {
-                        switch(questNum)
+                        switch (questNum)
                         {
                             case 0:
-                                if(selectQuestNum < acceptQuest.Count - 1)
-                                {
-                                    selectQuestNum += 1;
-                                }
-                                break;
-                            case 1:
-                                if (selectQuestNum < ongoingQuest.Count - 1)
+                                if (selectQuestNum < acceptQuest.Count - 1)
                                 {
                                     selectQuestNum += 1;
                                 }
                                 break;
                             case 2:
+                                if (selectQuestNum < completeQuest.Count - 1)
+                                {
+                                    selectQuestNum += 1;
+                                }
                                 break;
                             case 3:
+                                if (selectQuestNum < ongoingQuest.Count - 1)
+                                {
+                                    selectQuestNum += 1;
+                                }
                                 break;
                         }
-                        OnQuestPanelImageChange(selectQuestNum);
+                        if (questNum != 1)
+                        {
+                            OnQuestPanelImageChange(selectQuestNum);
+                        }
                     }
 
                     if(PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                     {
-                        OnOffUiSetObject(true);
-                        OnUiSetTextSetting(questNum);
+                        if (questNum != 1)
+                        {
+                            isQuestSelect[selectQuestNum] = true;
+                            OnOffUiSetObject(true);
+                            OnUiSetTextSetting(questNum);
+                        }
                     }
                 }
 
                 if(PlayerManager.GetCustomKeyDown(CustomKeyCode.Canel))
                 {
-                    if (isQuestPanelSelect.Any(select => select == true) && isQuestSelect.All(select => select == false)) //isQuestPanelSelect 배열중 하나라도 true 이면 true를 반환
+                    if (isQuestPanelSelect.Any(select => select == true) && (isQuestSelect == null || isQuestSelect.All(select => select == false))) //isQuestPanelSelect 배열중 하나라도 true 이면 true를 반환
                     {
                         for (int i = 0; i < isQuestPanelSelect.Length; i++)
                         {
@@ -182,7 +194,7 @@ public class QuestManager : MonoBehaviour
                         OnQuestImageChange(questNum);
                     }
 
-                    if (isQuestSelect.Any(select => select == true)) //isQuestSelect 배열중 하나라도 true 이면 true를 반환
+                    if (questNum != 1 && isQuestSelect != null && isQuestSelect.Any(select => select == true)) //isQuestSelect 배열중 하나라도 true 이면 true를 반환
                     {
                         for (int i = 0; i < isQuestSelect.Length; i++)
                         {
@@ -244,6 +256,14 @@ public class QuestManager : MonoBehaviour
             playerData.questList.Remove(quest);
             Debug.Log($"퀘스트 {questId} 삭제됨");
         }
+
+        QuestData ongoing = ongoingQuest.Find(q => q.questId == questId);
+        {
+            if (ongoing != null)
+            {
+                ongoingQuest.Remove(ongoing);
+            }
+        }
     }
 
     public void CompleteQuest(PlayerData playerData, int questId)
@@ -271,12 +291,8 @@ public class QuestManager : MonoBehaviour
             }
             else
             {
-                Debug.Log($"퀘스트 {quest.questId}는 아직 완료 조건을 만족하지 않음. (진행도: {quest.currentAmount}/{quest.requiredAmount})");
+                
             }
-        }
-        else
-        {
-            Debug.Log("클리어할 수 없는 퀘스트거나 아직 완료 조건이 안 됨.");
         }
     }
     #endregion
@@ -389,7 +405,7 @@ public class QuestManager : MonoBehaviour
         }
         Utils.ImageColorChange(btnQuestPanel[num].image, Color.red);
         Utils.TextColorChange(btnQuestPanel[num].transform.GetChild(0).GetComponent<Text>(), Color.white);
-
+        selectQuestNum = 0;
         OnQuestTitleTextSetting(num);
         questPrefabList.Clear();
         switch (num)
@@ -436,7 +452,10 @@ public class QuestManager : MonoBehaviour
                     quest.CheckClearStatus();
                     if(quest.isCleared)
                     {
-                        completeQuest.Add(quest);
+                        if(!completeQuest.Contains(quest))
+                        {
+                            completeQuest.Add(quest);
+                        }                    
                     }
                 }
                 btnQuestSetting = new Button[completeQuest.Count];
@@ -464,32 +483,30 @@ public class QuestManager : MonoBehaviour
         switch(num)
         {
             case 0:
-                accpetDataList.AcceptLoadList();
-                for (int i = 0; i < questPrefabList.Count; i++)
-                {
-                    btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
-                }
-                OnQuestPanelImageChange(selectQuestNum);
+                accpetDataList.AcceptLoadList();               
                 break;
             case 1:
                 currentDataList.CurrentQuestLoadList();
                 break;
             case 2:
-                finishDataList.CompeteLoadList();
-                for (int i = 0; i < questPrefabList.Count; i++)
-                {
-                    btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
-                }
-                OnQuestPanelImageChange(selectQuestNum);
+                finishDataList.CompeteLoadList();               
                 break;
             case 3:
-                removeDataList.RemoveLoadList();
-                for (int i = 0; i < questPrefabList.Count; i++)
-                {
-                    btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
-                }
-                OnQuestPanelImageChange(selectQuestNum);
+                removeDataList.RemoveLoadList();                        
                 break;
+        }
+
+        if(num != 1)
+        {
+            for (int i = 0; i < questPrefabList.Count; i++)
+            {
+                btnQuestSetting[i] = questPrefabList[i].prefab.GetComponent<Button>();
+            }
+
+            if (btnQuestSetting.Length > 0)
+            {
+                OnQuestPanelImageChange(selectQuestNum);
+            }
         }
     }
 
@@ -694,6 +711,8 @@ public class QuestManager : MonoBehaviour
                 {
                     //퀘스트 완료
                     case 0:
+                        OnOffUiSetObject(false);
+                        OnQuestPanelBtnClickEvent(2);
                         break;
                     case 1:
                         OnOffUiSetObject(false);
@@ -705,6 +724,9 @@ public class QuestManager : MonoBehaviour
                 {
                     //퀘스트 제거
                     case 0:
+                        OnOffUiSetObject(false);
+                        RemoveQuest(PlayerManager.instance.player, ongoingQuest[selectQuestNum].questId);
+                        OnQuestPanelBtnClickEvent(3);
                         break;
                     case 1:
                         OnOffUiSetObject(false);

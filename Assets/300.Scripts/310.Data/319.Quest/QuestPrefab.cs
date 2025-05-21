@@ -135,6 +135,12 @@ public class QuestPrefab : InfiniteScrollItem
                 }
                 break;
             case 3:
+                //제거 될 때 listIndex가 제대로 적용이 안되고 titleKor = QuestManager.instance.ongoingQuest[listIndex].titleKor; 넘어오는 현상이 발생
+                if (listIndex < 0 || listIndex >= QuestManager.instance.ongoingQuest.Count)
+                {
+                    return;
+                }
+
                 titleKor = QuestManager.instance.ongoingQuest[listIndex].titleKor;
                 titleEng = QuestManager.instance.ongoingQuest[listIndex].titleEng;
                 descKor = QuestManager.instance.ongoingQuest[listIndex].descriptionKor;
