@@ -92,7 +92,7 @@ public class PlayerData
             if (level == 2)
             {
                 hp = Mathf.Round(100 * 1.2f);
-                attack = Mathf.Round(8 * 1.2f);
+                attack = Mathf.Round(6 * 1.2f);
                 defense = Mathf.Round(4 * 1.2f);
                 luk = Mathf.RoundToInt(5 * 1.2f);
                 critcleRate = Mathf.Round(5 * 1.2f);
@@ -103,9 +103,9 @@ public class PlayerData
             else
             {
                 hp = Mathf.Round(100 * Mathf.Pow(1.2f, (_level - 1)));
-                attack = Mathf.Round(8 * Mathf.Pow(1.2f, (_level - 1)));
-                defense = Mathf.Round(12 * Mathf.Pow(1.2f, (_level - 1)));
-                luk = Mathf.RoundToInt(7 * Mathf.Pow(1.2f, (_level - 1)));
+                attack = Mathf.Round(6 * Mathf.Pow(1.2f, (_level - 1)));
+                defense = Mathf.Round(4 * Mathf.Pow(1.2f, (_level - 1)));
+                luk = Mathf.RoundToInt(5 * Mathf.Pow(1.2f, (_level - 1)));
                 critcleRate = Mathf.Round(5 * Mathf.Pow(1.2f, (_level - 1)));
                 stamina = Mathf.Round(50 * Mathf.Pow(1.2f, (_level - 1)));
                 staminaAutoRestoration = Mathf.Round(2 * Mathf.Pow(1.2f, (_level - 1)));
