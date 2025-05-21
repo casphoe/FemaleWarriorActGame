@@ -168,6 +168,12 @@ public class QuestManager : MonoBehaviour
                     {
                         if (questNum != 1)
                         {
+                            if(questNum == 2)
+                            {
+                                if (completeQuest[selectQuestNum].isComplete == true)
+                                    return;
+                                
+                            }
                             isQuestSelect[selectQuestNum] = true;
                             OnOffUiSetObject(true);
                             OnUiSetTextSetting(questNum);
@@ -196,12 +202,32 @@ public class QuestManager : MonoBehaviour
 
                     if (questNum != 1 && isQuestSelect != null && isQuestSelect.Any(select => select == true)) //isQuestSelect 배열중 하나라도 true 이면 true를 반환
                     {
-                        for (int i = 0; i < isQuestSelect.Length; i++)
+                        if(questNum == 2)
                         {
-                            isQuestSelect[i] = false;
+                            if (completeQuest[selectQuestNum].isComplete == true)
+                            {
+                                StopAllBinking(btnQuestSetting);
+                                return;
+                            }
+                            else
+                            {
+                                for (int i = 0; i < isQuestSelect.Length; i++)
+                                {
+                                    isQuestSelect[i] = false;
+                                }
+                                OnQuestPanelImageChange(selectQuestNum);
+                                OnOffUiSetObject(false);
+                            }
                         }
-                        OnQuestPanelImageChange(selectQuestNum);
-                        OnOffUiSetObject(false);
+                        else
+                        {
+                            for (int i = 0; i < isQuestSelect.Length; i++)
+                            {
+                                isQuestSelect[i] = false;
+                            }
+                            OnQuestPanelImageChange(selectQuestNum);
+                            OnOffUiSetObject(false);
+                        }
                     }
                 }
             }
@@ -268,7 +294,7 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteQuest(PlayerData playerData, int questId)
     {
-        QuestData quest = playerData.questList.Find(q => q.questId == questId && q.isCleared && !q.isComplete);
+        QuestData quest = ongoingQuest.Find(q => q.questId == questId && q.isCleared && !q.isComplete);
         if (quest != null)
         {
             // 완료 조건 검사: currentAmount >= requiredAmount
@@ -276,22 +302,38 @@ public class QuestManager : MonoBehaviour
             {
                 quest.isCleared = true;
                 quest.isComplete = true;
-
-                playerData.currentExp += quest.rewardExp;
-                playerData.money += quest.rewardMoney;
+               
+                PlayerManager.instance.AddExp(quest.rewardExp);
+                PlayerManager.instance.AddMoney(quest.rewardMoney);
 
                 Debug.Log($"퀘스트 {quest.questId} 클리어됨! 보상: EXP {quest.rewardExp}, Money {quest.rewardMoney}");
 
                 // 반복 퀘스트면 완료 후 제거 (재수락 가능)
                 if (quest.isRepeat)
                 {
+                    //반복 퀘스트는 완료 후 삭제
+                    completeQuest.Remove(quest);
+
                     playerData.questList.Remove(quest);
                     Debug.Log($"반복 퀘스트 {quest.questId} 완료 후 제거되어 재수락 가능함.");
                 }
-            }
-            else
-            {
-                
+                else
+                {
+                    if (completeQuest.Contains(quest))
+                    {
+                        quest.isComplete = true;
+                    }
+
+                    int index = playerData.questList.FindIndex(q => q.questId == quest.questId);
+                    if(index != -1)
+                    {
+                        playerData.questList[index].isCleared = true;
+                        playerData.questList[index].isComplete = true;
+                    }
+                }
+
+                // 진행 중 퀘스트에서 제거
+                ongoingQuest.Remove(quest);
             }
         }
     }
@@ -505,7 +547,21 @@ public class QuestManager : MonoBehaviour
 
             if (btnQuestSetting.Length > 0)
             {
-                OnQuestPanelImageChange(selectQuestNum);
+                if(num == 2)
+                {
+                    if (completeQuest[selectQuestNum].isComplete == true)
+                    {
+                        StopAllBinking(btnQuestSetting);
+                    }
+                    else
+                    {
+                        OnQuestPanelImageChange(selectQuestNum);
+                    }
+                }
+                else
+                {
+                    OnQuestPanelImageChange(selectQuestNum);
+                }
             }
         }
     }
@@ -712,6 +768,7 @@ public class QuestManager : MonoBehaviour
                     //퀘스트 완료
                     case 0:
                         OnOffUiSetObject(false);
+                        CompleteQuest(PlayerManager.instance.player, completeQuest[selectQuestNum].questId);
                         OnQuestPanelBtnClickEvent(2);
                         break;
                     case 1:

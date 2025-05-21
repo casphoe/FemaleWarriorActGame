@@ -65,6 +65,11 @@ public class QuestPrefab : InfiniteScrollItem
                 }
                 break;
             case 1:
+                if (listIndex < 0 || listIndex >= QuestManager.instance.ongoingQuest.Count)
+                {
+                    return;
+                }
+
                 titleKor = QuestManager.instance.ongoingQuest[listIndex].titleKor;
                 titleEng = QuestManager.instance.ongoingQuest[listIndex].titleEng;
 
@@ -87,6 +92,11 @@ public class QuestPrefab : InfiniteScrollItem
                 }
                 break;
             case 2:
+                if (listIndex < 0 || listIndex >= QuestManager.instance.completeQuest.Count)
+                {
+                    return;
+                }
+
                 titleKor = QuestManager.instance.completeQuest[listIndex].titleKor;
                 titleEng = QuestManager.instance.completeQuest[listIndex].titleEng;
 
@@ -116,8 +126,8 @@ public class QuestPrefab : InfiniteScrollItem
                             txt[0].text = "퀘스트 완료 가능";
                         }
                         txt[1].text = titleKor;
-                        txt[2].text = "획득 경험치 : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
-                        txt[3].text = "획득 재화 : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        txt[2].text = "획득 경험치 : " + QuestManager.instance.completeQuest[listIndex].rewardExp.ToString();
+                        txt[3].text = "획득 재화 : " + QuestManager.instance.completeQuest[listIndex].rewardMoney.ToString();
                         break;
                     case LANGUAGE.ENG:
                         if (isCompelete == true)
@@ -129,8 +139,8 @@ public class QuestPrefab : InfiniteScrollItem
                             txt[0].text = "Quest can be completed";
                         }
                         txt[1].text = titleEng;
-                        txt[2].text = "Gain Exp : " + QuestManager.instance.ongoingQuest[listIndex].rewardExp.ToString();
-                        txt[3].text = "Gain Money : " + QuestManager.instance.ongoingQuest[listIndex].rewardMoney.ToString();
+                        txt[2].text = "Gain Exp : " + QuestManager.instance.completeQuest[listIndex].rewardExp.ToString();
+                        txt[3].text = "Gain Money : " + QuestManager.instance.completeQuest[listIndex].rewardMoney.ToString();
                         break;
                 }
                 break;
