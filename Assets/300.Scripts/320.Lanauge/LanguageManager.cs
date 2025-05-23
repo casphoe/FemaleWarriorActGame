@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json; // Add this using statement for Newtonsoft.Json
@@ -47,12 +47,12 @@ public class LanguageManager : MonoBehaviour
 
             foreach (var localizedTextKey in data.Keys)
             {
-                // °¢ ¾ğ¾î¿¡ ´ëÇÑ ÅØ½ºÆ® °ªÀ» °¡Á®¿Í localizedTexts µñ¼Å³Ê¸®¿¡ Ãß°¡
+                // ê° ì–¸ì–´ì— ëŒ€í•œ í…ìŠ¤íŠ¸ ê°’ì„ ê°€ì ¸ì™€ localizedTexts ë”•ì…”ë„ˆë¦¬ì— ì¶”ê°€
                 string engText = data[localizedTextKey]["ENG"];
                 string korText = data[localizedTextKey]["KOR"];
                
 
-                // localizedTexts µñ¼Å³Ê¸®¿¡ ÅØ½ºÆ® Ãß°¡
+                // localizedTexts ë”•ì…”ë„ˆë¦¬ì— í…ìŠ¤íŠ¸ ì¶”ê°€
                 localizedTexts.Add($"{localizedTextKey}_ENG", engText);
                 localizedTexts.Add($"{localizedTextKey}_KOR", korText);             
             }
@@ -124,7 +124,7 @@ public class LanguageManager : MonoBehaviour
         return activeLocalizedTexts;
     }
 
-    public void UpdateLocalizedTexts() //ÀüÃ¼ ÅØ½ºÆ®¸¦ ¾÷µ¥ÀÌÆ® ½ÃÄÑº­¸²
+    public void UpdateLocalizedTexts() //ì „ì²´ í…ìŠ¤íŠ¸ë¥¼ ì—…ë°ì´íŠ¸ ì‹œì¼œë²¼ë¦¼
     {
         // Call the FindActiveObjectsWithLocalizedText() function to get the activeLocalizedTexts list
         List<LanguageText> activeLocalizedTexts = FindActiveObjectsWithLocalizedText();
