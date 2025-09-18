@@ -473,7 +473,7 @@ public class EquipmentPanel : MonoBehaviour
         PlayerManager.instance.player.defense += defence;
         PlayerManager.instance.player.critcleRate += critcleRate;
         PlayerManager.instance.player.critcleDmg += critcleDmg;
-        PlayerManager.instance.player.luk += luk;
+        PlayerManager.instance.player._stat.luk += luk;
         PlayerManager.instance.player.expUp += exp;
         PlayerManager.instance.player.money += money;
 
@@ -500,7 +500,7 @@ public class EquipmentPanel : MonoBehaviour
 
                 txtStat[5].text = PlayerManager.instance.player.critcleDmg.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.critcleDmg + critcleDmg).ToString() + "</color>";
 
-                txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.luk + luk).ToString() + "</color>";
+                txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player._stat.luk + luk).ToString() + "</color>";
 
                 txtStat[7].text = PlayerManager.instance.player.expUp.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.expUp + exp).ToString() + "</color>";
 
@@ -564,13 +564,13 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[5].text = PlayerManager.instance.player.critcleDmg.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.critcleDmg - equipItem.crictleDmgUp).ToString() + "</color>";
                 }
                 
-                if(PlayerManager.instance.player.luk - equipItem.lukUp == PlayerManager.instance.player.luk)
+                if(PlayerManager.instance.player._stat.luk - equipItem.lukUp == PlayerManager.instance.player._stat.luk)
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.luk - equipItem.lukUp).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player._stat.luk - equipItem.lukUp).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.luk - equipItem.lukUp).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player._stat.luk - equipItem.lukUp).ToString() + "</color>";
                 }
 
                 if(PlayerManager.instance.player.expUp - equipItem.expUp == PlayerManager.instance.player.expUp)
@@ -675,17 +675,17 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[5].text = PlayerManager.instance.player.critcleDmg.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.critcleDmg + critcleDmg).ToString() + "</color>";
                 }
 
-                if (PlayerManager.instance.player.luk + luk > PlayerManager.instance.player.luk)
+                if (PlayerManager.instance.player._stat.luk + luk > PlayerManager.instance.player._stat.luk)
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=yellow>" + (PlayerManager.instance.player.luk + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=yellow>" + (PlayerManager.instance.player._stat.luk + luk).ToString() + "</color>";
                 }
-                else if (PlayerManager.instance.player.luk + luk == PlayerManager.instance.player.luk)
+                else if (PlayerManager.instance.player._stat.luk + luk == PlayerManager.instance.player._stat.luk)
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.luk + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player._stat.luk + luk).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.luk + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player._stat.luk + luk).ToString() + "</color>";
                 }
 
                 if (PlayerManager.instance.player.expUp + exp > PlayerManager.instance.player.expUp)
@@ -796,17 +796,17 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[5].text = PlayerManager.instance.player.critcleDmg.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player.critcleDmg - equipItem.crictleDmgUp) + critcleDmg).ToString() + "</color>";
                 }
 
-                if (PlayerManager.instance.player.luk - equipItem.lukUp + luk == PlayerManager.instance.player.luk)
+                if (PlayerManager.instance.player._stat.luk - equipItem.lukUp + luk == PlayerManager.instance.player._stat.luk)
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=white>" + ((PlayerManager.instance.player.luk - equipItem.lukUp) + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=white>" + ((PlayerManager.instance.player._stat.luk - equipItem.lukUp) + luk).ToString() + "</color>";
                 }
-                else if(PlayerManager.instance.player.luk - equipItem.lukUp + luk < PlayerManager.instance.player.luk)
+                else if(PlayerManager.instance.player._stat.luk - equipItem.lukUp + luk < PlayerManager.instance.player._stat.luk)
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=red>" + ((PlayerManager.instance.player.luk - equipItem.lukUp) + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=red>" + ((PlayerManager.instance.player._stat.luk - equipItem.lukUp) + luk).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[6].text = PlayerManager.instance.player.luk.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player.luk - equipItem.lukUp) + luk).ToString() + "</color>";
+                    txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player._stat.luk - equipItem.lukUp) + luk).ToString() + "</color>";
                 }
 
                 if (PlayerManager.instance.player.expUp - equipItem.expUp + exp == PlayerManager.instance.player.expUp)

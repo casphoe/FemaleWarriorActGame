@@ -4,6 +4,51 @@ using UnityEngine;
 using System;
 using System.IO; // 파일 저장 및 불러오기용
 using Newtonsoft.Json;
+
+[Serializable]
+public class PlayerStat
+{
+    public int str; //힘
+    public int intellect; //지력
+    public int condition; //체력
+    public int dex; //민첩
+    public int luk; //운
+    
+    //총 포인트 양
+    public int strStatCount; //힘에 스텟 포인트 투자한 양
+    public int intellectStatCount;
+    public int conditonStatCount;
+    public int dexStatCount;
+    public int lukStatCount;
+
+    public int curStrStatCount;
+    public int curIntellectStatCount;
+    public int curConditonStatCount;
+    public int curDexStatCount;
+    public int curLukStatCount;
+
+    //게임 맨처음에 시작 할 때 스텟 초기화
+    public void StatStartRest()
+    {
+        strStatCount = 0;
+        str = 0;
+        intellectStatCount = 0;
+        intellect = 0;
+        condition = 0;
+        conditonStatCount = 0;
+        dex = 0;
+        dexStatCount = 0;
+        luk = 5;
+        lukStatCount = 0;
+        StatCountRest();
+    }
+
+    public void StatCountRest()
+    {
+        curStrStatCount = 0; curIntellectStatCount = 0; curConditonStatCount = 0; curDexStatCount = 0; curLukStatCount = 0;
+    }
+}
+
 [Serializable]
 public class PlayerData
 {
@@ -11,7 +56,7 @@ public class PlayerData
     public int level;
     public float attack;
     public float defense;
-    public int luk;
+    public PlayerStat _stat;
     public float critcleRate;
     public float critcleDmg;
     public float stamina;
@@ -78,7 +123,6 @@ public class PlayerData
             hp = 100;
             attack = 6;
             defense = 4;
-            luk = 5;
             critcleRate = 5;
             stamina = 50;
             skillCount = 0;
@@ -88,6 +132,7 @@ public class PlayerData
             maxGuardValue = 100;
             currentGuardValue = 100;
             statPoint = 0;
+            _stat.StatStartRest();
         }
         else
         {
@@ -104,7 +149,7 @@ public class PlayerData
         PM.playerData.hp = hp;
         PM.playerData.attack = attack;
         PM.playerData.defense = defense;
-        PM.playerData.luk = luk;
+        PM.playerData._stat.luk = _stat.luk;
         PM.playerData.critcleRate = critcleRate;
         PM.playerData.stamina = stamina;
         PM.playerData.skillCount = skillCount;
@@ -117,6 +162,10 @@ public class PlayerData
         PM.playerData.statPoint = statPoint;
         PM.playerData.currentExp = currentExp;
         PM.playerData.levelUpExp = levelUpExp;
+        PM.playerData._stat.str = _stat.str;
+        PM.playerData._stat.intellect = _stat.intellect;
+        PM.playerData._stat.dex = _stat.dex;
+        PM.playerData._stat.condition = _stat.condition;
     }
 }
 

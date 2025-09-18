@@ -243,7 +243,7 @@ public class GameCanvas : MonoBehaviour
                             txtSlot0[3].text = PM.playerList[i].attack.ToString();
                             txtSlot0[4].text = PM.playerList[i].defense.ToString();
                             txtSlot0[5].text = PM.playerList[i].stamina.ToString();
-                            txtSlot0[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot0[6].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot0[7].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot0[8].text = PM.playerList[i].critcleDmg.ToString();
                             txtSlot0[9].text = PM.playerList[i].money.ToString();
@@ -257,7 +257,7 @@ public class GameCanvas : MonoBehaviour
                             txtSlot1[3].text = PM.playerList[i].attack.ToString();
                             txtSlot1[4].text = PM.playerList[i].defense.ToString();
                             txtSlot1[5].text = PM.playerList[i].stamina.ToString();
-                            txtSlot1[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot1[6].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot1[7].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot1[8].text = PM.playerList[i].critcleDmg.ToString();
                             txtSlot1[9].text = PM.playerList[i].money.ToString();
@@ -271,7 +271,7 @@ public class GameCanvas : MonoBehaviour
                             txtSlot2[3].text = PM.playerList[i].attack.ToString();
                             txtSlot2[4].text = PM.playerList[i].defense.ToString();
                             txtSlot2[5].text = PM.playerList[i].stamina.ToString();
-                            txtSlot2[6].text = PM.playerList[i].luk.ToString();
+                            txtSlot2[6].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot2[7].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot2[8].text = PM.playerList[i].critcleDmg.ToString();
                             txtSlot2[9].text = PM.playerList[i].money.ToString();

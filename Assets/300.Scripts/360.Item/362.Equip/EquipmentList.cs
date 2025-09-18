@@ -997,7 +997,7 @@ public class EquipmentList : MonoBehaviour
 
         txtPlayerData[5].text = Utils.GetThousandCommaText(PlayerManager.instance.player.critcleDmg) + " + " + Utils.GetThousandCommaText(critcleDmg) + " = " + Utils.GetThousandCommaText(PlayerManager.instance.player.critcleDmg + critcleDmg);
 
-        txtPlayerData[6].text = Utils.GetThousandCommaText(PlayerManager.instance.player.luk) + " + " + Utils.GetThousandCommaText(luk) + " = " + Utils.GetThousandCommaText(PlayerManager.instance.player.luk + luk);
+        txtPlayerData[6].text = Utils.GetThousandCommaText(PlayerManager.instance.player._stat.luk) + " + " + Utils.GetThousandCommaText(luk) + " = " + Utils.GetThousandCommaText(PlayerManager.instance.player._stat.luk + luk);
        
         txtPlayerData[7].text = Utils.GetThousandCommaText(PlayerManager.instance.player.expUp) + " + " + Utils.GetThousandCommaText(expUp) + " = " + Utils.GetThousandCommaText(PlayerManager.instance.player.expUp + expUp);
 
@@ -1020,7 +1020,7 @@ public class EquipmentList : MonoBehaviour
 
         txtPlayerData[5].text = Utils.GetThousandCommaText(PlayerManager.instance.player.critcleDmg);
 
-        txtPlayerData[6].text = Utils.GetThousandCommaText(PlayerManager.instance.player.luk);
+        txtPlayerData[6].text = Utils.GetThousandCommaText(PlayerManager.instance.player._stat.luk);
         
         txtPlayerData[7].text = Utils.GetThousandCommaText(PlayerManager.instance.player.expUp);
 
