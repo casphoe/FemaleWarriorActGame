@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+
 //플레이어를 관리하는 함수
 public class PlayerManager : MonoBehaviour
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 //레벨업 시 캐릭터 스텟을 찍을 수 있고 현재 장착 아이템 및 현재 캐릭터 스텟을 볼 수 있는 Panel
@@ -164,23 +163,28 @@ public class PlayerInfoPanel : MonoBehaviour
         {
             case 0:
                 player._stat.curStrStatCount -= 1;
-                player._stat.strStatCount -= 1;               
+                player._stat.strStatCount -= 1;
+                player._stat.str -= 1;
                 break;
             case 1:
                 player._stat.curIntellectStatCount -= 1;
-                player._stat.intellectStatCount -= 1;            
+                player._stat.intellectStatCount -= 1;
+                player._stat.intellect -= 1;
                 break;
             case 2:
                 player._stat.curConditonStatCount -= 1;
-                player._stat.conditonStatCount -= 1;               
+                player._stat.conditonStatCount -= 1;
+                player._stat.condition -= 1;
                 break;
             case 3:
                 player._stat.curDexStatCount -= 1;
-                player._stat.dexStatCount -= 1;              
+                player._stat.dexStatCount -= 1;
+                player._stat.dex -= 1;
                 break;
             case 4:
                 player._stat.curLukStatCount -= 1;
                 player._stat.lukStatCount -= 1;
+                player._stat.luk -= 1;
                 break;
         }
         player.statPoint += 1;
@@ -194,14 +198,27 @@ public class PlayerInfoPanel : MonoBehaviour
             case 0:
                 player._stat.curStrStatCount += 1;
                 player._stat.strStatCount += 1;
+                player._stat.str += 1;
                 break;
             case 1:
+                player._stat.curIntellectStatCount += 1;
+                player._stat.intellectStatCount += 1;
+                player._stat.intellect += 1;
                 break;
             case 2:
+                player._stat.curConditonStatCount += 1;
+                player._stat.conditonStatCount += 1;
+                player._stat.condition += 1;
                 break;
             case 3:
+                player._stat.curDexStatCount += 1;
+                player._stat.dexStatCount += 1;
+                player._stat.dex += 1;
                 break;
             case 4:
+                player._stat.curLukStatCount += 1;
+                player._stat.lukStatCount += 1;
+                player._stat.luk += 1;
                 break;
         }
         player.statPoint -= 1;
