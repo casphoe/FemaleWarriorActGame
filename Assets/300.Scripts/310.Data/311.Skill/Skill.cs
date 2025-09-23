@@ -108,7 +108,7 @@ public class Skill
                         PlayerManager.instance.player.attack -= bonus.Value;
                         break;
                     case "defenceUp":
-                        PlayerManager.instance.player.defense -= bonus.Value;
+                        PlayerManager.instance.player.defence -= bonus.Value;
                         break;
                     case "crictleRateUp":
                         PlayerManager.instance.player.critcleRate -= bonus.Value;

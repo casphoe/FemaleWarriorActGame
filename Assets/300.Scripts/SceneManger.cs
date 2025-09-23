@@ -98,7 +98,7 @@ public class SceneManger : MonoBehaviour
                             txtSlot0[1].text = PM.playerList[i].level.ToString();
                             txtSlot0[2].text = PM.playerList[i].hp.ToString();
                             txtSlot0[3].text = PM.playerList[i].attack.ToString();
-                            txtSlot0[4].text = PM.playerList[i].defense.ToString();
+                            txtSlot0[4].text = PM.playerList[i].defence.ToString();
                             txtSlot0[5].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot0[6].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot0[7].text = PM.playerList[i].stamina.ToString();
@@ -111,7 +111,7 @@ public class SceneManger : MonoBehaviour
                             txtSlot1[1].text = PM.playerList[i].level.ToString();
                             txtSlot1[2].text = PM.playerList[i].hp.ToString();
                             txtSlot1[3].text = PM.playerList[i].attack.ToString();
-                            txtSlot1[4].text = PM.playerList[i].defense.ToString();
+                            txtSlot1[4].text = PM.playerList[i].defence.ToString();
                             txtSlot1[5].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot1[6].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot1[7].text = PM.playerList[i].stamina.ToString();
@@ -124,7 +124,7 @@ public class SceneManger : MonoBehaviour
                             txtSlot2[1].text = PM.playerList[i].level.ToString();
                             txtSlot2[2].text = PM.playerList[i].hp.ToString();
                             txtSlot2[3].text = PM.playerList[i].attack.ToString();
-                            txtSlot2[4].text = PM.playerList[i].defense.ToString();
+                            txtSlot2[4].text = PM.playerList[i].defence.ToString();
                             txtSlot2[5].text = PM.playerList[i]._stat.luk.ToString();
                             txtSlot2[6].text = PM.playerList[i].critcleRate.ToString();
                             txtSlot2[7].text = PM.playerList[i].stamina.ToString();
@@ -188,6 +188,7 @@ public class SceneManger : MonoBehaviour
                     PM.playerData.rewardClearList.Clear();
                     PM.playerData.rewardNumList.Clear();
                     PM.playerData.skillCount = 1000;
+                    PM.playerData.statPoint = 1000;
                     PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
                     PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);                  
                     //UI 변경

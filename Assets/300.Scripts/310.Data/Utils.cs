@@ -58,5 +58,4 @@ public class Utils
 
         return intvalue;
     }
-
 }

@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            float defense = PlayerManager.instance.player.defense;
+            float defence = PlayerManager.instance.player.defence;
 
             int rand = UnityEngine.Random.Range(1, 101); // 1 ~ 100 포함
 
@@ -255,7 +255,7 @@ public class Player : MonoBehaviour
              */
             float maxDamageReduction = 0.85f; // 최대 80% 데미지 감소
 
-            float damageReductionPercent = Mathf.Min(defense / 100f, maxDamageReduction);
+            float damageReductionPercent = Mathf.Min(defence / 100f, maxDamageReduction);
 
             float finalDamage = damage * (1 - damageReductionPercent);
 

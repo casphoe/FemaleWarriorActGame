@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 [Serializable]
 public class PlayerStat
 {
-    public int str; //힘
-    public int intellect; //지력
-    public int condition; //체력
-    public int dex; //민첩
-    public int luk; //운
+    public int str; //힘 1씩 증가할 때 마다 공격력 0.1씩 증가
+    public int intellect; //지력 1씩 증가할 때 마다 스킬 데미지 0.2씩 증가
+    public int condition; //체력 1씩 증가할 때 마다 hp값 2씩 증가
+    public int dex; //민첩 //민첩 1씩 증가할 때 마다 스테미나 2씩 증가
+    public int luk; //운 //운 1씩 증가할 때 마다 크리티컬 확률 0.5씩 증가 크리티컬 데미지양 1% 증가
     
     //총 포인트 양
     public int strStatCount; //힘에 스텟 포인트 투자한 양
@@ -55,8 +55,7 @@ public class PlayerData
     public float hp;
     public int level;
     public float attack;
-    public float defense;
-    public PlayerStat _stat;
+    public float defence;
     public float critcleRate;
     public float critcleDmg;
     public float stamina;
@@ -68,6 +67,7 @@ public class PlayerData
     public string name = string.Empty;
     public int currentExp = 0;
     public int statPoint = 0; //스텟을 찍을 수 있는 스텟 포인트
+    public float skillDamageBonus; // INT 1당 +0.2 누적 (스킬 데미지 계산에 사용)
 
     public float maxGuardValue;
     public float currentGuardValue;
@@ -93,6 +93,7 @@ public class PlayerData
 
     public Inventory inventory = new Inventory();
     public Skill skill = new Skill();
+    public PlayerStat _stat = new PlayerStat();
 
     public HashSet<int> openedChestIds = new HashSet<int>(); // 연 보물상자 ID 목록
 
@@ -122,10 +123,11 @@ public class PlayerData
         {
             hp = 100;
             attack = 6;
-            defense = 4;
+            defence = 4;
             critcleRate = 5;
             stamina = 50;
             skillCount = 0;
+            skillDamageBonus = 0;
             staminaAutoRestoration = 2f;
             hpAutoRestoration = 0;
             levelUpExp = 200;
@@ -148,7 +150,7 @@ public class PlayerData
         LevelDb(_level);
         PM.playerData.hp = hp;
         PM.playerData.attack = attack;
-        PM.playerData.defense = defense;
+        PM.playerData.defence = defence;
         PM.playerData._stat.luk = _stat.luk;
         PM.playerData.critcleRate = critcleRate;
         PM.playerData.stamina = stamina;
@@ -166,6 +168,7 @@ public class PlayerData
         PM.playerData._stat.intellect = _stat.intellect;
         PM.playerData._stat.dex = _stat.dex;
         PM.playerData._stat.condition = _stat.condition;
+        PM.playerData.skillDamageBonus = skillDamageBonus;
     }
 }
 

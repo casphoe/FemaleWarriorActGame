@@ -10,6 +10,7 @@ public class EquipmentPanel : MonoBehaviour
     [SerializeField] Button[] btnSelectPanel;
     //0 : 장착,  모두 해제
     [SerializeField] Button[] btnEquip;
+    [Header("장비 장착 이미지")]
     //장비 장착 이미지
     public Image[] imgEquip;
     [SerializeField] Button[] btnEquipSelect;
@@ -166,19 +167,18 @@ public class EquipmentPanel : MonoBehaviour
                         }
                     }
                 }
-            }
-
-            if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
-            {
-                StopAllBinking(btnSelectPanel, 1);
-                isSelectTwo[selectEquipIndex] = true;
-                if (selectTwoIndex[selectEquipIndex] == 0)
+                if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
                 {
-                    PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
-                    selectTwoIndex[selectEquipIndex] = 1;               
+                    StopAllBinking(btnSelectPanel, 1);
+                    if (selectTwoIndex[selectEquipIndex] == 0)
+                    {
+                        PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
+                        selectTwoIndex[selectEquipIndex] = 1;
+                    }
+                    Equipment.instance.OnEquipData();
+                    isSelectTwo[selectEquipIndex] = true;
+                    return;
                 }
-                Equipment.instance.OnEquipData();
-                return;
             }
 
             if (selectTwoIndex[0] == 1 || selectTwoIndex[1] == 1 || selectTwoIndex[2] == 1 || selectTwoIndex[3] == 1 || selectTwoIndex[4] == 1 || selectTwoIndex[5] == 1 || selectTwoIndex[6] == 1 || selectTwoIndex[7] == 1 || selectTwoIndex[8] == 1)
@@ -213,19 +213,20 @@ public class EquipmentPanel : MonoBehaviour
 
 
                 if (PlayerManager.GetCustomKeyDown(CustomKeyCode.Attack))
-                {
+                {                 
                     if (imgEquip[selectEquipIndex].sprite == null) //미장착 상태
-                    {
+                    {                    
                         if (equipItemList[selectEquip].nameKor == "장착해제")
                         {
+                            Debug.Log("장착해제");
                             return;
                         }
-                        if (equipItemList[selectEquip].nameKor != "장착해제") //아이템 장착
-                        {
+                        else
+                        {                      
                             AddEquip();
                             PlayerManager.instance.player.inventory.FillerParticularityItems(equipItemList, selectEquipIndex);
                             Equipment.instance.OnEquipData();
-                            SelectEquipUiChange(0);                         
+                            SelectEquipUiChange(0);
                         }
                     }
                     else
@@ -470,7 +471,7 @@ public class EquipmentPanel : MonoBehaviour
         PlayerManager.instance.player.hp += Hp;
         PlayerManager.instance.player.stamina += Stamina;
         PlayerManager.instance.player.attack += attack;
-        PlayerManager.instance.player.defense += defence;
+        PlayerManager.instance.player.defence += defence;
         PlayerManager.instance.player.critcleRate += critcleRate;
         PlayerManager.instance.player.critcleDmg += critcleDmg;
         PlayerManager.instance.player._stat.luk += luk;
@@ -494,7 +495,7 @@ public class EquipmentPanel : MonoBehaviour
 
                 txtStat[2].text = PlayerManager.instance.player.attack.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.attack + attack).ToString() + "</color>";
 
-                txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defense + defence).ToString() + "</color>";
+                txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defence + defence).ToString() + "</color>";
 
                 txtStat[4].text = PlayerManager.instance.player.critcleRate.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.critcleRate + critcleRate).ToString() + "</color>";
 
@@ -537,13 +538,13 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[2].text = PlayerManager.instance.player.attack.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.attack - equipItem.attackUp).ToString() + "</color>";
                 }
                 
-                if(PlayerManager.instance.player.defense - equipItem.defenceUp == PlayerManager.instance.player.defense)
+                if(PlayerManager.instance.player.defence - equipItem.defenceUp == PlayerManager.instance.player.defence)
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defense - equipItem.defenceUp).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defence - equipItem.defenceUp).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.defense - equipItem.defenceUp).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.defence - equipItem.defenceUp).ToString() + "</color>";
                 }
 
                 if(PlayerManager.instance.player.critcleRate - equipItem.crictleRateUp == PlayerManager.instance.player.critcleRate)
@@ -636,17 +637,17 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[2].text = PlayerManager.instance.player.attack.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.attack + attack).ToString() + "</color>";
                 }
 
-                if (PlayerManager.instance.player.defense + defence > PlayerManager.instance.player.defense)
+                if (PlayerManager.instance.player.defence + defence > PlayerManager.instance.player.defence)
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=yellow>" + (PlayerManager.instance.player.defense + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=yellow>" + (PlayerManager.instance.player.defence + defence).ToString() + "</color>";
                 }
-                else if (PlayerManager.instance.player.defense + defence == PlayerManager.instance.player.defense)
+                else if (PlayerManager.instance.player.defence + defence == PlayerManager.instance.player.defence)
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defense + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=white>" + (PlayerManager.instance.player.defence + defence).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.defense + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=red>" + (PlayerManager.instance.player.defence + defence).ToString() + "</color>";
                 }
 
                 if (PlayerManager.instance.player.critcleRate + critcleRate > PlayerManager.instance.player.critcleRate)
@@ -757,17 +758,17 @@ public class EquipmentPanel : MonoBehaviour
                     txtStat[2].text = PlayerManager.instance.player.attack.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player.attack - equipItem.attackUp) + attack).ToString() + "</color>";
                 }
 
-                if (PlayerManager.instance.player.defense - equipItem.defenceUp + defence == PlayerManager.instance.player.defense)
+                if (PlayerManager.instance.player.defence - equipItem.defenceUp + defence == PlayerManager.instance.player.defence)
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=white>" + ((PlayerManager.instance.player.defense - equipItem.defenceUp) + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=white>" + ((PlayerManager.instance.player.defence - equipItem.defenceUp) + defence).ToString() + "</color>";
                 }
-                else if(PlayerManager.instance.player.defense - equipItem.defenceUp + defence < PlayerManager.instance.player.defense)
+                else if(PlayerManager.instance.player.defence - equipItem.defenceUp + defence < PlayerManager.instance.player.defence)
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=red>" + ((PlayerManager.instance.player.defense - equipItem.defenceUp) + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=red>" + ((PlayerManager.instance.player.defence - equipItem.defenceUp) + defence).ToString() + "</color>";
                 }
                 else
                 {
-                    txtStat[3].text = PlayerManager.instance.player.defense.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player.defense - equipItem.defenceUp) + defence).ToString() + "</color>";
+                    txtStat[3].text = PlayerManager.instance.player.defence.ToString() + " → " + "<color=yellow>" + ((PlayerManager.instance.player.defence - equipItem.defenceUp) + defence).ToString() + "</color>";
                 }
 
                 if (PlayerManager.instance.player.critcleRate - equipItem.crictleRateUp + critcleRate == PlayerManager.instance.player.critcleRate)

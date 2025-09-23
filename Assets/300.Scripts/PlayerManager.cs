@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour
                 Player.instance.currentHp += hp;
                 Player.instance.currentStamina += stamina;
                 player.attack += attackUp;
-                player.defense += defenceUp;
+                player.defence += defenceUp;
                 player.critcleRate += crictleRateUp;
                 player.critcleDmg += crictleDmgUp;
                 player.hpAutoRestoration = hpRestoration;

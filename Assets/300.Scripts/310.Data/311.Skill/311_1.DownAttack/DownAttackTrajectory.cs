@@ -175,7 +175,7 @@ public class DownAttackTrajectory : MonoBehaviour
             // 가까울수록 데미지가 높게
             float damageMultiplier = Mathf.Lerp(2.5f, 1, t);
 
-            float finalDamage = (PlayerManager.instance.player.attack +  data.damage) * damageMultiplier;
+            float finalDamage = ((PlayerManager.instance.player.attack +  data.damage) * damageMultiplier) + PlayerManager.instance.player.skillDamageBonus;
 
             Enemy enemy = enemyCol.GetComponent<Enemy>();
             if (enemy != null)
