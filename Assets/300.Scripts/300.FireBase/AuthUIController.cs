@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
+using System; // Action
 
 public class AuthUIController : MonoBehaviour
 {
@@ -148,7 +150,7 @@ public class AuthUIController : MonoBehaviour
             if (inRememberEmail.isOn) PlayerPrefs.SetString(LAST_EMAIL_KEY, email);
             else PlayerPrefs.DeleteKey(LAST_EMAIL_KEY);
 
-            Toast("로그인 성공");
+            Toast("로그인 성공", null, () => SceneManager.LoadScene(1));
         }
         catch (FirebaseException ex)
         {
@@ -263,14 +265,14 @@ public class AuthUIController : MonoBehaviour
     }
 
     // 어디서든 호출: Toast("문구"), Toast("문구", 2.0f)
-    public void Toast(string msg, float? holdOverride = null)
+    public void Toast(string msg, float? holdOverride = null, Action onComplete = null)
     {
         if (!canvasGroup || !messageText) { Debug.Log(msg); return; }
         if (_co != null) StopCoroutine(_co);
-        _co = StartCoroutine(CoToast(msg, holdOverride));
+        _co = StartCoroutine(CoToast(msg, holdOverride, onComplete));
     }
 
-    System.Collections.IEnumerator CoToast(string msg, float? holdOverride)
+    IEnumerator CoToast(string msg, float? holdOverride, Action onComplete)
     {
         messageText.text = msg;
         canvasGroup.gameObject.SetActive(true);
@@ -290,13 +292,11 @@ public class AuthUIController : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         canvasGroup.gameObject.SetActive(false);
         _co = null;
-        if (msg == "로그인 성공")
-        {
-            SceneManager.LoadScene(1);
-        }
+
+        onComplete?.Invoke();
     }
 
-    System.Collections.IEnumerator FadeTo(float target, float duration)
+    IEnumerator FadeTo(float target, float duration)
     {
         if (duration <= 0f) { canvasGroup.alpha = target; yield break; }
         float start = canvasGroup.alpha, t = 0f;
