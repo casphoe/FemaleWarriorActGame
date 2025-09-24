@@ -44,6 +44,8 @@ public class EquipmentPanel : MonoBehaviour
 
     private Sprite itemSpr;
 
+    private bool isStartEquip = false;
+
     private void Awake()
     {
         PlayerManager.instance.isEquipment = false;
@@ -51,6 +53,7 @@ public class EquipmentPanel : MonoBehaviour
         selectEquipIndex = 0;
         selectIndex = 0;
         selectEquip = 0;
+        isStartEquip = false;
         Utils.OnOff(panel, false);
 
         for(int i = 0; i < isSelectOne.Length; i++)
@@ -87,19 +90,48 @@ public class EquipmentPanel : MonoBehaviour
                 PlayerManager.instance.isEquipment = !PlayerManager.instance.isEquipment;
                 if(PlayerManager.instance.isEquipment == true)
                 {
-                    Utils.OnOff(panel, true);                
+                    Utils.OnOff(panel, true);
+                    isStartEquip = true;
                 }
                 else
                 {
                     Utils.OnOff(panel, false);
+                    isStartEquip = false;
                 }
             }
 
             if (PlayerManager.instance.isEquipment == true)
             {
                 EquipPanelSetting();
+                if(isStartEquip)
+                {
+                    StartEquipTextSetting();
+                }
             }
         }
+    }
+
+    void StartEquipTextSetting()
+    {
+        txtStat[0].text = PlayerManager.instance.player.hp.ToString();
+
+        txtStat[1].text = PlayerManager.instance.player.stamina.ToString();
+
+        txtStat[2].text = PlayerManager.instance.player.attack.ToString();
+
+        txtStat[3].text = PlayerManager.instance.player.defence.ToString();
+
+        txtStat[4].text = PlayerManager.instance.player.critcleRate.ToString();
+
+        txtStat[5].text = PlayerManager.instance.player.critcleDmg.ToString();
+
+        txtStat[6].text = PlayerManager.instance.player._stat.luk.ToString();
+
+        txtStat[7].text = PlayerManager.instance.player.expUp.ToString();
+
+        txtStat[8].text = PlayerManager.instance.player.moneyUp.ToString();
+
+        isStartEquip = false;
     }
 
     void EquipPanelSetting()

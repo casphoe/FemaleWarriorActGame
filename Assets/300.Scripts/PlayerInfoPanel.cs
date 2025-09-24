@@ -335,6 +335,15 @@ public class PlayerInfoPanel : MonoBehaviour
     #endregion
 
     #region 스텟 포인트 상승 및 하강시 스텟 올라가게 하는 함수
+
+    static void Quantize(ref float value, float step, int stepsDelta)
+    {
+        int scale = Mathf.RoundToInt(1f / step);   // 0.1→10, 0.2→5, 0.5→2, 1→1
+        int scaled = Mathf.RoundToInt(value * scale);
+        scaled += stepsDelta;                       // +1 또는 -1 스텝
+        value = scaled / (float)scale;
+    }
+
     // statIndex: 0=STR, 1=INT, 2=CON, 3=DEX, 4=LUK
     // delta: +1 (증가) or -1 (감소)
     void ApplyDerivedOnStatChanged(PlayerData p, int statIndex, int delta)
@@ -342,10 +351,10 @@ public class PlayerInfoPanel : MonoBehaviour
         switch (statIndex)
         {
             case 0: // STR
-                p.attack += 0.1f * delta;
+                Quantize(ref p.attack, 0.1f, delta);
                 break;
             case 1: // INT
-                p.skillDamageBonus += 0.2f * delta;
+                Quantize(ref p.skillDamageBonus, 0.2f, delta);
                 break;
             case 2: // CON
                 p.hp += 2f * delta;
@@ -364,7 +373,7 @@ public class PlayerInfoPanel : MonoBehaviour
                 break;
             case 4: // LUK
                 p.critcleDmg += 1 * delta;
-                p.critcleRate += 0.5f * delta;
+                Quantize(ref p.critcleRate, 0.5f, delta);
                 break;
         }
     }
