@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 public class FireBaseManager : MonoBehaviour
 {
     public static FireBaseManager instance;
+    public static bool IsReady { get; private set; }
+    static TaskCompletionSource<bool> _readyTcs = new TaskCompletionSource<bool>();
 
     async void Awake()
     {
         var dep = await FirebaseApp.CheckAndFixDependenciesAsync();
         if (dep == DependencyStatus.Available)
         {
-            Debug.Log("[Firebase] Ready");
+            var o = FirebaseApp.DefaultInstance.Options;
+            Debug.Log($"[Firebase] Ready  ProjectId={o.ProjectId}  AppId={o.AppId}");
+            IsReady = true;
+            _readyTcs.TrySetResult(true);
         }
         else
         {
@@ -64,4 +69,6 @@ public class FireBaseManager : MonoBehaviour
         => auth.SendPasswordResetEmailAsync(email);
 
     public static void SignOut() => auth.SignOut();
+
+    public static Task WaitUntilReady() => _readyTcs.Task;
 }

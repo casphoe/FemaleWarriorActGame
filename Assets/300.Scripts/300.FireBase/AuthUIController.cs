@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using System; // Action
+using System.Threading.Tasks;
 
 public class AuthUIController : MonoBehaviour
 {
@@ -134,17 +135,7 @@ public class AuthUIController : MonoBehaviour
 
         try
         {
-            var auth = FirebaseAuth.DefaultInstance;
-
-            // 1) 이 이메일로 가입된 제공자 목록 조회
-            var providers = await auth.FetchProvidersForEmailAsync(email);
-            if (providers == null || !providers.Any())
-            {
-                Toast("가입되지 않은 계정입니다.");
-                return;
-            }
-
-            // 2) 존재하면 로그인 시도
+            // 진짜 판정은 여기서: 로그인 시도
             var user = await FireBaseManager.SignInEmailAsync(email, pw);
 
             if (inRememberEmail.isOn) PlayerPrefs.SetString(LAST_EMAIL_KEY, email);
@@ -171,31 +162,33 @@ public class AuthUIController : MonoBehaviour
         if (pw != pw2) { Toast("비밀번호가 일치하지 않습니다."); return; }
 
         try
-        {
-            var auth = FirebaseAuth.DefaultInstance;
+        {          
+            // 0) 이미 가입된 이메일인지 선확인
+            var exists = await EmailExistsAsync(email);
+            if (exists)
+            {
+                // 이미 가입된 이메일 → 회원가입 중단, 로그인 유도
+                Toast("이미 가입된 이메일입니다. 로그인 화면으로 이동합니다.", 1.2f, ShowSignIn);
+                return;
+            }
 
             FirebaseUser user;
 
-            if (auth.CurrentUser != null && auth.CurrentUser.IsAnonymous)
+            // 익명 세션이면 "링크"로 업그레이드(같은 UID 유지)
+            if (FireBaseManager.CurrentUser != null && FireBaseManager.CurrentUser.IsAnonymous)
             {
-                // 익명 → 이메일/비번으로 "링크" (UID 유지)
-                var cred = EmailAuthProvider.GetCredential(email, pw);
-                var result = await auth.CurrentUser.LinkWithCredentialAsync(cred);
-                user = result.User;
+                user = await FireBaseManager.LinkEmailPasswordAsync(email, pw);
             }
             else
             {
-                // 일반 신규 회원가입
-                var result = await auth.CreateUserWithEmailAndPasswordAsync(email, pw);
-                user = result.User;
+                // 일반 신규 회원가입 (이미 있으면 EmailAlreadyInUse 예외 발생)
+                user = await FireBaseManager.SignUpEmailAsync(email, pw);
             }
 
             if (!string.IsNullOrEmpty(nick))
                 await user.UpdateUserProfileAsync(new UserProfile { DisplayName = nick });
 
-            Toast("회원가입 완료!");
-
-            ShowSignIn();
+            Toast("회원가입 완료! 로그인 화면으로 이동합니다.", 1.2f, ShowSignIn);         
         }
         catch (FirebaseException ex)
         {
@@ -219,6 +212,22 @@ public class AuthUIController : MonoBehaviour
             ToastAuthError(ex);
         }
     }
+    //회원가입할 때 이메일이 가입되어있는지 확인하기 위한 함수
+    async Task<bool> EmailExistsAsync(string email)
+    {
+        try
+        {
+            var providers = await FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(email);
+            return providers != null && providers.Any();
+        }
+        catch (FirebaseException ex)
+        {
+            // 네트워크 오류 등은 적절히 안내
+            ToastAuthError(ex);
+            return false; // 실패 시엔 '없음'으로 취급하지 않도록, 여기선 호출부에서 흐름을 결정
+        }
+    }
+
     //취소 및 되돌아가기
     public void OnClick_Back()
     {
@@ -240,11 +249,13 @@ public class AuthUIController : MonoBehaviour
             case AuthError.MissingEmail: return "이메일을 입력하세요.";
             case AuthError.MissingPassword: return "비밀번호를 입력하세요.";
             case AuthError.TooManyRequests: return "요청이 너무 많습니다. 잠시 후 다시 시도하세요.";
+            case AuthError.OperationNotAllowed: return "이메일/비밀번호 로그인 방식이 비활성화되어 있습니다. 콘솔 설정을 확인하세요.";
+            case AuthError.NetworkRequestFailed: return "네트워크 오류입니다. 연결을 확인하세요.";
             default: return $"로그인/가입 실패: {code} ({ex.ErrorCode})";
         }
     }
 
-    void ToastAuthError(System.Exception e)
+    void ToastAuthError(Exception e)
     {
         if (e is FirebaseException fex)
             Toast(MapAuthError(fex));
