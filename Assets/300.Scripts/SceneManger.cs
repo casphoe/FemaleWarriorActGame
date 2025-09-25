@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem;
+using System.Threading.Tasks;
 
 public class SceneManger : MonoBehaviour
 {
@@ -66,12 +67,9 @@ public class SceneManger : MonoBehaviour
                 OnPlayerSlotUIDb();
                 btnSlot[1].interactable = false;
                 break;
-            case 2: //나감
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit(); // 어플리케이션 종료
-#endif
+            case 2: //firebase 로그아웃
+                FireBaseManager.SignOut();
+                SceneManager.LoadScene(0);
                 break;
             case 3: //옵션
                 Utils.OnOff(optionObj, true);
@@ -149,7 +147,7 @@ public class SceneManger : MonoBehaviour
         }
     }
 
-    void OnGameStartClick(int num)
+    async void OnGameStartClick(int num)
     {
         if (num == 0)
         {
@@ -190,7 +188,30 @@ public class SceneManger : MonoBehaviour
                     PM.playerData.skillCount = 1000;
                     PM.playerData.statPoint = 1000;
                     PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
-                    PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);                  
+                    // 1) 로컬 슬롯에 기록
+                    PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);
+
+                    // 2) Firebase 업로드 (로그인 상태면)
+                    await FireBaseManager.WaitUntilReady();
+                    var uid = FireBaseManager.CurrentUser?.UserId;
+                    if (!string.IsNullOrEmpty(uid))
+                    {
+                        try
+                        {
+                            await StorageSync.UploadPlayerDataAsync(uid);
+                            Debug.Log("[SceneManger] Cloud sync done (new slot).");
+                        }
+                        catch (System.Exception e)
+                        {
+                            Debug.LogWarning($"[SceneManger] Cloud upload failed: {e.Message}");
+                            // 실패해도 게임 진행은 가능하게 둠
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[SceneManger] Not signed in. Skipped cloud upload.");
+                    }
+
                     //UI 변경
                     OnPlayerSlotUIDb();
                     btnSlot[1].interactable = true;

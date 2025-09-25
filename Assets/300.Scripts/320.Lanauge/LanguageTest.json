@@ -35,6 +35,10 @@
     "ENG": "Name :",
     "KOR": "이름 :"
   },
+   "LogOut": {
+    "ENG": "LogOut",
+    "KOR": "로그아웃"
+  },
   "Level :": {
     "ENG": "Level :",
     "KOR": "레벨 :"
@@ -394,5 +398,45 @@
   "Quest": {
     "ENG": "Quest",
     "KOR": "퀘스트"
-  }
+  },
+  "Login": {
+    "ENG": "Login",
+    "KOR": "로그인"
+  },
+  "Register": {
+    "ENG": "Register",
+    "KOR": "회원가입"
+  },
+  "ForgotPassword": {
+    "ENG": "ForgotPassword",
+    "KOR": "비밀번호 찾기"
+  },
+  "Email Rember": {
+    "ENG": "Email Rember",
+    "KOR": "이메일 기억하기"
+  },
+  "Show Password": {
+    "ENG": "Show Password",
+    "KOR": "비밀번호 보기"
+  },
+  "SignUp": {
+    "ENG": "SignUp",
+    "KOR": "회원가입"
+  },
+  "Canel": {
+    "ENG": "Canel",
+    "KOR": "취소"
+  },
+  "SendMail": {
+    "ENG": "SendMail",
+    "KOR": "메일전송"
+  },
+  "Back": {
+    "ENG": "Back",
+    "KOR": "뒤로가기"
+  },
+  "Password Change": {
+    "ENG": "Password Change",
+    "KOR": "비밀번호 변경"
+  },
 }

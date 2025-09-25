@@ -176,7 +176,7 @@ public class PM
 {
     internal static PlayerData playerData = new PlayerData();
     internal static List<PlayerData> playerList = new List<PlayerData>();
-    private static string path = Environment.CurrentDirectory + "/playerData.json"; // 파일 경로 설정
+    private static string path => Path.Combine(Application.persistentDataPath, "playerData.json");
 
     internal static void RegisterNewPlayer(PlayerData player, int slotIndex)
     {

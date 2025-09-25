@@ -11012,7 +11012,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Exit
+  m_Text: LogOut
 --- !u!222 &891455724
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18052,7 +18052,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1582940692}
   - component: {fileID: 1582940693}
-  - component: {fileID: 1582940694}
   - component: {fileID: 1582940695}
   m_Layer: 0
   m_Name: GameManager
@@ -18094,8 +18093,7 @@ MonoBehaviour:
     hp: 0
     level: 0
     attack: 0
-    defense: 0
-    luk: 0
+    defence: 0
     critcleRate: 0
     critcleDmg: 0
     stamina: 0
@@ -18106,6 +18104,8 @@ MonoBehaviour:
     slotNum: 0
     name: 
     currentExp: 0
+    statPoint: 0
+    skillDamageBonus: 0
     maxGuardValue: 0
     currentGuardValue: 0
     rewardNumList: 
@@ -18126,6 +18126,22 @@ MonoBehaviour:
     - 0
     moneyUp: 0
     expUp: 0
+    _stat:
+      str: 0
+      intellect: 0
+      condition: 0
+      dex: 0
+      luk: 0
+      strStatCount: 0
+      intellectStatCount: 0
+      conditonStatCount: 0
+      dexStatCount: 0
+      lukStatCount: 0
+      curStrStatCount: 0
+      curIntellectStatCount: 0
+      curConditonStatCount: 0
+      curDexStatCount: 0
+      curLukStatCount: 0
     questList: []
     positionX: 0
     positionY: 0
@@ -18155,26 +18171,13 @@ MonoBehaviour:
   isGuarding: 0
   isPlayerOnLadder: 0
   isQuest: 0
+  isPlayerInfo: 0
   isInvincibility: 0
   selectShop: -1
   shopNum: -1
   itemShopNum: -1
   hpPotionCount: 000000000000000000000000
   staminaPotionCount: 000000000000000000000000
---- !u!114 &1582940694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1582940691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7a3c6fd048e7f44aa98ff147e77c2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: 2b069fbb2de20b64da42ccac17b79336, type: 3}
-  isJsonLoaded: 0
 --- !u!114 &1582940695
 MonoBehaviour:
   m_ObjectHideFlags: 0

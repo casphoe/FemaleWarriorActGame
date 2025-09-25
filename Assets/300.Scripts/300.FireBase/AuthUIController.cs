@@ -137,6 +137,14 @@ public class AuthUIController : MonoBehaviour
         {
             // 진짜 판정은 여기서: 로그인 시도
             var user = await FireBaseManager.SignInEmailAsync(email, pw);
+            var uid = user.UserId;
+            //클라우드 → 로컬 동기화 (있으면 로드, 없으면 신규)
+            bool downloaded = await StorageSync.DownloadPlayerDataAsync(uid);
+            if (!downloaded)
+            {
+                // 클라우드에 없으면 로컬 초기화/기본값 유지
+                PM.LoadPlayerData(); // (없으면 “No local file”일 수 있음)
+            }
 
             if (inRememberEmail.isOn) PlayerPrefs.SetString(LAST_EMAIL_KEY, email);
             else PlayerPrefs.DeleteKey(LAST_EMAIL_KEY);
@@ -232,6 +240,16 @@ public class AuthUIController : MonoBehaviour
     public void OnClick_Back()
     {
         ShowSignIn();
+    }
+
+    public void OnClick_GameExit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif
+
     }
     #endregion
 

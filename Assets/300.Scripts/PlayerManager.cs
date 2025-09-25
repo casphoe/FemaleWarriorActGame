@@ -47,8 +47,7 @@ public class PlayerManager : MonoBehaviour
         // PlayerManager가 존재 하는지 있는지 확인
         if (instance == null)
         {
-            instance = this;
-            PM.LoadPlayerData();          
+            instance = this;   
             DontDestroyOnLoad(this); // Keep this object between scene loads
         }
         else if (instance != this)

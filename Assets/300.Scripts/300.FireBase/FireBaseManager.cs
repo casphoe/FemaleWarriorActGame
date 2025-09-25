@@ -15,7 +15,7 @@ public class FireBaseManager : MonoBehaviour
         if (dep == DependencyStatus.Available)
         {
             var o = FirebaseApp.DefaultInstance.Options;
-            Debug.Log($"[Firebase] Ready  ProjectId={o.ProjectId}  AppId={o.AppId}");
+            Debug.Log($"[Firebase] ProjectId={o.ProjectId} AppId={o.AppId} StorageBucket={o.StorageBucket}");
             IsReady = true;
             _readyTcs.TrySetResult(true);
         }
