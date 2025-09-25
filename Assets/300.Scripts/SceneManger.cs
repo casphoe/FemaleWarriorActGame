@@ -52,7 +52,7 @@ public class SceneManger : MonoBehaviour
         GameManager.data.lanauge = LANGUAGE.KOR;
     }
 
-    void OnClickStartScene(int num)
+    async void OnClickStartScene(int num)
     {
         GameManager.data.startNum = num;
         switch (GameManager.data.startNum)
@@ -68,7 +68,8 @@ public class SceneManger : MonoBehaviour
                 btnSlot[1].interactable = false;
                 break;
             case 2: //firebase 로그아웃
-                FireBaseManager.SignOut();
+                await FireBaseManager.WaitUntilReady();
+                await FireBaseManager.SignOutAndWaitAsync();
                 PM.SetActiveUser("_default");  // 로컬 메모리/경로 초기화
                 SceneManager.LoadScene(0);
                 break;
@@ -158,7 +159,7 @@ public class SceneManger : MonoBehaviour
         {
             //해당 데이터로 시작하기
             PlayerManager.instance.player = PM.playerList[GameManager.data.selectSlotNum];
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
         else
         {

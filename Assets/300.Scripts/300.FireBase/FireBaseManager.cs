@@ -2,6 +2,7 @@
 using Firebase.Auth;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 public class FireBaseManager : MonoBehaviour
 {
@@ -15,13 +16,13 @@ public class FireBaseManager : MonoBehaviour
         if (dep == DependencyStatus.Available)
         {
             var o = FirebaseApp.DefaultInstance.Options;
-            Debug.Log($"[Firebase] ProjectId={o.ProjectId} AppId={o.AppId} StorageBucket={o.StorageBucket}");
+            UnityEngine.Debug.Log($"[Firebase] ProjectId={o.ProjectId} AppId={o.AppId} StorageBucket={o.StorageBucket}");
             IsReady = true;
             _readyTcs.TrySetResult(true);
         }
         else
         {
-            Debug.LogError($"[Firebase] Dependency error: {dep}");
+            UnityEngine.Debug.LogError($"[Firebase] Dependency error: {dep}");
         }
 
         if (instance != null) { Destroy(gameObject); return; }
@@ -71,4 +72,22 @@ public class FireBaseManager : MonoBehaviour
     public static void SignOut() => auth.SignOut();
 
     public static Task WaitUntilReady() => _readyTcs.Task;
+
+    public static async Task SignOutAndWaitAsync(int timeoutMs = 3000)
+    {
+        var a = FirebaseAuth.DefaultInstance;
+
+        // 1) 로그아웃 트리거
+        a.SignOut();
+
+        // 2) 상태 전파 완료까지 잠깐 대기 (최대 timeoutMs)
+        var sw = Stopwatch.StartNew();
+        while (a.CurrentUser != null && sw.ElapsedMilliseconds < timeoutMs)
+        {
+            await Task.Yield(); // 다음 프레임로 양보(메인 루프에서 콜백 처리)
+        }
+
+        if (a.CurrentUser != null)
+            UnityEngine.Debug.LogWarning("[Firebase] SignOut not observed yet (timeout). Proceeding anyway.");
+    }
 }
