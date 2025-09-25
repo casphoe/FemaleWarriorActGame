@@ -69,6 +69,7 @@ public class SceneManger : MonoBehaviour
                 break;
             case 2: //firebase 로그아웃
                 FireBaseManager.SignOut();
+                PM.SetActiveUser("_default");  // 로컬 메모리/경로 초기화
                 SceneManager.LoadScene(0);
                 break;
             case 3: //옵션
@@ -192,25 +193,7 @@ public class SceneManger : MonoBehaviour
                     PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);
 
                     // 2) Firebase 업로드 (로그인 상태면)
-                    await FireBaseManager.WaitUntilReady();
-                    var uid = FireBaseManager.CurrentUser?.UserId;
-                    if (!string.IsNullOrEmpty(uid))
-                    {
-                        try
-                        {
-                            await StorageSync.UploadPlayerDataAsync(uid);
-                            Debug.Log("[SceneManger] Cloud sync done (new slot).");
-                        }
-                        catch (System.Exception e)
-                        {
-                            Debug.LogWarning($"[SceneManger] Cloud upload failed: {e.Message}");
-                            // 실패해도 게임 진행은 가능하게 둠
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("[SceneManger] Not signed in. Skipped cloud upload.");
-                    }
+                    await PM.SavePlayerDataAndSyncAsync();     // 로컬 저장 + 클라우드 업로드 한 번에
 
                     //UI 변경
                     OnPlayerSlotUIDb();

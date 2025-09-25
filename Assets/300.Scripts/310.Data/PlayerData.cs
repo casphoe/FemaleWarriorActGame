@@ -176,7 +176,17 @@ public class PM
 {
     internal static PlayerData playerData = new PlayerData();
     internal static List<PlayerData> playerList = new List<PlayerData>();
-    private static string path => Path.Combine(Application.persistentDataPath, "playerData.json");
+    // UID별 경로로 갱신되는 프로퍼티
+    private static string _activeUid = "_default";
+    private static string path => Path.Combine(Application.persistentDataPath, "users", _activeUid, "playerData.json");
+    // 로그인/계정 전환 시 반드시 호출
+    internal static void SetActiveUser(string uid)
+    {
+        _activeUid = string.IsNullOrEmpty(uid) ? "_default" : uid;
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        // 계정 바꿀 때 메모리 섞임 방지: 필요시 초기화
+        playerList = new List<PlayerData>();
+    }
 
     internal static void RegisterNewPlayer(PlayerData player, int slotIndex)
     {
@@ -236,9 +246,8 @@ public class PM
     private static void SavePlayerData()
     {
         string json = JsonConvert.SerializeObject(new PlayerListWrapper { playerList = playerList }, Formatting.Indented);
-        Debug.Log("저장할 JSON 데이터: " + json);
         File.WriteAllText(path, json);
-        Debug.Log("플레이어 데이터 저장 완료");
+        Debug.Log("[PM] Local save done: " + path);
     }
 
     // 플레이어 데이터 로드
@@ -249,12 +258,21 @@ public class PM
             string json = File.ReadAllText(path);
             PlayerListWrapper wrapper = JsonConvert.DeserializeObject<PlayerListWrapper>(json);
             playerList = wrapper.playerList ?? new List<PlayerData>();
-            Debug.Log("플레이어 데이터 로드 완료");
+            Debug.Log("[PM] Local load done: " + path);
         }
         else
         {
-            Debug.Log("저장된 플레이어 데이터가 없습니다.");
+            playerList = new List<PlayerData>();
+            Debug.Log("[PM] No local file: " + path);
         }
+    }
+
+    internal static async System.Threading.Tasks.Task SavePlayerDataAndSyncAsync()
+    {
+        SavePlayerData();
+        var uid = FireBaseManager.CurrentUser?.UserId;
+        if (!string.IsNullOrEmpty(uid))
+            await StorageSync.UploadPlayerDataAsync(uid);
     }
 }
 

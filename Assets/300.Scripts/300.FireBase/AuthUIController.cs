@@ -138,6 +138,9 @@ public class AuthUIController : MonoBehaviour
             // 진짜 판정은 여기서: 로그인 시도
             var user = await FireBaseManager.SignInEmailAsync(email, pw);
             var uid = user.UserId;
+
+            PM.SetActiveUser(uid);
+
             //클라우드 → 로컬 동기화 (있으면 로드, 없으면 신규)
             bool downloaded = await StorageSync.DownloadPlayerDataAsync(uid);
             if (!downloaded)
