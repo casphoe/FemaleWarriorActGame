@@ -13,9 +13,12 @@ public class DownAttackTrajectory : MonoBehaviour
     //최대 이동거리
     private float maxMoveDistance = 0;
     private int trajectoryResolution = 30; //포물선 정밀도
-    private int circleResolution = 50; // 원의 정밀도
     private float attackRadius = 0; //착지 범위 반지름
     private float attackSpeed = 10; //공격 이동 속도
+
+    [Header("Shockwave")]
+    public GroundShockwave2D shockwavePrefab; // 에디터에 Shockwave 프리팹 할당
+    public float shockwaveDamageBonus = 0;  // 플레이어 스탯 연동 가중치(원하면 0)
 
     private void Awake()
     {
@@ -159,6 +162,8 @@ public class DownAttackTrajectory : MonoBehaviour
 
         CM.instance.Shake(0.2f, 0.15f);
 
+        SpawnShockwaveBurst(target, data);
+
         // TODO: 이곳에 충돌 처리나 공격 로직 추가
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(target, attackRadius, Player.instance.enemyLayer);
 
@@ -187,5 +192,25 @@ public class DownAttackTrajectory : MonoBehaviour
                 enemy.ApplyStun(stunDuration, 0);
             }
         }
+    }
+
+    void SpawnShockwaveBurst(Vector2 impactPoint, SkillData data)
+    {
+        if (!shockwavePrefab) return;
+
+        // 데미지 보정(선택): 스킬/플레이어 스탯을 파동에 반영
+        int waveDamage = Mathf.RoundToInt(
+            (PlayerManager.instance.player.attack + data.damage + PlayerManager.instance.player.skillDamageBonus)
+            + shockwaveDamageBonus);
+
+        // 오른쪽 진행
+        var right = Instantiate(shockwavePrefab, impactPoint, Quaternion.identity);
+        right.baseDamage = waveDamage;
+        right.Fire(impactPoint, +1f);
+
+        // 왼쪽 진행
+        var left = Instantiate(shockwavePrefab, impactPoint, Quaternion.identity);
+        left.baseDamage = waveDamage;
+        left.Fire(impactPoint, -1f);
     }
 }
