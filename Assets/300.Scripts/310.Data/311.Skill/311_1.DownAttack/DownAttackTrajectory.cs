@@ -201,7 +201,7 @@ public class DownAttackTrajectory : MonoBehaviour
         // 데미지 보정(선택): 스킬/플레이어 스탯을 파동에 반영
         int waveDamage = Mathf.RoundToInt(
             (PlayerManager.instance.player.attack + data.damage + PlayerManager.instance.player.skillDamageBonus)
-            + shockwaveDamageBonus);
+            + shockwaveDamageBonus) / 4;
 
         // 오른쪽 진행
         var right = Instantiate(shockwavePrefab, impactPoint, Quaternion.identity);

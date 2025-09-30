@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 14
-  maxLength: 6
+  maxLength: 4
   thickness: 0.45
   lifeTime: 0.7
   baseDamage: 15
