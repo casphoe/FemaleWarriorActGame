@@ -1,31 +1,93 @@
+ï»¿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Boss : ICSVParsable<int>
+public enum BossState { Idle, Telegraph, Attack, Recover, Stunned }
+
+
+public class Boss : MonoBehaviour
 {
-    public int BossId;
+    [Header("ë³´ìŠ¤ í…Œì´ë¸” ì¸ë±ìŠ¤ (CSVì˜ Index ì»¬ëŸ¼)")]
+    public int bossIndex = 1;
 
-    public string NameEng; //º¸½º ÀÌ¸§(¿µ¾î)
-    public string NameKor; //º¸½º ÀÌ¸§(ÇÑ±Û)
-    public float Hp; //Ã¼·Â
-    public float Power; //°ø°İ·Â
-    public float Defense; //¹æ¾î·Â
-    public float GuardGauge; //°¡µå °ÔÀÌÁö
-    public float StunRecoveryTimer;
-    public int AddExp; //ÅÍÄ¡½Ã È¹µæ °æÇèÄ¡ ¾ç
-    public int AddCoin; //ÅÍÄ¡½Ã È¹µæ °ñµå ¾ç
+    [Header("ëŸ°íƒ€ì„ ìŠ¤íƒ¯(ì½ê¸°ì „ìš© í™•ì¸ìš©)")]
+    public string bossNameEng;
+    public string bossNameKor;
 
-    public int GetKey() => BossId;
+    public int addExp;
+    public int addCoin;
 
-    public void Parse(string[] data)
+    public float maxHp;
+    public float currentHp;
+    public float power;
+    public float defense;
+    public float guardGauge;
+    public float stunRecoveryTimer;
+
+    public bool Enraged { get; private set; }
+
+    [Header("ë ˆí¼ëŸ°ìŠ¤")]
+    public Transform player;
+    public Animator anim;
+    public BossPatternRunner runner;
+
+    public BossState state { get; private set; } = BossState.Idle;
+
+    public void SetEnraged(bool v) => Enraged = v;
+
+    public void SetState(BossState s) => state = s;
+
+    private void Awake()
     {
-        BossId = int.Parse(data[0]);
+        TryLoadFromTable(bossIndex);
     }
-}
 
-[System.Serializable]
-public class BossDataEntry
-{
-    public int key;
-    public Boss value;
+    public bool TryLoadFromTable(int index)
+    {
+        if (ExcelCsvReader.instance == null)
+        {
+            Debug.LogError("[Boss] ExcelCsvReader.instance ê°€ ì—†ìŠµë‹ˆë‹¤. ì”¬ì— ExcelCsvReaderë¥¼ ë°°ì¹˜/í™œì„±í™” í•´ì£¼ì„¸ìš”.");
+            return false;
+        }
+
+        var table = ExcelCsvReader.instance.stringBossTable;
+        if (table == null || table.rows == null || table.rows.Count == 0)
+        {
+            Debug.LogError("[Boss] BossStringTableì´ ë¹„ì—ˆìŠµë‹ˆë‹¤. ExcelCsvReaderì—ì„œ CSV ë¡œë“œë¥¼ í™•ì¸í•˜ì„¸ìš”.");
+            return false;
+        }
+
+        if (!table.rows.TryGetValue(index, out var row))
+        {
+            Debug.LogError($"[Boss] Index={index} ë¥¼ í…Œì´ë¸”ì—ì„œ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+            return false;
+        }
+
+        ApplyRow(row);
+        return true;
+    }
+
+    void ApplyRow(BossStringTableRow row)
+    {
+        bossIndex = row.Index;
+
+        bossNameEng = row.NameEng;
+        bossNameKor = row.NameKor;
+
+        maxHp = Mathf.Max(1f, row.Hp);
+        currentHp = maxHp;
+
+        power = row.Power;
+        defense = row.Defense;
+        guardGauge = row.GuardGauge;
+        stunRecoveryTimer = Mathf.Max(0f, row.StunRecoveryTimer);
+
+        addExp = row.AddExp;
+        addCoin = row.AddCoin;
+      
+        // ë””ë²„ê·¸ ë¡œê·¸
+        Debug.Log($"[Boss] Loaded: #{bossIndex} {bossNameEng}/{bossNameKor} HP={maxHp}, POW={power}, DEF={defense}, GG={guardGauge}, StunRecov={stunRecoveryTimer}, Exp+={addExp}, Coin+={addCoin}");
+    }
+
+
 }

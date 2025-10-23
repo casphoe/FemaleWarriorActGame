@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 //보스 엑셀 데이터를 가져올 스트링 테이블(엑셀 csv 파일로 불러옴)
 [Serializable]
@@ -19,16 +20,18 @@ public class BossStringTableRow
 
     public BossStringTableRow(string[] data)
     {
-        Index = int.Parse(data[0]);
+        var C = CultureInfo.InvariantCulture;
+
+        Index = int.Parse(data[0], C);
         NameEng = data[1];
         NameKor = data[2];
-        Hp = float.Parse(data[3]);
-        Power = float.Parse(data[4]);
-        Defense = float.Parse(data[5]);
-        GuardGauge = float.Parse(data[6]);
-        StunRecoveryTimer = float.Parse(data[7]);
-        AddExp = int.Parse(data[8]);
-        AddCoin = int.Parse(data[9]);
+        Hp = float.Parse(data[3], C);
+        Power = float.Parse(data[4], C);
+        Defense = float.Parse(data[5], C);
+        GuardGauge = float.Parse(data[6], C);
+        StunRecoveryTimer = float.Parse(data[7], C);
+        AddExp = int.Parse(data[8], C);
+        AddCoin = int.Parse(data[9], C);
     }
 
     public BossStringTableRow() { }
