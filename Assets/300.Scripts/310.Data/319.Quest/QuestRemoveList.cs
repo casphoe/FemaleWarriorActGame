@@ -21,7 +21,7 @@ public class QuestRemoveList : MonoBehaviour
             QuestManager.instance.selectQuestNum = ((QuestPrefabData)data).index;
             selectIndex = QuestManager.instance.selectQuestNum;
             QuestManager.instance.OnOffUiSetObject(true);
-            QuestManager.instance.OnUiSetTextSetting(2);
+            QuestManager.instance.OnUiSetTextSetting(3);
         });
     }
 

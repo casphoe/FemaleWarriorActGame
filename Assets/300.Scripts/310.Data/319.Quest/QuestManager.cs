@@ -433,6 +433,10 @@ public class QuestManager : MonoBehaviour
 
     void OnQuestPanelBtnClickEvent(int num)
     {
+        if (questNum != num)
+        {
+            questNum = num;
+        }
         for (int i = 0; i < isQuestPanelSelect.Length; i++)
         {
             isQuestPanelSelect[i] = false;
@@ -747,6 +751,7 @@ public class QuestManager : MonoBehaviour
 
     public void OnUiSetBtnClickEvent(int num)
     {
+        Debug.Log(questNum);
         switch(questNum)
         {
             case 0:
