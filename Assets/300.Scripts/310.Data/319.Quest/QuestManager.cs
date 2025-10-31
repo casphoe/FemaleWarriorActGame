@@ -484,10 +484,8 @@ public class QuestManager : MonoBehaviour
                 }
                 break;
             case 1:
-                if(btnQuestSetting.Length != 0)
-                {
+                if (btnQuestSetting != null && btnQuestSetting.Length > 0)
                     StopAllBinking(btnQuestSetting);
-                }             
                 //배열 초기화 현재 진행중인 퀘스트는 클릭 되는것이 없고 어디까지 진행 중인 상태만 확인하기 위해서 보는 용도
                 btnQuestSetting = null;
                 isQuestSelect = null;
