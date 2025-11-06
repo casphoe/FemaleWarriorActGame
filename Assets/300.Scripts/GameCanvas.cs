@@ -138,7 +138,7 @@ public class GameCanvas : MonoBehaviour
     }
 
 
-    void OnSlotPanelClick(int num)
+    async void OnSlotPanelClick(int num)
     {
        if(num == 3)
         {
@@ -150,12 +150,37 @@ public class GameCanvas : MonoBehaviour
             switch(selectPanel)
             {
                 case 1: //저장
-                    int currentIndex = num;
+                    int saveIndex = num;
                     PlayerManager.instance.player.SetPosition(Player.instance.transform.localPosition);
-                    PM.RegisterNewPlayer(PlayerManager.instance.player, currentIndex);
+
+                    GoddessStatueManager.instance.SaveMapStateTo(PlayerManager.instance.player);
+
+                    PlayerManager.instance.player.SyncVisitedFromDict();
+
+                    PM.RegisterNewPlayer(PlayerManager.instance.player, saveIndex);
+
+                    await PM.SavePlayerDataAndSyncAsync();     // 로컬 저장 + 클라우드 업로드 한 번에
+
                     SlotUiSetting();
                     break;
                 case 2: //불러오기
+                    PM.LoadPlayerData();
+
+                    int LoadIndex = num;
+
+                    PM.playerData = PM.playerList[LoadIndex];
+                    PlayerManager.instance.player = PM.playerData;
+
+                    PlayerManager.instance.player.RebuildVisitedDict();
+
+                    GoddessStatueManager.instance.LoadMapStateFrom(PlayerManager.instance.player);
+
+                    CM.instance.SetMap(PlayerManager.instance.player.currentMapNum, snapToTarget: true);
+
+                    var pos = PM.playerData.GetPosition();
+                    Player.instance.transform.localPosition = pos;
+
+                    EnemyManager.instance.ActivateEnemies(PlayerManager.instance.player.currentMapNum);
                     break;
             }
         }
@@ -196,7 +221,12 @@ public class GameCanvas : MonoBehaviour
 
     void OnBtnPauseClick(int num)
     {
-        switch(num)
+        for(int i = 0; i < pausePanel.transform.childCount; i++)
+        {
+            Utils.OnOff(pausePanel.transform.GetChild(i).gameObject, false);
+        }
+        Utils.OnOff(pausePanel.transform.GetChild(0).gameObject, true);
+        switch (num)
         {
             case 0:
                 PlayerManager.instance.isPause = false;
@@ -215,10 +245,19 @@ public class GameCanvas : MonoBehaviour
                 Utils.OnOff(pausePanel.transform.GetChild(1).gameObject, true);
                 SlotUiSetting();
                 break;
+            case 3:
+                Utils.OnOff(pausePanel.transform.GetChild(2).gameObject, true);
+                break;
+            case 4:
+                Utils.OnOff(pausePanel.transform.GetChild(3).gameObject, true);
+                break;
+            case 5:
+                Utils.OnOff(pausePanel.transform.GetChild(4).gameObject, true);
+                break;
             case 6:
                 PlayerManager.instance.isPause = false;
                 Time.timeScale = 1;
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(1);
                 break;
         }
     }

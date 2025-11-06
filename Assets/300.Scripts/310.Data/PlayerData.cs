@@ -115,6 +115,42 @@ public class PlayerData
     public string[] equippedItemNames = new string[9]; // 각 부위별 장착된 아이템 이름
     #endregion
 
+
+    #region 맵 등록(여신상) 
+    // 여신상 등록 ID 목록(저장/로드용)
+    public List<string> registeredStatueIds = new List<string>();
+
+    // 저장용(직렬화 OK)
+    public List<VisitFlag> visitedMapsList = new List<VisitFlag>();
+
+    // 런타임용(직렬화 대상 아님)
+    [System.NonSerialized]
+    public Dictionary<string, bool> visitedMaps = new Dictionary<string, bool>();
+
+    public string lastStatueId = string.Empty;
+    
+     // 저장 직전: Dict -> List로 복사
+    public void SyncVisitedFromDict()
+    {
+        visitedMapsList.Clear();
+        if (visitedMaps != null)
+        {
+            foreach (var kv in visitedMaps)
+                visitedMapsList.Add(new VisitFlag { mapID = kv.Key, isVisited = kv.Value });
+        }
+    }
+
+    public void RebuildVisitedDict()
+    {
+        visitedMaps = new Dictionary<string, bool>();
+        if (visitedMapsList != null)
+        {
+            foreach (var v in visitedMapsList)
+                visitedMaps[v.mapID] = v.isVisited;
+        }
+    }
+    #endregion
+
     void LevelDb(int _level)
     {
         level = _level;
@@ -281,4 +317,11 @@ public class PM
 public class PlayerListWrapper
 {
     public List<PlayerData> playerList = new List<PlayerData>();
+}
+
+[System.Serializable]
+public class VisitFlag
+{
+    public string mapID;
+    public bool isVisited;
 }

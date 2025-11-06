@@ -158,7 +158,10 @@ public class SceneManger : MonoBehaviour
         else if(num == 1) //시작하기
         {
             //해당 데이터로 시작하기
-            PlayerManager.instance.player = PM.playerList[GameManager.data.selectSlotNum];
+            var sel = GameManager.data.selectSlotNum;
+            PM.playerData = PM.playerList[sel];
+            PlayerManager.instance.player = PM.playerData;
+
             SceneManager.LoadScene(2);
         }
         else
@@ -189,6 +192,10 @@ public class SceneManger : MonoBehaviour
                     PM.playerData.rewardNumList.Clear();
                     PM.playerData.skillCount = 1000;
                     PM.playerData.statPoint = 1000;
+                    PM.playerData.currentMapNum = 1;
+                    PM.playerData.lastStatueId = "Vilage_0";
+                    PM.playerData.registeredStatueIds = new List<string> { "Vilage_0" };
+                    PM.playerData.visitedMaps = new Dictionary<string, bool> { ["Vilage_0"] = true };
                     PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
                     // 1) 로컬 슬롯에 기록
                     PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);

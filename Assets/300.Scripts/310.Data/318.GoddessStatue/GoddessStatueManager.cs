@@ -24,30 +24,73 @@ public class GoddessStatueManager : MonoBehaviour
 
     [SerializeField] GoddessStatuesMapIcon currentHoveredGoddessStatue = null;
 
+    // 현재 캐릭터 마커가 가리키는 여신상 ID 저장(세이브/로드용)
+    private string currentCharacterStatueId = string.Empty;
+
+
     private void Awake()
     {
         instance = this;
         MapOpenSet(false);
-        // 미리 contentTransform 자식에서 아이콘 찾아 등록
+        // 아이콘/화살표 수집만
         var allIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true);
+        mapIcons.Clear();
         foreach (var icon in allIcons)
         {
             Utils.OnOff(icon.gameObject, false);
             mapIcons.Add(icon);
         }
 
-        AddMap("Vilage_0", "마을", "Vilage", MapType.Village, 1,0);
-        //AddMap("GoddesSatute_0", "마을여신상", "VilageGoddessSatute", MapType.GoddessStatue);
-        MoveCharacterToStatue("Vilage_0");
-
-        for(int i = 0; i < ArrowParent.transform.childCount; i++)
-        {
+        mapArrowObjectList.Clear();
+        for (int i = 0; i < ArrowParent.transform.childCount; i++)
             mapArrowObjectList.Add(ArrowParent.transform.GetChild(i).GetComponent<ArrowMapIcon>());
+        foreach (var arrow in mapArrowObjectList) Utils.OnOff(arrow.gameObject, false);
+    }
+
+    private void Start()
+    {
+        InitializeFromSave();
+    }
+
+    // 저장값(없으면 기본값)으로 맵/여신상/마커/카메라/적까지 모두 세팅
+    public void InitializeFromSave()
+    {
+        var pd = PM.playerData;
+
+        bool isFresh = pd == null
+                       || (pd.registeredStatueIds == null || pd.registeredStatueIds.Count == 0);
+
+        if (isFresh)
+        {
+            // 완전 새 게임: 기본 맵/여신상 한 번만 등록
+            AddMap("Vilage_0", "마을", "Vilage", MapType.Village, 1, 0);
+            OnEnterNewMap("Vilage_0");
+            MoveCharacterToStatue("Vilage_0");
+
+            if (pd != null)
+            {
+                pd.currentMapNum = 1;
+                pd.lastStatueId = "Vilage_0";
+                pd.registeredStatueIds = new List<string> { "Vilage_0" };
+                pd.visitedMaps = new Dictionary<string, bool> { ["Vilage_0"] = true };
+                if (pd.positionX == 0f && pd.positionY == 0f)
+                    pd.SetPosition(new Vector2(-23.68f, -7.92f));
+            }
+        }
+        else
+        {
+            // 저장 불러오기: PlayerData 기반으로 복원
+            LoadMapStateFrom(pd);
+            if (!string.IsNullOrEmpty(pd.lastStatueId))
+                MoveCharacterToStatue(pd.lastStatueId);
         }
 
-        foreach(var arrow in mapArrowObjectList)
+        // 카메라/경계, 적 활성화, 플레이어 위치 반영
+        if (pd != null)
         {
-            Utils.OnOff(arrow.gameObject, false);
+            Player.instance.transform.position = pd.GetPosition();
+            CM.instance.SetMap(pd.currentMapNum, snapToTarget: true);
+            EnemyManager.instance.ActivateEnemies(pd.currentMapNum);
         }
     }
 
@@ -190,7 +233,13 @@ public class GoddessStatueManager : MonoBehaviour
 
                 Player.instance.transform.position = targetPosition;
 
-                CM.instance.SnapToTarget(num);
+                CM.instance.SetMap(num, snapToTarget: true);
+
+                PM.playerData.SetPosition(Player.instance.transform.position);
+                // 캐릭터 마커 이동 + 마지막 여신상 ID 갱신
+                MoveCharacterToStatue(statueID);
+                // 적 활성화
+                EnemyManager.instance.ActivateEnemies(num);
             }
         }
     }
@@ -240,12 +289,13 @@ public class GoddessStatueManager : MonoBehaviour
         if (icon != null)
         {
             icon.Setup(id, nameKor,nameEng, type, currentMapNum); // 아이콘에 ID, 이름 설정
-            Utils.OnOff(icon.gameObject, true); // 아이콘 켜주기
-            //리스트에 없으면 추가
-            if (!mapIcons.Contains(icon))
-            {
-                mapIcons.Add(icon);
-            }
+            bool isVisited = allMaps.TryGetValue(id, out var md) && md.isVisited;
+            bool isRegistered = registeredStatues.Contains(id);
+
+            // 방문이거나(밝힘) 여신상 등록이 된 경우 표시
+            Utils.OnOff(icon.gameObject, isVisited || isRegistered);
+
+            if (!mapIcons.Contains(icon)) mapIcons.Add(icon);
         }
 
         // 맵과 관련된 화살표 아이콘 켜주기
@@ -262,6 +312,10 @@ public class GoddessStatueManager : MonoBehaviour
         if (allMaps.ContainsKey(mapID))
         {
             allMaps[mapID].isVisited = true;
+
+            var icon = mapIcons.FirstOrDefault(x => x != null && x.statueID == mapID);
+            if (icon != null)
+                Utils.OnOff(icon.gameObject, true);
         }
     }
     #region 맵 Ui 커서 이동
@@ -395,7 +449,73 @@ public class GoddessStatueManager : MonoBehaviour
         if (icon != null)
         {
             charcterUiTransform.localPosition = icon.iconTransform.localPosition;
+            currentCharacterStatueId = statueID;
+            PM.playerData.lastStatueId = statueID;
         }
+    }
+
+    #endregion
+
+    #region 저장
+
+    public void SaveMapStateTo(PlayerData pd)
+    {
+        // 여신상 등록 목록 저장
+        pd.registeredStatueIds = registeredStatues != null
+            ? registeredStatues.ToList()
+            : new List<string>();
+
+        // 방문 맵 저장
+        // allMaps -> dict로 만들고 PlayerData에 반영
+        var dict = new Dictionary<string, bool>();
+        foreach (var kv in allMaps)
+            dict[kv.Key] = kv.Value.isVisited;
+
+        pd.visitedMaps = dict;        // 런타임 dict 갱신
+        pd.SyncVisitedFromDict();     //  저장용 리스트로 복사 (JsonUtility대응)
+
+        pd.lastStatueId = string.IsNullOrEmpty(currentCharacterStatueId)
+       ? pd.lastStatueId
+       : currentCharacterStatueId;
+    }
+
+    #endregion
+
+    #region 불러오기
+
+    public void LoadMapStateFrom(PlayerData pd)
+    {
+        // 여신상 등록 복구
+        registeredStatues = new HashSet<string>(
+            pd?.registeredStatueIds ?? new List<string>());
+
+        // 방문 맵 복구
+        if (pd?.visitedMaps != null)
+        {
+            foreach (var kv in pd.visitedMaps)
+            {
+                if (allMaps.TryGetValue(kv.Key, out var md))
+                    md.isVisited = kv.Value;
+            }
+        }
+
+        // UI 아이콘/화살표 갱신
+        foreach (var icon in mapIcons)
+        {
+            if (icon == null) continue;
+
+            bool visited = allMaps.TryGetValue(icon.statueID, out var md) && md.isVisited;
+            bool registered = registeredStatues.Contains(icon.statueID);
+            Utils.OnOff(icon.gameObject, visited || registered);
+
+            var arrow = mapArrowObjectList.FirstOrDefault(a => a != null && a.statueID == icon.statueID);
+            if (arrow != null) Utils.OnOff(arrow.gameObject, registered);
+        }
+
+
+        // 플레이어 위치 마커 갱신 (선택)
+        if (!string.IsNullOrEmpty(pd?.lastStatueId))
+            MoveCharacterToStatue(pd.lastStatueId);
     }
 
     #endregion

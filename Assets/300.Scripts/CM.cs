@@ -9,10 +9,13 @@ public class CM : MonoBehaviour
 
     //카메라 이동 속도
     public float moveSpeed = 5;
+    [Tooltip("각 맵의 좌하단(최소) 경계")]
     public List<Vector2> minMapLimitPoistion = new List<Vector2>();
+    [Tooltip("각 맵의 우상단(최대) 경계")]
     public List<Vector2> maxMapLimitPoistion = new List<Vector2>();
 
     public static CM instance;
+
     #region 카메라 흔들림 변수
     private Vector3 shakeOffset = Vector3.zero;
     private float shakeDuration = 0f;
@@ -30,33 +33,37 @@ public class CM : MonoBehaviour
         CameraMove();
     }
 
-    void CameraMove()
+    private int GetActiveMapNum()
     {
-        if(PlayerManager.instance.IsDead == false)
+        if (Player.instance != null) return Player.instance.currentMapNum; 
+        return 0;
+    }
+
+    private void CameraMove()
+    {
+        if (target == null) return;
+        if (PlayerManager.instance != null && PlayerManager.instance.IsDead) return;
+
+        int mapNum = GetActiveMapNum();
+
+        Vector3 newPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+
+        if (TryGetBounds(mapNum, out var min, out var max))
         {
-            // 플레이어의 현재 위치를 따라가도록 카메라의 위치를 설정
-            Vector3 newPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
-
-            //카메라 위치를 최소값과 최대값 사이로 제한
-            newPosition.x = Mathf.Clamp(newPosition.x, minMapLimitPoistion[Player.instance.currentMapNum].x, maxMapLimitPoistion[Player.instance.currentMapNum].x);
-            newPosition.y = Mathf.Clamp(newPosition.y, minMapLimitPoistion[Player.instance.currentMapNum].y, maxMapLimitPoistion[Player.instance.currentMapNum].y);
-
-            //흔들림 적용
-            if(shakeDuration > 0)
-            {
-                //반지름 1짜리 3D 구 안에서 무작위 위치를 반환
-                shakeOffset = Random.insideUnitSphere * shakeMagnitude;
-                shakeOffset.z = 0f;
-                shakeDuration -= Time.deltaTime;
-            }
-            else
-            {
-                shakeOffset = Vector3.zero;
-            }
-
-            //카메라 위치를 적용
-            transform.position = newPosition + shakeOffset;
+            newPosition.x = Mathf.Clamp(newPosition.x, min.x, max.x);
+            newPosition.y = Mathf.Clamp(newPosition.y, min.y, max.y);
         }
+        // 경계가 아직 없으면 클램프 없이 따라가게 둠
+
+        if (shakeDuration > 0f)
+        {
+            shakeOffset = Random.insideUnitSphere * shakeMagnitude;
+            shakeOffset.z = 0f;
+            shakeDuration -= Time.deltaTime;
+        }
+        else shakeOffset = Vector3.zero;
+
+        transform.position = newPosition + shakeOffset;
     }
 
     public void Shake(float duration, float magnitude)
@@ -65,19 +72,46 @@ public class CM : MonoBehaviour
         shakeMagnitude = magnitude;
     }
 
-    public void SnapToTarget(int currentMapNum)
+    /// <summary>
+    /// 맵 전환 + 즉시 스냅. 내부 상태를 저장하지 않고, 단일 소스(PM.playerData)만 갱신.
+    /// </summary>
+    public void SetMap(int mapNum, bool snapToTarget = true)
     {
-        if (target == null) return;
+        // 단일 소스 갱신
+        if (PM.playerData != null) PM.playerData.currentMapNum = mapNum;
+        if (Player.instance != null) Player.instance.currentMapNum = mapNum; // 폴백/호환
 
-        //카메라가 따라갈 기본 위치 계산
-        Vector3 snapPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+        if (!snapToTarget || target == null) return;
 
-        Player.instance.currentMapNum = currentMapNum;
+        if (TryGetBounds(mapNum, out var min, out var max))
+        {
+            Vector3 pos = new Vector3(target.position.x, target.position.y, transform.position.z);
+            pos.x = Mathf.Clamp(pos.x, min.x, max.x);
+            pos.y = Mathf.Clamp(pos.y, min.y, max.y);
+            transform.position = pos;
+        }
+        else
+        {
+            transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
+        }
+    }
 
-        //맵 경계 제한 적용
-        snapPosition.x = Mathf.Clamp(snapPosition.x, minMapLimitPoistion[Player.instance.currentMapNum].x, maxMapLimitPoistion[Player.instance.currentMapNum].x);
-        snapPosition.y = Mathf.Clamp(snapPosition.y, minMapLimitPoistion[Player.instance.currentMapNum].y, maxMapLimitPoistion[Player.instance.currentMapNum].y);
+    public void SnapToTarget(int currentMapNum) => SetMap(currentMapNum, true);
 
-        transform.position = snapPosition;
+    private bool TryGetBounds(int mapNum, out Vector2 min, out Vector2 max)
+    {
+        min = default; max = default;
+        if (mapNum < 0) return false;
+        if (mapNum >= minMapLimitPoistion.Count) return false;
+        if (mapNum >= maxMapLimitPoistion.Count) return false;
+
+        min = minMapLimitPoistion[mapNum];
+        max = maxMapLimitPoistion[mapNum];
+        return true;
+    }
+
+    private void EnsureSize(List<Vector2> list, int size)
+    {
+        while (list.Count < size) list.Add(Vector2.zero);
     }
 }

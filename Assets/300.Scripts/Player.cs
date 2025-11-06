@@ -110,7 +110,6 @@ public class Player : MonoBehaviour
         downAttackTrajectory = GetComponent<DownAttackTrajectory>();
         block = GetComponent<PlayerBlock>();
         Invincibility = GetComponent<PlayerInvincibility>();
-        currentMapNum = PlayerManager.instance.player.currentMapNum;
         shadowRender = transform.GetChild(1).GetComponent<SpriteRenderer>();
         maxFallSpeed = 0;
     }
@@ -130,7 +129,34 @@ public class Player : MonoBehaviour
         staminaCost[0] = 5;
         staminaCost[1] = 3;
         canRecoverGuard = false;
-        transform.localPosition = PlayerManager.instance.player.GetPosition();
+        ApplyLoadedState();
+    }
+
+    private void ApplyLoadedState()
+    {      
+        var data = PlayerManager.instance.player;
+
+        currentMapNum = data.currentMapNum;
+
+        Vector2 savedPos = data.GetPosition();
+        var prevParent = transform.parent;
+        transform.SetParent(null, true);
+        rb.position = savedPos;            // 물리엔진 기준 위치
+        rb.velocity = Vector2.zero;
+        transform.position = savedPos;     // 시각적 동기화
+        transform.SetParent(prevParent, true);
+
+        PlayerManager.instance.player.RebuildVisitedDict();
+
+        // 4) 여신상/지도 상태 복구 (세이브에서 읽어온 data로!)
+        GoddessStatueManager.instance.LoadMapStateFrom(data);
+
+        // 5) 카메라 타깃 보장 + 스냅
+        if (CM.instance.target == null) CM.instance.target = transform;
+        CM.instance.SetMap(currentMapNum, snapToTarget: true);
+
+        // 6) 해당 스테이지 적 활성화
+        EnemyManager.instance.ActivateEnemies(currentMapNum);
     }
 
     private void Update()
