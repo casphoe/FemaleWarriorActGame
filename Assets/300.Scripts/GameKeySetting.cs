@@ -1,29 +1,29 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameKeySetting : MonoBehaviour
 {
-    [Header("0 : Å°¼³Á¤, 1 : °ÔÀÓÆĞµå")]
+    [Header("0 : í‚¤ì„¤ì •, 1 : ê²Œì„íŒ¨ë“œ")]
     [SerializeField] Button[] btnUi;
 
-    [Header("Å° ¼³Á¤ÀÇ µû¸¥ ¹öÆ°µé")]
+    [Header("í‚¤ ì„¤ì •ì˜ ë”°ë¥¸ ë²„íŠ¼ë“¤")]
     [SerializeField] Button[] btnKey;
 
-    [Header("Å° ¼³Á¤¿¡ µû¸¥ Å° ÄÚµå °ª ÅØ½ºÆ®")]
+    [Header("í‚¤ ì„¤ì •ì— ë”°ë¥¸ í‚¤ ì½”ë“œ ê°’ í…ìŠ¤íŠ¸")]
     Text[] txtKeyCode;
 
-    [Header("°ÔÀÓ ÆĞµåÀÇ µû¸¥ ¹öÆ°µé")]
+    [Header("ê²Œì„ íŒ¨ë“œì˜ ë”°ë¥¸ ë²„íŠ¼ë“¤")]
     [SerializeField] Button[] btnGamePad;
 
-    [Header("°ÔÀÓ ÆĞµå¿¡ µû¸¥ ÆĞµå °ª ÅØ½ºÆ®")]
+    [Header("ê²Œì„ íŒ¨ë“œì— ë”°ë¥¸ íŒ¨ë“œ ê°’ í…ìŠ¤íŠ¸")]
     Text[] txtGamePad;
 
-    [Header("0  : Å°º¸µå ¼³Á¤ ±âÁ¸ µ¥ÀÌÅÍ·Î µÇµ¹¸®´Â Å° , 1 : ¼³Á¤µÈ Å° °ªÀ» ÀúÀåÇÏ´Â °ª")]
+    [Header("0  : í‚¤ë³´ë“œ ì„¤ì • ê¸°ì¡´ ë°ì´í„°ë¡œ ë˜ëŒë¦¬ëŠ” í‚¤ , 1 : ì„¤ì •ëœ í‚¤ ê°’ì„ ì €ì¥í•˜ëŠ” ê°’")]
     [SerializeField] Button[] btnKeySetting;
 
-    [Header("0  : °ÔÀÓ ÆĞµå ±âÁ¸ µ¥ÀÌÅÍ·Î µÇµ¹¸®´Â Å°, 1 : ¼³Á¤µÈ °ÔÀÓ ÆĞµå °ªÀ» ÀúÀåÇÏ´Â °ª")]
+    [Header("0  : ê²Œì„ íŒ¨ë“œ ê¸°ì¡´ ë°ì´í„°ë¡œ ë˜ëŒë¦¬ëŠ” í‚¤, 1 : ì„¤ì •ëœ ê²Œì„ íŒ¨ë“œ ê°’ì„ ì €ì¥í•˜ëŠ” ê°’")]
     [SerializeField] Button[] btnGamePadSetting;
 
     private void Start()

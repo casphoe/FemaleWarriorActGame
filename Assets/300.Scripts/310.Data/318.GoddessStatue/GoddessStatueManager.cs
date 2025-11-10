@@ -32,14 +32,6 @@ public class GoddessStatueManager : MonoBehaviour
     {
         instance = this;
         MapOpenSet(false);
-        // 아이콘/화살표 수집만
-        var allIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true);
-        mapIcons.Clear();
-        foreach (var icon in allIcons)
-        {
-            Utils.OnOff(icon.gameObject, false);
-            mapIcons.Add(icon);
-        }
 
         mapArrowObjectList.Clear();
         for (int i = 0; i < ArrowParent.transform.childCount; i++)
@@ -49,6 +41,16 @@ public class GoddessStatueManager : MonoBehaviour
 
     private void Start()
     {
+        // 씬에 배치해둔 아이콘을 allMaps에 보정 등록 (이름은 아이콘에 이미 세팅돼있다면 그 값을 사용)
+        // 아이콘/화살표 수집만
+        var allIcons = contentTransform.GetComponentsInChildren<GoddessStatuesMapIcon>(true);
+        mapIcons.Clear();
+        foreach (var icon in allIcons)
+        {
+            Utils.OnOff(icon.gameObject, false);
+            mapIcons.Add(icon);
+        }
+
         InitializeFromSave();
     }
 
@@ -316,6 +318,9 @@ public class GoddessStatueManager : MonoBehaviour
             var icon = mapIcons.FirstOrDefault(x => x != null && x.statueID == mapID);
             if (icon != null)
                 Utils.OnOff(icon.gameObject, true);
+
+            if (PlayerManager.instance?.player != null)
+                PlayerManager.instance.player.visitedMaps[mapID] = true;
         }
     }
     #region 맵 Ui 커서 이동
@@ -504,12 +509,30 @@ public class GoddessStatueManager : MonoBehaviour
         {
             if (icon == null) continue;
 
-            bool visited = allMaps.TryGetValue(icon.statueID, out var md) && md.isVisited;
-            bool registered = registeredStatues.Contains(icon.statueID);
-            Utils.OnOff(icon.gameObject, visited || registered);
+            bool visited = false;
+            if (pd?.visitedMaps != null)
+                visited = pd.visitedMaps.TryGetValue(icon.statueID, out var v) && v;
 
+            bool registered = registeredStatues.Contains(icon.statueID);
+
+            // 맵 타입에 따라 기준 다르게
+            bool shouldOn = false;
+            if (allMaps.TryGetValue(icon.statueID, out var md))
+            {
+                if (md.type == MapType.GoddessStatue) shouldOn = registered;
+                else shouldOn = visited;
+            }
+            else
+            {
+                // allMaps에 없으면 둘 중 하나라도 true면 켜줌 (보수적)
+                shouldOn = registered || visited;
+            }
+
+            Utils.OnOff(icon.gameObject, shouldOn);
+
+            // 화살표도 동일 기준
             var arrow = mapArrowObjectList.FirstOrDefault(a => a != null && a.statueID == icon.statueID);
-            if (arrow != null) Utils.OnOff(arrow.gameObject, registered);
+            if (arrow != null) Utils.OnOff(arrow.gameObject, shouldOn);
         }
 
 
