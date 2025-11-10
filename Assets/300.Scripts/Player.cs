@@ -145,18 +145,6 @@ public class Player : MonoBehaviour
         rb.velocity = Vector2.zero;
         transform.position = savedPos;     // 시각적 동기화
         transform.SetParent(prevParent, true);
-
-        PlayerManager.instance.player.RebuildVisitedDict();
-
-        // 4) 여신상/지도 상태 복구 (세이브에서 읽어온 data로!)
-        GoddessStatueManager.instance.LoadMapStateFrom(data);
-
-        // 5) 카메라 타깃 보장 + 스냅
-        if (CM.instance.target == null) CM.instance.target = transform;
-        CM.instance.SetMap(currentMapNum, snapToTarget: true);
-
-        // 6) 해당 스테이지 적 활성화
-        EnemyManager.instance.ActivateEnemies(currentMapNum);
     }
 
     private void Update()

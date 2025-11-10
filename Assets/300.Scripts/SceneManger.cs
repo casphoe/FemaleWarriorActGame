@@ -169,34 +169,11 @@ public class SceneManger : MonoBehaviour
             GameManager.data.selectSlotNum = num - 2;          
             switch (GameManager.data.startNum)
             {
-                case 0: //새로시작 슬롯 있으면 삭제하고 다시 작성
-                    GameManager.data.totalPlayTime = 0;
-                    PM.playerData.money = 40000;
-                    PM.playerData.currentMapNum = 1;                  
-                    PM.playerData.expUp = 0;
-                    PM.playerData.moneyUp = 0;
-                    for(int i = 0; i < 4; i++)
-                    {
-                        PM.playerData.isBuff[i] = false;
-                        PM.playerData.buffRemainTime[i] = 0;
-                    }                  
-                    PM.playerData.SetLevel(1);
-                    PM.playerData.name = "FemaleWarrior";
-                    PM.playerData.inventory.AddNewItemToInventory("LessHpPotion", "체력포션", ItemDb.HpPotion, DataDb.None, 0.15f, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 150);
-                    PM.playerData.inventory.AddNewItemToInventory("LessStaminaPotion", "스태미나포션", ItemDb.StaminaPotion, DataDb.None, 0, 0.15f, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 130);
-                    PM.playerData.hpPotionSelectnum = 0;
-                    PM.playerData.staminaPotionSelectnum = 0;
-                    PM.playerData.maxHpPotionCount = 5;
-                    PM.playerData.currentExp = 0;
-                    PM.playerData.rewardClearList.Clear();
-                    PM.playerData.rewardNumList.Clear();
-                    PM.playerData.skillCount = 1000;
-                    PM.playerData.statPoint = 1000;
-                    PM.playerData.currentMapNum = 1;
-                    PM.playerData.lastStatueId = "Vilage_0";
-                    PM.playerData.registeredStatueIds = new List<string> { "Vilage_0" };
-                    PM.playerData.visitedMaps = new Dictionary<string, bool> { ["Vilage_0"] = true };
-                    PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
+                case 0: 
+                    var startSel = GameManager.data.selectSlotNum;
+
+                    //새로시작 슬롯 있으면 삭제하고 다시 작성
+                    InitializeNewGameForSelectedSlot(startSel);
                     // 1) 로컬 슬롯에 기록
                     PM.RegisterNewPlayer(PM.playerData, GameManager.data.selectSlotNum);
 
@@ -220,6 +197,79 @@ public class SceneManger : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void InitializeNewGameForSelectedSlot(int slotIndex)
+    {
+        // 새로운 PlayerData를 쓰거나, 기존 구조를 초기화
+        PM.playerData = PM.playerList.Count > slotIndex && PM.playerList[slotIndex] != null
+            ? PM.playerList[slotIndex]
+            : new PlayerData(); // 필요 시 기본 생성/팩토리 사용
+
+        // 공통 기본값
+        GameManager.data.totalPlayTime = 0;
+        PM.playerData.money = 40000;
+        PM.playerData.currentMapNum = 1;
+        PM.playerData.expUp = 0;
+        PM.playerData.moneyUp = 0;
+
+        for (int i = 0; i < 4; i++)
+        {
+            PM.playerData.isBuff[i] = false;
+            PM.playerData.buffRemainTime[i] = 0;
+        }
+
+        PM.playerData.SetLevel(1);
+        PM.playerData.name = "FemaleWarrior";
+        PM.playerData.hpPotionSelectnum = 0;
+        PM.playerData.staminaPotionSelectnum = 0;
+        PM.playerData.maxHpPotionCount = 5;
+        PM.playerData.currentExp = 0;
+        PM.playerData.rewardClearList.Clear();
+        PM.playerData.rewardNumList.Clear();
+        PM.playerData.skillCount = 1000;
+        PM.playerData.statPoint = 1000;
+        PM.playerData.currentMapNum = 1;
+        PM.playerData.SetPosition(new Vector2(-23.68f, -7.92f));
+
+        // 인벤토리 초기화 후 정확히 5,5만 지급
+        PM.playerData.inventory.Clear(); // 인벤토리 전체를 비운다 (메서드명은 프로젝트에 맞춰 사용)
+
+        GrantStarterPotionsClamped(PM.playerData, hpMax: 5, staminaMax: 5);
+    }
+
+    void GrantStarterPotionsClamped(PlayerData pd, int hpMax, int staminaMax)
+    {
+        // 현재 보유 수량을 가져오는 헬퍼가 없으면 하나 만들어 두세요.
+        int curHp = pd.inventory.GetItemCountByName("LessHpPotion");        // 구현 필요
+        int curSt = pd.inventory.GetItemCountByName("LessStaminaPotion");   // 구현 필요
+
+        // HP 포션: 모자란 만큼만 추가 (최대 hpMax)
+        if (curHp < hpMax)
+        {
+            int add = hpMax - curHp;
+            pd.inventory.AddNewItemToInventory(
+                "LessHpPotion", "체력포션",
+                ItemDb.HpPotion, DataDb.None,
+                0.15f, 0, 0, 0, 0, 0, 0, 0,
+                0, add, 0, 0, 0, 0, 150
+            );
+        }
+
+        // 스태미나 포션: 모자란 만큼만 추가 (최대 staminaMax)
+        if (curSt < staminaMax)
+        {
+            int add = staminaMax - curSt;
+            pd.inventory.AddNewItemToInventory(
+                "LessStaminaPotion", "스태미나포션",
+                ItemDb.StaminaPotion, DataDb.None,
+                0, 0.15f, 0, 0, 0, 0, 0, 0,
+                0, add, 0, 0, 0, 0, 130
+            );
+        }
+
+        // 만약 AddNewItemToInventory가 “새 항목 추가”만 가능하고 수량 증가가 불가하면
+        // GetItem/SetCount 같은 메서드를 만들어서 최종 수량을 Math.Min(기존+추가, Max)로 맞춰주세요.
     }
 
     void OptionClick(int num)

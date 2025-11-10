@@ -411,6 +411,12 @@ public class Inventory
             }
         }
     }
+
+    public void Clear()
+    {
+        inventoryDataList.Clear();
+        // 필요하면 여기서 슬롯 재정렬/세이브 트리거 등 수행
+    }
 }
 
 [SerializeField]

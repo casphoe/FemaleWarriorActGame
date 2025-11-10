@@ -78,16 +78,29 @@ public class Portal : MonoBehaviour
 
                 if (mapNum != -1)
                 {
+                    // 1) 현재 맵 번호 반영
                     Player.instance.currentMapNum = mapNum;
-                    PlayerManager.instance.player.currentMapNum = Player.instance.currentMapNum;
-                    CM.instance.SnapToTarget(mapNum);
-                    //맵 방문 처리
-                    GoddessStatueManager.instance.AddMap(targetMapID, targetMapNameKor, targetMapNameEng, mapType, mapNum, iconIndex);
-                    GoddessStatueManager.instance.OnEnterNewMap(targetMapID);
-                    GoddessStatueManager.instance.MoveCharacterToStatue(targetMapID);
+                    var pd = PlayerManager.instance.player;
+                    pd.currentMapNum = mapNum;
+                    // 2) 여신상은 Register, 그 외는 AddMap
+                    if (mapType == MapType.GoddessStatue)
+                    {
+                        // 중복 등록을 막아주는 HashSet 기반이므로 여러번 호출해도 안전
+                        GoddessStatueManager.instance.RegisterStatue(
+                            targetMapID, targetMapNameKor, targetMapNameEng, mapNum, iconIndex);
+                    }
+                    else
+                    {
+                        GoddessStatueManager.instance.AddMap(
+                            targetMapID, targetMapNameKor, targetMapNameEng, mapType, mapNum, iconIndex);
+                        GoddessStatueManager.instance.OnEnterNewMap(targetMapID);
+                    }
 
-                    //스테이지에 맞는 적들을 켜주기
+                    // 3) 미니맵 캐릭터 마커/카메라/적 활성화
+                    GoddessStatueManager.instance.MoveCharacterToStatue(targetMapID);
+                    CM.instance.SnapToTarget(mapNum);
                     EnemyManager.instance.ActivateEnemies(mapNum);
+
                 }
 
                 break;

@@ -153,9 +153,7 @@ public class GameCanvas : MonoBehaviour
                     int saveIndex = num;
                     PlayerManager.instance.player.SetPosition(Player.instance.transform.localPosition);
 
-                    GoddessStatueManager.instance.SaveMapStateTo(PlayerManager.instance.player);
-
-                    PlayerManager.instance.player.SyncVisitedFromDict();
+                    GoddessStatueManager.instance.SaveMapStateTo(PlayerManager.instance.player);                  
 
                     PM.RegisterNewPlayer(PlayerManager.instance.player, saveIndex);
 
@@ -169,9 +167,7 @@ public class GameCanvas : MonoBehaviour
                     int LoadIndex = num;
 
                     PM.playerData = PM.playerList[LoadIndex];
-                    PlayerManager.instance.player = PM.playerData;
-
-                    PlayerManager.instance.player.RebuildVisitedDict();
+                    PlayerManager.instance.player = PM.playerData;                 
 
                     GoddessStatueManager.instance.LoadMapStateFrom(PlayerManager.instance.player);
 

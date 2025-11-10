@@ -13,10 +13,10 @@ public class GoddessStatuesMapIcon : MonoBehaviour
     public MapType mapType;
     public int currentMapNum;
 
-    string korStr;
-    string engStr;
-    string moveKorStr;
-    string moveEngStr;
+    public string korStr;
+    public string engStr;
+    public string moveKorStr;
+    public string moveEngStr;
 
     public void Setup(string id, string displayNameKor, string displayNameEng, MapType type, int mapNum)
     {

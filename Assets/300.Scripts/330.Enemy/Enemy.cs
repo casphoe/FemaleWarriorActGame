@@ -125,7 +125,9 @@ public class Enemy : MonoBehaviour
         guardRecoveryValue = data.guardRecoveryValue;
         currentHp = hp;
         EnemyDifficuitySetting();
-        ApplyTimeMultiplier();
+        if (currentHp <= 0f) currentHp = hp;
+
+        RecalculateStats(preserveHpRatio: false, preserveGuardRatio: false);
     }
 
     //난이도에 따른 적 데이터 설정
@@ -149,41 +151,49 @@ public class Enemy : MonoBehaviour
     }
 
     //시간에 따라서 적 강도 설정
-    void ApplyTimeMultiplier()
+    void RecalculateStats(bool preserveHpRatio, bool preserveGuardRatio)
     {
-        float timeMultiplier = (GameManager.data.day == Day.Night) ? 1.5f : 1f;
-        float reveaseTimeMultiplier = (GameManager.data.day == Day.Night) ? 0.5f : 1f;
+        float timeMul = (GameManager.data.day == Day.Night) ? 1.5f : 1f;
+        float timeMulRev = (GameManager.data.day == Day.Night) ? 0.5f : 1f;
 
-        float oldMaxHp = maxHp; // 기존 maxHp 백업 먼저!
+        // --- HP ---
+        float oldMaxHp = maxHp;                       // 먼저 백업
+        float newMaxHp = hp * baseMultiplier * timeMul;
+        float hpRatio = 1f;
+        if (preserveHpRatio && oldMaxHp > 0f)
+            hpRatio = currentHp / oldMaxHp;           // 기존 비율 유지
 
-        maxHp = hp * baseMultiplier * timeMultiplier;
+        maxHp = newMaxHp;
+        currentHp = maxHp * Mathf.Clamp01(hpRatio);   // 새 Max 기준 적용
 
-        float hpRatio = (oldMaxHp > 0f) ? currentHp / oldMaxHp : 1f;
-        currentHp = maxHp * hpRatio;
+        // --- 전투 스탯 ---
+        currentAttack = attack * baseMultiplier * timeMul;
+        currentDefence = defence * baseMultiplier * timeMul;
+        currentAddMoney = Mathf.RoundToInt(addMoney * baseMultiplier * timeMul);
+        currentAddExp = Mathf.RoundToInt(addExp * baseMultiplier * timeMul);
+        currentCritcleRate = critcleRate * baseMultiplier * timeMul;
+        currentCritcleDmg = critcleDmg * baseMultiplier * timeMul;
+        currentAttackRange = attackRange * baseMultiplier * timeMul;
 
-        // 원본 * 난이도 * 시간
-        currentAttack = attack * baseMultiplier * timeMultiplier;
-        currentDefence = defence * baseMultiplier * timeMultiplier;
-        currentAddMoney = Mathf.RoundToInt(addMoney * baseMultiplier * timeMultiplier);
-        currentAddExp = Mathf.RoundToInt(addExp * baseMultiplier * timeMultiplier);
+        // --- Guard ---
+        float oldMaxGuard = currentMaxGuardValue;     // 먼저 백업 (중요!)
+        float newMaxGuard = guardValue * baseMultiplier * timeMul;
+        float guardRatio = 1f;
+        if (preserveGuardRatio && oldMaxGuard > 0f)
+            guardRatio = currentGuardValue / oldMaxGuard;
 
-        currentCritcleRate = critcleRate * baseMultiplier * timeMultiplier;
-        currentCritcleDmg = critcleDmg * baseMultiplier * timeMultiplier;
-        currentAttackRange = attackRange * baseMultiplier * timeMultiplier;
+        currentMaxGuardValue = newMaxGuard;
+        currentGuardValue = currentMaxGuardValue * Mathf.Clamp01(guardRatio);
+        currentGuardRecoveryValue = guardRecoveryValue * baseMultiplier * timeMul;
+        currentGuardRecoverycoolTime = guardRecoverycoolTime * reveseBaseMultiplier * timeMulRev;
 
-        currentMaxGuardValue = guardValue * baseMultiplier * timeMultiplier;
-
-        float oldMaxGuard = currentMaxGuardValue;
-        float guardRatio = (oldMaxGuard > 0f) ? currentGuardValue / oldMaxGuard : 1f;
-
-        currentGuardValue = guardValue * guardRatio;
-
-        currentGuardRecoveryValue = guardRecoveryValue * baseMultiplier * timeMultiplier;
-        currentGuardRecoverycoolTime = guardRecoverycoolTime * reveseBaseMultiplier * reveaseTimeMultiplier;
-
-        hpSlider.maxValue = maxHp;
-        hpSlider.value = currentHp;
-        txtHp.text = currentHp + " / " + maxHp;
+        // --- UI ---
+        if (hpSlider != null)
+        {
+            hpSlider.maxValue = maxHp;
+            hpSlider.value = currentHp;
+            if (txtHp != null) txtHp.text = $"{currentHp} / {maxHp}";
+        }
     }
 
     #endregion
@@ -219,7 +229,8 @@ public class Enemy : MonoBehaviour
         canRecoverGuard = false;
         wasHitByTrap = false;
         attackCoolTime = 1.5f;
-        ApplyTimeMultiplier();
+        // 활성화 시에는 현재 체력/가드 '비율 유지'
+        RecalculateStats(preserveHpRatio: true, preserveGuardRatio: true);
     }
 
     private void Update()
@@ -229,7 +240,7 @@ public class Enemy : MonoBehaviour
 
         if (GameManager.data.day != lastCheckedDay)
         {
-            ApplyTimeMultiplier(); //밤이 되면 능력치 강화 , 낮이면 되면 밤에 강화 되었던 능력치 약화
+            RecalculateStats(preserveHpRatio: true, preserveGuardRatio: true); //밤이 되면 능력치 강화 , 낮이면 되면 밤에 강화 되었던 능력치 약화
             lastCheckedDay = GameManager.data.day;
         }
 

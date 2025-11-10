@@ -117,37 +117,47 @@ public class PlayerData
 
 
     #region 맵 등록(여신상) 
-    // 여신상 등록 ID 목록(저장/로드용)
-    public List<string> registeredStatueIds = new List<string>();
-
     // 저장용(직렬화 OK)
     public List<VisitFlag> visitedMapsList = new List<VisitFlag>();
 
-    // 런타임용(직렬화 대상 아님)
-    [System.NonSerialized]
-    public Dictionary<string, bool> visitedMaps = new Dictionary<string, bool>();
-
     public string lastStatueId = string.Empty;
-    
-     // 저장 직전: Dict -> List로 복사
-    public void SyncVisitedFromDict()
+
+    // === 리스트 전용 유틸 ===
+    public bool IsVisited(string id)
     {
-        visitedMapsList.Clear();
-        if (visitedMaps != null)
+        if (string.IsNullOrEmpty(id)) return false;
+        var v = visitedMapsList.Find(x => x.mapID == id);
+        return v != null && v.isVisited;
+    }
+
+    public void SetVisited(string id, bool visited)
+    {
+        if (string.IsNullOrEmpty(id)) return;
+        var v = visitedMapsList.Find(x => x.mapID == id);
+        if (v == null)
         {
-            foreach (var kv in visitedMaps)
-                visitedMapsList.Add(new VisitFlag { mapID = kv.Key, isVisited = kv.Value });
+            v = new VisitFlag { mapID = id, isVisited = visited };
+            visitedMapsList.Add(v);        // ★ 순서 유지
+        }
+        else
+        {
+            v.isVisited = visited;
         }
     }
 
-    public void RebuildVisitedDict()
+    // isVisited == true 중 "마지막 인덱스"를 lastStatueId로 채움
+    public void RefreshLastStatueFromList()
     {
-        visitedMaps = new Dictionary<string, bool>();
-        if (visitedMapsList != null)
+        for (int i = visitedMapsList.Count - 1; i >= 0; i--)
         {
-            foreach (var v in visitedMapsList)
-                visitedMaps[v.mapID] = v.isVisited;
+            if (visitedMapsList[i].isVisited && !string.IsNullOrEmpty(visitedMapsList[i].mapID))
+            {
+                lastStatueId = visitedMapsList[i].mapID;
+                return;
+            }
         }
+        // 없으면 비움
+        lastStatueId = string.Empty;
     }
     #endregion
 
@@ -323,5 +333,8 @@ public class PlayerListWrapper
 public class VisitFlag
 {
     public string mapID;
+    public string mapNameKor;
+    public string mapNameEng;
+    public MapType type;
     public bool isVisited;
 }
